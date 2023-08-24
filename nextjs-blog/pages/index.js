@@ -22,7 +22,8 @@ export default function Home() {
 
  
   return (
-    <div className={styles.container}>
+    <body>
+      <div className={styles.container}>
       <div className={`${styles.card} ${styles.loginCard}`}>
         <h2 className={styles.title}>Login</h2>
         <form onSubmit={handleLogin}>
@@ -50,5 +51,7 @@ export default function Home() {
         </form>
       </div>
     </div>
+    </body>
+    
   );
 }
