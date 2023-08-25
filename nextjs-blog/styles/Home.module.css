@@ -82,43 +82,20 @@
 .logo {
   height: 1em;
 }
-
-/* styles/Home.module.css */
-.loginCard {
-  width: 300px;
-  padding: 2rem;
-  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
-}
-
-.inputField {
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #eaeaea;
-  border-radius: 5px;
-  transition: border-color 0.15s ease;
 }
 
-.inputField:focus {
-  border-color: #0070f3;
-  outline: none;
+.imageContainer {
+  display: flex;
+  justify-content: center;
 }
 
-.loginButton {
-  width: 100%;
-  padding: 10px 15px;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
 
-.loginButton:hover,
-.loginButton:focus {
-  background-color: #0058c9;
-}
 
 
 @media (max-width: 600px) {

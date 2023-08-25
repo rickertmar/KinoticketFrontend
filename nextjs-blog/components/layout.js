@@ -1,8 +1,17 @@
+import Navbar from '../components/navbar';
+import Menu from '../components/Menu';
+import Footer from '../components/footer';
 
-export default function Layout({ children }) {
-    return (
-      <>
-        <main>{children}</main>
-      </>
-    )
-  }
+
+function Layout({ children }) {
+  return (
+    <div>
+      <Navbar />
+      <Menu />
+      <main>{children}</main>
+      <Footer />
+    </div>
+  );
+}
+
+export default Layout;
