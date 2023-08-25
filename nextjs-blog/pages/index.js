@@ -1,20 +1,20 @@
-
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import Link from 'next/link'
+import Image from 'next/image';
+import styles from '../styles/Home.module.css'; 
+
 
 export default function Home() {
-  const router = useRouter()
   return (
     <>
       <Head>
         <title>DHBW Kino</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main>
-        <Link href="/movies/test">Link</Link>
+        <div className={styles.imageContainer}>
+          <Image src="/CineMock.png" alt="Cine Mock" width={1000} height={200} />
+        </div>
       </main>
     </>
-      
   )
 }
