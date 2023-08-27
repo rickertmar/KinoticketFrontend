@@ -12,7 +12,7 @@ export default function Home() {
 
       <main>
         <div className={styles.imageContainer}>
-          <Image src="/CineMock.png" alt="Cine Mock" width={1000} height={200} />
+          <Image src="/DHBWKino.png" alt="DHBW Kino" width={1000} height={200} />
         </div>
       </main>
     </>

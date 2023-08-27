@@ -9,26 +9,26 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();  // Prevent default form submission
-    alert('Deine Anfrage wurde abgesendet');
+    alert('Your request has been sent');
     window.location.reload();     // Refresh the page
   };
 
   return (
     <div>
       <MyImage />
-      <h1 className={styles.title}>Kontaktformular</h1>
+      <h1 className={styles.title}>Contact Form</h1>
 
       <div className={styles.darkPurpleBackground}>
-        <p>Unser Serviceteam hilft dir gerne weiter:</p>
+        <p>Our service team is happy to assist you:</p>
         <ul>
-          <li>telefonisch unter 0621 / xx xx xx (14 ct/min, max. 42 ct/min), täglich von 14:00 Uhr bis 20:00 Uhr</li>
-          <li>per E-Mail an service@cinemock.de</li>
-          <li>über das nachfolgende Kontaktformular</li>
+          <li>By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM</li>
+          <li>Via email at service@dhbwkino.de</li>
+          <li>Through the contact form below</li>
         </ul>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Ihre E-Mail-Adresse:</label>
+        <label htmlFor="email">Your Email Address:</label>
         <input 
           type="email"
           id="email"
@@ -38,7 +38,7 @@ function Contact() {
           required  // Making this field mandatory
         />
 
-        <label htmlFor="topic">Thema:</label>
+        <label htmlFor="topic">Topic:</label>
         <select 
           id="topic"
           className={styles.dropdown}
@@ -46,13 +46,13 @@ function Contact() {
           onChange={(e) => setTopic(e.target.value)}
           required  // Making this field mandatory
         >
-          <option value="">Wählen Sie ein Thema</option>
+          <option value="">Select a Topic</option>
           <option value="feedback">Feedback</option>
-          <option value="question">Frage</option>
-          <option value="complaint">Beschwerde</option>
+          <option value="question">Question</option>
+          <option value="complaint">Complaint</option>
         </select>
 
-        <label htmlFor="message">Ihre Nachricht:</label>
+        <label htmlFor="message">Your Message:</label>
         <textarea 
           id="message"
           className={styles.textArea}
@@ -62,7 +62,7 @@ function Contact() {
         ></textarea>
 
         {/* Send Button */}
-        <button className={styles.sendButton} type="submit">Senden</button>
+        <button className={styles.sendButton} type="submit">Send</button>
       </form>
     </div>
   );
