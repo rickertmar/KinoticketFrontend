@@ -1,0 +1,26 @@
+.menuNav {
+    background-color: #333;
+    padding: 1rem 0;
+  }
+  
+  .menuList {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .menuItem .menuButton {
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .menuItem .menuButton:hover {
+    background-color: #555;
+  }
+  

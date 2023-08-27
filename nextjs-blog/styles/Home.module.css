@@ -82,8 +82,7 @@
 .logo {
   height: 1em;
 }
-<<<<<<< Updated upstream
-=======
+
 .navbar {
   display: flex;
   justify-content: center;
@@ -139,7 +138,6 @@
 }
 
 
->>>>>>> Stashed changes
 
 @media (max-width: 600px) {
   .grid {
