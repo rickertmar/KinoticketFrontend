@@ -9,10 +9,8 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();  // Prevent default form submission
-    // Implement your form submission logic here, if needed.
     alert('Deine Anfrage wurde abgesendet');
-    // Refresh the page
-    window.location.reload();
+    window.location.reload();     // Refresh the page
   };
 
   return (
@@ -29,7 +27,6 @@ function Contact() {
         </ul>
       </div>
 
-      {/* Wrap input fields with a form element */}
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Ihre E-Mail-Adresse:</label>
         <input 
