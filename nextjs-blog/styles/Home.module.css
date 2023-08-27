@@ -82,6 +82,7 @@
 .logo {
   height: 1em;
 }
+
 .navbar {
   display: flex;
   justify-content: center;
@@ -95,6 +96,46 @@
   justify-content: center;
 }
 
+
+.darkPurpleBackground {
+  background-color: #4a0072;
+  color: white;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.inputField {
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dropdown {
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+}
+
+.textArea {
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+  height: 100px;
+  box-sizing: border-box;
+}
+
+
+.sendButton {
+  padding: 15px 30px;
+  margin: 20px;
+  background-color: #4a0072; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
 
 
