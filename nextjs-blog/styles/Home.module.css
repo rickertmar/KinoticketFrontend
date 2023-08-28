@@ -93,9 +93,13 @@
 
 .imageContainer {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
+.image {
+  width: 20%;
+  margin-bottom: 20px;
+}
 
 .darkPurpleBackground {
   background-color: #4a0072;
@@ -103,6 +107,11 @@
   padding: 20px;
   margin: 20px;
   border-radius: 10px;
+}
+
+.textContainer {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .inputField {
