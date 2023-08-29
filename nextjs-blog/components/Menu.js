@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import styles from '../styles/Menu.module.css';
+import MyImage from './MyImage';
 
 const Menu = () => {
   const router = useRouter();
@@ -11,7 +12,8 @@ const Menu = () => {
   return (
     <nav className={styles.menuNav}>
     <ul className={styles.menuList}>
-      <li className={styles.menuItem}>
+      <MyImage/>
+      <li className={`${styles.menuItem} ${styles.firstMenuItem}`}>
         <button className={styles.menuButton} onClick={() => navigate('/')}>Programm</button>
       </li>
       <li className={styles.menuItem}>

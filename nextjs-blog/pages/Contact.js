@@ -15,10 +15,8 @@ function Contact() {
 
   return (
     <div>
-      <MyImage />
       <h1 className={styles.title}>Contact Form</h1>
-
-      <div className={styles.darkPurpleBackground}>
+      <div className={styles.blueBackground}>
         <p>Our service team is happy to assist you:</p>
         <ul>
           <li>By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM</li>

@@ -11,11 +11,10 @@ function logIn() {
 
   return (
     <div className={styles.logInContainer}>
-      <MyImage />
       <div className={styles.card}>
         {!showSignUp ? (
           <>
-            <h2>Log in</h2>
+             <h2 className={styles.greyTitle}>Log in</h2>
             <form>
               <input className={styles.inputField} type="email" placeholder="Email" required />
               <input className={styles.inputField} type="password" placeholder="Password" required />
@@ -26,7 +25,7 @@ function logIn() {
           </>
         ) : (
           <>
-            <h2>Create an Account</h2>
+             <h2 className={styles.greyTitle}>Create an Account</h2>
             <form>
               <input className={styles.inputField} type="text" placeholder="First Name" required />
               <input className={styles.inputField} type="text" placeholder="Last Name" required />

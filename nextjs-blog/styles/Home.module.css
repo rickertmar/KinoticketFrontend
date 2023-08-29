@@ -7,8 +7,14 @@
   align-items: center;
 }
 
+.roundedImageContainer img {
+  border-radius: 10px; 
+  margin-top: -10px;
+}
+
+
 .title a {
-  color: #0070f3;
+  color: #90DDF0;
   text-decoration: none;
 }
 
@@ -22,9 +28,6 @@
   margin: 0 0 1rem;
   line-height: 1.15;
   font-size: 3.6rem;
-}
-
-.title {
   text-align: center;
 }
 
@@ -32,7 +35,6 @@
 .description {
   text-align: center;
 }
-
 
 .description {
   line-height: 1.5;
@@ -44,7 +46,6 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-
   max-width: 800px;
   margin-top: 3rem;
 }
@@ -59,13 +60,15 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
+  background-color: #90DDF0;
+  outline: 4px solid #EBEBEB;
 }
 
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  color: #90DDF0;
+  border-color: #90DDF0;
 }
 
 .card h3 {
@@ -101,17 +104,17 @@
   margin-bottom: 20px;
 }
 
-.darkPurpleBackground {
-  background-color: #4a0072;
-  color: white;
+.blueBackground {
+  background-color: #90DDF0;
+  color: #424B54;
   padding: 20px;
   margin: 20px;
   border-radius: 10px;
 }
 
 .textContainer {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 20px;
+  margin: auto;
 }
 
 .inputField {
@@ -135,12 +138,11 @@
   box-sizing: border-box;
 }
 
-
 .sendButton {
   padding: 15px 30px;
   margin: 20px;
-  background-color: #4a0072; 
-  color: white;
+  background-color: #424B54;
+  color: #EBEBEB;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -158,6 +160,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.greyTitle {
+  color: #424B54;
+  text-align: center;
 }
 
 
