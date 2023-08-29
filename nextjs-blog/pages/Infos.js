@@ -12,7 +12,6 @@ function Infos() {
         <ul>
           <li>By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM</li>
           <li>Via email at service@dhbwkino.de</li>
-          <li>Through the contact form below</li>
         </ul>
       </div>
 
