@@ -11,6 +11,11 @@ body {
   background-color: #424B54;
   color: #EBEBEB;
 }
+form {
+  padding : 0 30px;
+}
+
+
 
 a {
   color: inherit;
