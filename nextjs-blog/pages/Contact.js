@@ -15,10 +15,8 @@ function Contact() {
 
   return (
     <div>
-      <MyImage />
       <h1 className={styles.title}>Contact Form</h1>
-
-      <div className={styles.darkPurpleBackground}>
+      <div className={styles.blueBackground}>
         <p>Our service team is happy to assist you:</p>
         <ul>
           <li>By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM</li>
@@ -28,38 +26,39 @@ function Contact() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Your Email Address:</label>
-        <input 
-          type="email"
-          id="email"
-          className={styles.inputField}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required  // Making this field mandatory
-        />
+  <label htmlFor="email">Your Email Address:</label>
+  <input 
+    type="email"
+    id="email"
+    className={styles.formControl} 
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    required
+  />
 
-        <label htmlFor="topic">Topic:</label>
-        <select 
-          id="topic"
-          className={styles.dropdown}
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          required  // Making this field mandatory
-        >
-          <option value="">Select a Topic</option>
-          <option value="feedback">Feedback</option>
-          <option value="question">Question</option>
-          <option value="complaint">Complaint</option>
-        </select>
+  <label htmlFor="topic">Topic:</label>
+  <select 
+    id="topic"
+    className={styles.formControl} 
+    value={topic}
+    onChange={(e) => setTopic(e.target.value)}
+    required
+  >
+    <option value="">Select a Topic</option>
+    <option value="feedback">Feedback</option>
+    <option value="question">Question</option>
+    <option value="complaint">Complaint</option>
+  </select>
 
-        <label htmlFor="message">Your Message:</label>
-        <textarea 
-          id="message"
-          className={styles.textArea}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required  // Making this field mandatory
-        ></textarea>
+  <label htmlFor="message">Your Message:</label>
+  <textarea 
+    id="message"
+    className={styles.formControl} 
+    value={message}
+    onChange={(e) => setMessage(e.target.value)}
+    required
+  ></textarea>
+
 
         {/* Send Button */}
         <button className={styles.sendButton} type="submit">Send</button>
