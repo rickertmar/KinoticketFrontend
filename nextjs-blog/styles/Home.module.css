@@ -146,6 +146,19 @@
   cursor: pointer;
 }
 
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.buttonContainer {
+  text-align: center;
+}
+
+.logInContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 
 @media (max-width: 600px) {

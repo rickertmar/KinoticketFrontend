@@ -20,6 +20,9 @@ const Menu = () => {
       <li className={styles.menuItem}>
         <button className={styles.menuButton} onClick={() => navigate('/Contact')}>Contact</button>
       </li>
+      <li className={styles.menuItem}>
+        <button className={styles.menuButton} onClick={() => navigate('/logInPage')}>Account</button>
+      </li>
     </ul>
   </nav>
 );
