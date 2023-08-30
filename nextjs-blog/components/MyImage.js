@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css';
 function MyImage() {
   return (
     <div className={`${styles.imageContainer} ${styles.roundedImageContainer}`}>
-      <Image src="/DHBWKino.png" alt="DHBW Kino" width={120} height={40} />
+          <Image src="/CinemaConcessions.png" alt="Cinema Concessions" width={120} height={40} />
     </div>
   );
 }
