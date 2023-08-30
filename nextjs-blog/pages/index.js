@@ -12,7 +12,7 @@ export default function Home() {
 
       <main>
         <div className={styles.imageContainer}>
-          <Image src="/DHBWKino.png" alt="DHBW Kino" width={1000} height={200} />
+        <img className={styles.image} src="/DHBWKino.png" alt="DHBW Kino Logo" />
         </div>
       </main>
     </>
