@@ -15,7 +15,7 @@
 }
 
 .menuItem .menuButton {
-  color: #90DDF0;
+  color: hsl(192, 76%, 75%);
   background-color: transparent;
   border: 2px solid #90DDF0;
   padding: 0.5rem 1rem;
