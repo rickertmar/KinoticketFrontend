@@ -30,6 +30,7 @@ function logIn() {
               <input className={styles.inputField} type="text" placeholder="First Name" required />
               <input className={styles.inputField} type="text" placeholder="Last Name" required />
               <input className={styles.inputField} type="email" placeholder="Email" required />
+              <input className={styles.inputField} type="password" placeholder="Password" required />
               <div className={styles.buttonContainer}>
                 <button type="submit" className={styles.sendButtonLogIn}>Create account</button>
               </div>
