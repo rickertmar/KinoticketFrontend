@@ -1,14 +1,13 @@
 import Navbar from '../components/navbar';
-import Menu from '../components/Menu';
 import Footer from '../components/footer';
-import MyImage from '../components/MyImage';
+
 
 
 function Layout({ children }) {
   return (
-    <div>
-      <Menu />
-      <main>{children}</main>
+    <div className='bg-primary-40 font-nunito'>
+      <Navbar/>
+      <main className="min-h-screen max-w-7xl  mx-auto ">{children}</main>
       <Footer />
     </div>
   );
