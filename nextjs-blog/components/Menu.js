@@ -12,7 +12,7 @@ const Menu = () => {
   return (
     <nav className={styles.menuNav}>
     <ul className={styles.menuList}>
-      <MyImage/>
+      <img className={styles.imageDHBWKino} src="/DHBWKino.png" alt="DHBW Kino Logo" />
       <li className={`${styles.menuItem} ${styles.firstMenuItem}`}>
         <button className={styles.menuButton} onClick={() => navigate('/')}>Programm</button>
       </li>
