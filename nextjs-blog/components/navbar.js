@@ -8,7 +8,7 @@ import Link from 'next/link'
 const navigation = [
   { name: 'Programm', href: '/', current: false },
   { name: 'Informationen', href: '/information', current: false },
-  { name: 'Kontakt', href: '/contact', current: false },
+  { name: 'Kontakt', href: '/Contact', current: false },
 ];
 
 function classNames(...classes) {
