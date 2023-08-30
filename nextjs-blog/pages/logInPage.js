@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import MyImage from '../components/MyImage';
 import styles from '../styles/Home.module.css';
 
 function logIn() {

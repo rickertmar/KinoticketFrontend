@@ -12,7 +12,7 @@ export default function Movies() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <main>
-          <p>Post: {router.query.slug}</p>
+          <p className='bg-accent'>Post: {router.query.slug}</p>
         </main>
       </>
     )
