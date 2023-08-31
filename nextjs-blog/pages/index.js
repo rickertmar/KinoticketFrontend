@@ -20,7 +20,32 @@ const movies = [
         id: 3,
         date: '01.09',
         time: '17:30',
-      }
+      },
+      {
+        id: 4,
+        date: '31.08',
+        time: '17:30',
+      },
+      {
+        id: 5,
+        date: '31.08',
+        time: '17:30',
+      },
+      {
+        id: 6,
+        date: '31.08',
+        time: '17:30',
+      },
+      {
+        id: 7,
+        date: '31.08',
+        time: '17:30',
+      },
+      {
+        id: 8,
+        date: '31.08',
+        time: '17:30',
+      },
     ]
   },
   {
@@ -113,35 +138,45 @@ const movies = [
   }
 ]
 
+
 export default function Example() {
   return (
     <div className="">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {movies.map((product) => (
-            <div key={product.id} className="group relative">
-              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                <img
-                  src={product.imageSrc}
-                  alt=""
-                  className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                />
-              </div>
-              <div className="mt-4 flex justify-between">
+      <h1> OUR MOVIE COLLECTION</h1>
+      <div className="">
+        
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 ">
+          
+          {movies.map((movie) => (
+            <div key={movie.id} className="group relative bg-primary-30 rounded p-2">
+              <div className="pl-2 mt-1flex justify-between mb-2">
                 <div>
-                  <h3 className="text-large text-white">
-                    <Link href={"movies/" + product.name}>
-                    <span aria-hidden="true" className="absolute inset-0" />
-                      {product.name}
-                    </Link>
+                  <h3 className="text-2xl mt-1 text-white">
+                    {movie.name}
                   </h3>
                 </div>
               </div>
-              <div>
-                <p> fiuadspfiuadpsf</p>
+              <Link href={"movies/" + movie.name}>
+                <div className="overflow-hidden bg-gray-200 lg:aspect-none hover:opacity-75">
+                  <img
+                    src={movie.imageSrc}
+                    alt=""
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full hover:opacity-75"
+                  />
+                </div>
+              </Link>
+              
+              <div className='grid grid-cols-4 grid-rows-1 gap-x-2  gap-y-1 overflow-hidden justify-items-center mt-2'>
+                {movie.showings.slice(0, 7).map((showing) =>
+                <Link key={showing.id} href='#'className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 bg-primary-10 hover:bg-primary-40 hover:text-white'>
+                {showing.time}
+              </Link>
+                )}
+                <Link href='#'className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 bg-accent-30 hover:bg-accent-50 hover:text-white'>
+                MORE
+              </Link>
               </div>
-            </div>
+              </div>
           ))}
         </div>
       </div>
