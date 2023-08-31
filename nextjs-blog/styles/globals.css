@@ -11,6 +11,6 @@
     @apply pl-2 md:pl-4 text-base text-black
   }
   h1{
-    @apply text-4xl mt-10 pl-2 md:pl-4 text-black
+    @apply text-4xl mt-10 pl-2 md:pl-4 text-white text-center font-bold
   }
 }

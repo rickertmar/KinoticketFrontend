@@ -6,9 +6,10 @@ import { useRouter } from 'next/router'; // Import useRouter from Next.js
 import Link from 'next/link'
 
 const navigation = [
-  { name: 'Programm', href: '/', current: false },
-  { name: 'Informationen', href: '/information', current: false },
-  { name: 'Kontakt', href: '/contact', current: false },
+  { name: 'Program', href: '/', current: false },
+  { name: 'Information', href: '/information', current: false },
+  { name: 'Contact', href: '/contact', current: false },
+  { name: 'Login', href: '/login', current: false },
 ];
 
 function classNames(...classes) {
@@ -44,6 +45,7 @@ export default function Example() {
               </Disclosure.Button>
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <Link href="/">
               <div className="flex flex-shrink-0 items-center">
                 <img
                   className="h-8 w-auto"
@@ -51,6 +53,8 @@ export default function Example() {
                   alt="DHBW Kino Icon"
                 />
               </div>
+              </Link>
+              
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
