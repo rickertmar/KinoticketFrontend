@@ -3,7 +3,6 @@ import styles from '../styles/Home.module.css';
 function Infos() {
   const onTestButtonClick = async (e) => {
     e.preventDefault();
-    console.log('Bearer '+ localStorage.getItem('access_token'))
     // Make API request to authenticate
     try {
       const response = await fetch('api/users', {
@@ -15,7 +14,9 @@ function Infos() {
       });
 
       if (response.ok) {
-        console.log(response);
+        var data = await response.json();
+        console.log(data.first_name, data.last_name, data.email, data.shipping, data.billing)
+
       } else {
         // Handle authentication failure
       }

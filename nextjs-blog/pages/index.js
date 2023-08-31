@@ -145,7 +145,7 @@ export default function Example() {
       <h1> OUR MOVIE COLLECTION</h1>
       <div className="">
         
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 px-5">
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-8 px-5">
           
           {movies.map((movie) => (
             <div key={movie.id} className="group relative bg-primary-30 rounded p-2">
@@ -172,7 +172,7 @@ export default function Example() {
                 {showing.time}
               </Link>
                 )}
-                <Link href='#'className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 bg-accent-30 hover:bg-accent-50 hover:text-white'>
+                <Link href='#'className='rounded-md px-2 py-2 text-sm font-medium text-gray-300 bg-accent-30 hover:bg-accent-50 hover:text-white'>
                 MORE
               </Link>
               </div>
