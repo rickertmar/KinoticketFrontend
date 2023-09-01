@@ -1,54 +1,43 @@
-import styles from '../styles/Home.module.css';
-
-function Infos() {
-  const onTestButtonClick = async (e) => {
-    e.preventDefault();
-    // Make API request to authenticate
-    try {
-      const response = await fetch('api/users', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+ localStorage.getItem('access_token')
-        },
-      });
-
-      if (response.ok) {
-        var data = await response.json();
-        console.log(data.first_name, data.last_name, data.email, data.shipping, data.billing)
-
-      } else {
-        // Handle authentication failure
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+export default function Infos() {
   return (
-    <div>
-      <h1 className={styles.title}>Info page</h1>
-
-      <div className={styles.blueBackground}>
-        <p>Our service team is happy to assist you:</p>
-        <ul>
-          <li>By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM</li>
-          <li>Via email at service@dhbwkino.de</li>
-        </ul>
-        <p>&nbsp;</p>
-        <p>Our location in Baden-Württemberg features two multiplex cinemas right in the heart of the city. With 18 theaters and approximately 3,600 seats, we offer the city an enormous variety and serve as Mannheim's cultural hub. Nearly one million visitors come here annually for top-notch cinema experiences. Perfect sound and supreme seating comfort with modern D-Box seats offer the highest level of cinematic enjoyment.</p>
-        <p>&nbsp;</p>
-        <p>Thanks to our two locations, we can provide a wide range of entertainment options. From big blockbusters to thought-provoking art-house films, as well as films in their original languages, there's something for every taste. Live events such as broadcasts from the Metropolitan Opera and many other global cities are, of course, also available.</p>
-        <button onClick={onTestButtonClick}>Test Connection</button>
+    <div className="bg-primary-30">
+      <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8 text-white">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#90DDF0" }}>About Our Cinema</h2>
+          <p className="mt-4 text-white">Located in the heart of Baden-Württemberg, our two multiplex cinemas serve as Mannheim's cultural hub, offering top-notch cinematic experiences to nearly one million visitors annually.</p>
+          
+          <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+            <div className="border-t border-gray-200 pt-4">
+              <dt className="font-medium">Location</dt>
+              <dd className="mt-2 text-sm">Mannheim, Baden-Württemberg</dd>
+            </div>
+            <div className="border-t border-gray-200 pt-4">
+              <dt className="font-medium">Theaters</dt>
+              <dd className="mt-2 text-sm">18 theaters with approx. 3,600 seats</dd>
+            </div>
+            <div className="border-t border-gray-200 pt-4">
+              <dt className="font-medium">Technology</dt>
+              <dd className="mt-2 text-sm">Modern D-Box seats, state-of-the-art sound system</dd>
+            </div>
+            <div className="border-t border-gray-200 pt-4">
+              <dt className="font-medium">Offerings</dt>
+              <dd className="mt-2 text-sm">Blockbusters, art-house films, live events</dd>
+            </div>
+          </dl>
+        </div>
+        <div className="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
+          <img src="/CinemaConcessions.png" alt="Cinema Concessions" className="rounded-lg bg-gray-100" />
+          <img src="/CinemaEntrance.png" alt="Cinema Entrance" className="rounded-lg bg-gray-100" />
+          <img src="/CinemaEntrance2.png" alt="Cinema Entrance 2" className="rounded-lg bg-gray-100" />
+          <img src="/CinemaScreen.png" alt="Cinema Screen" className="rounded-lg bg-gray-100" />
+        </div>
       </div>
-
-      <div className={styles.imageContainer}>
-        <img className={styles.image} src="/CinemaConcessions.png" alt="Cinema Concessions" />
-        <img className={styles.image} src="/CinemaEntrance.png" alt="Cinema Entrance" />
-        <img className={styles.image} src="/CinemaEntrance2.png" alt="CinemaEntrance 2" />
-        <img className={styles.image} src="/CinemaScreen.png" alt="Cinema Screen" />
+      <div className="mx-auto max-w-2xl text-center py-8">
+        <h3 className="text-xl font-medium" style={{ color: "#90DDF0" }}>Contact Us</h3>
+        <p style={{ color: "#ebebeb" }}>Our service team is happy to assist you:</p>
+        <p style={{ color: "#ebebeb" }}>By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM</p>
+        <p style={{ color: "#ebebeb" }}>Via email at service@dhbwkino.de</p>
       </div>
     </div>
   );
 }
-
-export default Infos;
