@@ -16,7 +16,7 @@ export default function Infos() {
               <dd className="mt-2 text-sm">18 theaters with approx. 3,600 seats</dd>
             </div>
             <div className="border-t border-gray-200 pt-4">
-              <dt className="font-medium">Technology</dt>
+              <dt className="font-medium">Features</dt>
               <dd className="mt-2 text-sm">Modern D-Box seats, state-of-the-art sound system</dd>
             </div>
             <div className="border-t border-gray-200 pt-4">

@@ -2,6 +2,8 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import {useRouter} from 'next/router'
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function LoginDialouge({ open, setOpen }) {
   const cancelButtonRef = useRef(null)
@@ -14,36 +16,34 @@ export default function LoginDialouge({ open, setOpen }) {
     setCredentials(true);
     setOpen();
     setSending(false);
+    setEmail("")
+    setPassword("")
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
     setCredentials(true);
-    // Make API request to authenticate
-    try {
-      const response = await fetch('api/auth/authenticate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
 
-      if (response.ok) {
-        var data = await response.json();
-        // Store authentication data and redirect
-        localStorage.setItem('access_token', data.access_token);
+    // Make API request to authenticate
+      axios.post('/api/auth/authenticate', {email, password}, {headers:{ 'Content-Type': 'application/json'}})
+      .then(function (response){
+        const { access_token, refresh_token } = response.data;
+        Cookies.set('access_token', access_token)
+        Cookies.set('refresh_token', refresh_token)
         setOpen(false)
         setCredentials(true)
         setSending(false)
-        router.push('/information'); // Redirect to dashboard
-      } else {
+        router.push('/profile'); // Redirect to dashboard
+        setEmail("")
+        setPassword("")
+      })
+      .catch(function (error){
         setCredentials(false);
         setSending(false);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+        setPassword("")
+        console.error('Error:', error);
+      })
+      
   };
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -57,7 +57,7 @@ export default function LoginDialouge({ open, setOpen }) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-neutral-800 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -71,7 +71,7 @@ export default function LoginDialouge({ open, setOpen }) {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-primary-40 text-left shadow-xl transition-all px-6 py-3 lg:px-20 lg:pt-5 lg:pb-10 sm:px-10 sm:pb-5 sm:pt-2">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-primary-30 text-left shadow-xl transition-all px-6 py-3 md:px-20 md:pt-5 md:pb-10 sm:px-10 sm:pb-5 sm:pt-2">
                 <div className='flex items-center justify-center'>
                   <img
                       className="h-28 w-auto "
@@ -90,18 +90,19 @@ export default function LoginDialouge({ open, setOpen }) {
                       <form className="space-y-6">
                         <div>
                           <label htmlFor="email" className="block text-sm font-medium leading-6 text-white">
-                            Email address
+                            E-Mail address
                           </label>
                           <div className="mt-2">
                             <input
                               id="email"
                               name="email"
                               type="text"
+                              placeholder='E-Mail'
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                               autoComplete="email"
                               required
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                           </div>
                         </div>
@@ -120,6 +121,7 @@ export default function LoginDialouge({ open, setOpen }) {
                           <div className="mt-2">
                             <input
                               id="password"
+                              placeholder='Password'
                               name="password"
                               type="password"
                               value={password}
@@ -151,10 +153,6 @@ export default function LoginDialouge({ open, setOpen }) {
                         </a>
                       </p>
                     </div>
-
-                  
-                
-                
               </Dialog.Panel>
             </Transition.Child>
           </div>
