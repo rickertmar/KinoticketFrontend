@@ -8,7 +8,7 @@
 }
 @layer base{
   p{
-    @apply pl-2 md:pl-4 text-base text-black
+    @apply pl-2 md:pl-4 text-base text-white
   }
   h1{
     @apply text-4xl mt-10 pl-2 md:pl-4 text-white text-center font-bold
