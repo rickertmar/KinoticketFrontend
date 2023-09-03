@@ -146,19 +146,19 @@ const movies = [
 
 export default function Example() {
   return (
-    <div className="">
-      <h1> OUR MOVIE COLLECTION</h1>
-        <div className="mt-6 flex flex-shrink-0 flex-wrap flex-row gap-x-6 gap-y-10 justify-start">
+      <div className="flex flex-col justify-center items-center">
+      <h1 className='w-fit'> OUR MOVIE COLLECTION</h1>
+        <div className="mt-6 gap-y-10 gap-x-6 flex flex-row flex-shrink-0 flex-wrap w-[18rem] md:w-[38rem] lg:w-[57rem] xl:w-[77rem]">
           
           {movies.map((movie) => (
-            <div key={movie.id} className="group relative dark:bg-primary-20 bg-primary-30 rounded p-2 w-[18rem] shadow-lg dark:shadow-black shadow-neutral-800">
+            <div key={movie.id} className="shrink-0 dark:bg-primary-20 bg-primary-30 rounded p-2 w-[18rem] shadow-lg dark:shadow-black shadow-neutral-800 overflow-hidden max-w-fit">
               <div className="h-20 pl-2 flex flex-col justify-center">
                   <h3 className="text-2xl text-white font-semibold">
                     {movie.name}
                   </h3>
               </div>
               <Link href={"movies/" + movie.name}>
-                <div className="overflow-hidden bg-gray-200 lg:aspect-none hover:opacity-75">
+                <div className="overflow-hidden bg-gray-200 hover:opacity-75">
                   <img
                     src={movie.imageSrc}
                     alt=""
@@ -181,5 +181,7 @@ export default function Example() {
           ))}
         </div>
       </div>
+      
+    
   )
 }

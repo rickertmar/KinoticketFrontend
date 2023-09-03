@@ -25,10 +25,6 @@ module.exports = {
           40 : '#71aebd',
           50 : '#90ddf0',
         }, 
-        'accent-dark':
-        {
-
-        },
       },
     },
   },
