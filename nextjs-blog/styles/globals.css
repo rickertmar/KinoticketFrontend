@@ -7,10 +7,16 @@
 
 }
 @layer base{
-  p{
-    @apply pl-2 md:pl-4 text-base text-white
-  }
-  h1{
-    @apply text-4xl mt-10 pl-2 md:pl-4 text-white text-center font-bold
-  }
+
+}
+@layer utilities{
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
 }

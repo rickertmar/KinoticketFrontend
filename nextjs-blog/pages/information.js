@@ -1,6 +1,6 @@
 export default function Infos() {
   return (
-    <div className="bg-primary-30">
+    <div className="bg-primary-20 dark:bg-primary-30">
       <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8 text-white">
         <div>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#90DDF0" }}>About Our Cinema</h2>
@@ -32,7 +32,12 @@ export default function Infos() {
           <img src="/CinemaScreen.png" alt="Cinema Screen" className="rounded-lg bg-gray-100" />
         </div>
       </div>
-
+      <div className="mx-auto max-w-2xl text-center py-8">
+        <h3 className="text-xl font-medium" style={{ color: "#90DDF0" }}>Contact Us</h3>
+        <p style={{ color: "#ebebeb" }}>Our service team is happy to assist you:</p>
+        <p style={{ color: "#ebebeb" }}>By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM</p>
+        <p style={{ color: "#ebebeb" }}>Via email at service@dhbwkino.de</p>
+      </div>
     </div>
   );
 }

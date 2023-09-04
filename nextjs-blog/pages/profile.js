@@ -46,10 +46,6 @@ function ProfilePage() {
           <p>First Name: {userData.first_name}</p>
           <p>Last Name: {userData.last_name}</p>
           <h2>Shipping Address</h2>
-          <p>Street: {userData.shipping.street}</p>
-          <p>City: {userData.shipping.city}</p>
-          <p>Country: {userData.shipping.country}</p>
-          <p>Postcode: {userData.shipping.postcode}</p>
         </div>
       ) : (
         <p>Loading user data...</p>
