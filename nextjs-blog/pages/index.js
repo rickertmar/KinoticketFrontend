@@ -147,7 +147,7 @@ const movies = [
 export default function Example() {
   return (
       <div className="flex flex-col justify-center items-center">
-      <h1 className='w-fit'> OUR MOVIE COLLECTION</h1>
+      <h1 className='w-fit text-white font-semibold text-4xl mt-10'> OUR MOVIE COLLECTION</h1>
         <div className="mt-6 gap-y-10 gap-x-6 flex flex-row flex-shrink-0 flex-wrap w-[18rem] md:w-[38rem] lg:w-[57rem] xl:w-[77rem]">
           
           {movies.map((movie) => (
@@ -157,7 +157,7 @@ export default function Example() {
                     {movie.name}
                   </h3>
               </div>
-              <Link href={"movies/" + movie.name}>
+              <Link href={"movies/" + movie.id}>
                 <div className="overflow-hidden bg-gray-200 hover:opacity-75">
                   <img
                     src={movie.imageSrc}
