@@ -148,7 +148,7 @@ export default function LoginDialouge({ open, setOpen }) {
                       </p>
                       <p className="mt-10 text-center text-sm text-gray-300" >
                         Not a member?{' '}
-                        <a href="#" className="font-semibold leading-6 text-accent-40 hover:text-accent-50">
+                        <a href="/signup" className="font-semibold leading-6 text-accent-40 hover:text-accent-50">
                           Sign up now!
                         </a>
                       </p>
