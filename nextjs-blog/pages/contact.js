@@ -54,7 +54,12 @@ export default function Contact() {
     <div className="bg-primary-30 min-h-screen">
     <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
       <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
-        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Contact Us</h2>
+      <h2
+                className="text-3xl font-extrabold tracking-tight sm:text-4xl"
+                style={{ color: '#90DDF0' }}
+              >
+                Contact Us
+              </h2>
         <p className="text-lg">Feel free to reach out to us!</p>
       </div>
 
@@ -76,7 +81,7 @@ export default function Contact() {
               />
             </div>
             <div>
-              <label htmlFor="last-name" className="block text-sm font-medium text-white">
+              <label htmlFor="last-name" className="block text-sm font-medium text-white" >
                 Last Name
               </label>
               <input
