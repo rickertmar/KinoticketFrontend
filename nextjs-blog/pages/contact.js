@@ -51,18 +51,13 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-primary-30 min-h-screen">
-    <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-      <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
-      <h2
-                className="text-3xl font-extrabold tracking-tight sm:text-4xl"
-                style={{ color: '#90DDF0' }}
-              >
-                Contact Us
-              </h2>
-        <p className="text-lg">Feel free to reach out to us!</p>
-      </div>
 
+    <div className="mt-5 flex justify-center items-center">
+      <div className='bg-primary-20 px-20 py-5'>
+        <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-accent-50">Contact Us</h2>
+          <p className="text-lg">Feel free to reach out to us!</p>
+        </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
@@ -186,6 +181,8 @@ export default function Contact() {
           </form>
         </div>
       </div>
+      
+      
     </div>
   );
 }
