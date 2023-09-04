@@ -34,8 +34,8 @@ export default function signup(){
     };
     return(
         <>
-        <div className="bg-primary-30 flex flex-row mt-5">
-            <img src='/CinemaScreen.png' alt="" className="h-[45rem] w-auto"/>
+        <div className="bg-primary-30 flex sm:flex-row  flex-col mt-5">
+                <img src='/CinemaScreen.png' alt="" className="object-cover w-full h-[20rem] sm:w-[20rem] md:w-[25rem] lg:w-[40rem] sm:h-[37rem]"/>
             <div className="flex flex-col w-full">
                 <div className="flex items-center justify-center ">
                     <img className="h-28 w-auto"src="/DHBWKino.png"alt="DHBW Kino Icon"/>
@@ -45,7 +45,7 @@ export default function signup(){
                         Create your own Account!
                       </h2>
                 </div>
-                <div className='mx-10'>
+                <div className='mx-5'>
                     <form className="space-y-6">
                         <div>
                           <label htmlFor="fname" className="block text-sm font-medium leading-6 text-white">
