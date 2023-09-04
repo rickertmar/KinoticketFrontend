@@ -16,11 +16,11 @@ export default function Contact() {
       <form>
         <p className="mt-4 text-white">Our service team is happy to assist you:
           <br />
-          By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM
+           - By phone at 0621 / xx xx xx (14 ct/min, max. 42 ct/min), daily from 2:00 PM to 8:00 PM
           <br />
-          Via email at service@dhbwkino.de
+           - Via email at service@dhbwkino.de
           <br />
-          Through the contact form below.
+           - Through the contact form below.
         </p>
 
         <div className="space-y-6">
