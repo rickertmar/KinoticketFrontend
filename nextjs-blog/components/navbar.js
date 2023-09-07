@@ -74,14 +74,14 @@ export default function Navbar({isAuthenticated}) {
               </div>
             </div>
             {!isAuthenticated?
-              <button className='relative ml-2' onClick={() => setIsOpen(true)}>
+              <button className='relative ml-2 p-1' onClick={() => setIsOpen(true)}>
                 <UserCircleIcon className='h-8 w-8 text-white'/>
               </button>
               :
               <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="relative ml-2">
-                      <UserCircleIcon className='h-8 w-8 text-white'/>
+                    <Menu.Button className="relative mt-[4px] p-1 bg-primary-40 rounded-xl">
+                      <UserCircleIcon className='h-8 w-8 text-accent-50  '/>
                     </Menu.Button>
                   </div>
                   <Transition
@@ -97,7 +97,7 @@ export default function Navbar({isAuthenticated}) {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            href="/profile"
+                            href="/user/profile"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Your Profile
@@ -108,7 +108,7 @@ export default function Navbar({isAuthenticated}) {
                         {({ active }) => (
                           <Link
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                            onClick={() => Cookies.remove('access_token')}
+                            onClick={() => {Cookies.remove('access_token'); Cookies.remove('refresh_token');}}
                             href="/"
                           >
                             Sign out
