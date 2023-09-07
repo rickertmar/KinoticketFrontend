@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is the frontend repository for the KinoticketSystem project by DHBW Students- WWI SEA 2022. It's built using React with Next.js and styled using Tailwind CSS. Here are the key technologies and tools used:
+This is the frontend repository for the KinoticketSystem project by DHBW Mannheim Students - WWI SEA 2022. It's built using React with Next.js and styled using Tailwind CSS. Here are the key technologies and tools used:
 
 - **Language**: JavaScript
 - **Framework and Build Tool**: React, Next.js
