@@ -24,7 +24,7 @@ export default function signup(){
           Cookies.set('access_token', access_token)
           Cookies.set('refresh_token', refresh_token)
           setSending(false)
-          router.push('/profile');
+          router.push('/user/profile');
         })
         .catch(function (error){
           setSending(false);

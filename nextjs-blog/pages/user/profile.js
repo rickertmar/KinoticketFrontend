@@ -39,7 +39,7 @@ function ProfilePage() {
 
   return (
     <div>
-      <h1>User Profile</h1>
+      <h1 className='text-white'>User Profile</h1>
       {userData ? (
         <div className='text-white'>
           <p>Email: {userData.email}</p>

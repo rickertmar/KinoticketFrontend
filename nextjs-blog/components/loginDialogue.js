@@ -23,8 +23,6 @@ export default function LoginDialouge({ open, setOpen }) {
     e.preventDefault();
     setSending(true);
     setCredentials(true);
-
-    // Make API request to authenticate
       axios.post('/api/auth/authenticate', {email, password}, {headers:{ 'Content-Type': 'application/json'}})
       .then(function (response){
         const { access_token, refresh_token } = response.data;
@@ -33,9 +31,9 @@ export default function LoginDialouge({ open, setOpen }) {
         setOpen(false)
         setCredentials(true)
         setSending(false)
-        router.push('/profile'); // Redirect to dashboard
         setEmail("")
         setPassword("")
+        router.reload()
       })
       .catch(function (error){
         setCredentials(false);
