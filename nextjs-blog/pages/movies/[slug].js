@@ -77,7 +77,7 @@ export default function Movies() {
         <main className='bg-primary-20 mt-5'>
           <div className='flex flex-row flex-nowrap max-w-7xl'>
             <img src={movie.imageSrc} alt="" className="h-auto w-[30rem]"/>
-            <div className='flex flex-col px-5 mt-10 flex-nowrap w-full overflow-x-scroll'>
+            <div className='flex flex-col px-5 mt-10 flex-nowrap w-full overflow-x-scroll no-scrollbar'>
               <h1 className='text-white text-6xl font-semibold'>{movie.name}</h1>
              
               <div className='flex flex-row mt-4 gap-x-2 text-neutral-100'>
