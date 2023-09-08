@@ -142,7 +142,18 @@ const movies = [
     ]
   }
 ]
+function convertToSlug(inputString) {
+  // Step 1: Remove special characters
+  const sanitizedString = inputString.replace(/[^\w\s]/gi, '');
 
+  // Step 2: Convert to lowercase
+  const lowercaseString = sanitizedString.toLowerCase();
+
+  // Step 3: Replace spaces with hyphens
+  const slug = lowercaseString.replace(/\s+/g, '-');
+
+  return slug;
+}
 
 export default function Example() {
   return (
@@ -157,7 +168,7 @@ export default function Example() {
                     {movie.name}
                   </h3>
               </div>
-              <Link href={"movies/" + movie.id}>
+              <Link href={"movies/" + convertToSlug(movie.name)}>
                 <div className="overflow-hidden bg-gray-200 hover:opacity-75">
                   <img
                     src={movie.imageSrc}
