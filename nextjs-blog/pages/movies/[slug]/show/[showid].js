@@ -74,7 +74,7 @@ export default function SeatSelection() {
                   onClick={toggleSeat}
                 />
               ))}
-              {/* Füllen Sie die leeren Sitze auf, um sicherzustellen, dass die Reihen gleich lang sind */}
+            
               {Array(maxRowLength - groupedSeats[row].length)
                 .fill()
                 .map((_, index) => (
@@ -93,7 +93,7 @@ export default function SeatSelection() {
     <div className="bg-gray-200 min-h-screen flex flex-col justify-center items-center">
       <h2 className="text-2xl font-semibold mb-4">Select Your Seats</h2>
       <div className="bg-white p-8 rounded-lg shadow-md relative">
-        {/* Schwarzes Rechteck, um den Bildschirm darzustellen */}
+   
         <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
         {renderSeatsByRow(groupedSeats)}
         <div className="mt-4">
