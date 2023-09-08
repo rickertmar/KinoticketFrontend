@@ -4,8 +4,8 @@ module.exports = {
           return [
             {
               source: '/api/:path*',
-              //destination: 'http://kinoticket.azurewebsites.net/:path*',
-              destination: 'http://localhost:8080/:path*'
+              destination: 'http://kinoticket.azurewebsites.net/:path*',
+              //destination: 'http://localhost:8080/:path*'
             },
           ];
         },
