@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import { PlayIcon, GlobeAltIcon, ClockIcon, InformationCircleIcon, TagIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import {useRouter} from 'next/router';
 
 const movie = {
   id: 1,
@@ -68,6 +70,7 @@ const movie = {
   ]
 }
 export default function Movies() {
+  const router = useRouter()
   const uniqueDates = [...new Set(movie.showings.map(showing => showing.date))];
     return (
       <>
@@ -120,14 +123,17 @@ export default function Movies() {
                       </p>
                       <div className='flex flex-row mt-4 gap-x-2'>
                         {movie.showings.filter((item) => item.date === date).map((item)=>(
-                          <div className='flex flex-col gap-y-20 text-center bg-accent-30 p-3 hover:bg-accent-40 rounded-md' key={item.id}>
-                            <p className='text-4xl'>
-                              {item.time}
-                            </p>
-                            <p className='text-base'>
-                              D-Box, OV
-                            </p>
-                          </div>
+                          <Link href={router.query.slug + "/show/" + item.id}>
+                            <div className='flex flex-col gap-y-20 text-center bg-accent-30 p-3 hover:bg-accent-40 rounded-md' key={item.id}>
+                              <p className='text-4xl'>
+                                {item.time}
+                              </p>
+                              <p className='text-base'>
+                                D-Box, OV
+                              </p>
+                            </div>
+                          </Link>
+                          
                         ))}   
                       </div>
                     </div>
