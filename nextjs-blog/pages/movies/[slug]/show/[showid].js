@@ -1,21 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Seat({ id, number, isAvailable, selected, onClick }) {
-  const seatStyles = {
-    cursor: isAvailable ? 'pointer' : 'not-allowed',
-    backgroundColor: isAvailable
-      ? selected
-        ? 'red'
-        : 'green'
-      : 'gray',
-    color: 'white',
-    borderRadius: '8px',
-    padding: '8px',
-    textAlign: 'center',
-    width: '40px',
-    height: '40px',
-  };
-
+function Seat({ id, number, row, isAvailable, selected, onClick }) {
   return (
     <div
       onClick={() => {
@@ -23,7 +8,13 @@ function Seat({ id, number, isAvailable, selected, onClick }) {
           onClick(id);
         }
       }}
-      style={seatStyles}
+      className={`p-3 border ${
+        isAvailable
+          ? selected
+            ? 'bg-red-500 text-white cursor-not-allowed'
+            : 'bg-green-500 text-white cursor-pointer hover:bg-green-600'
+          : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+      } rounded-lg text-center`}
     >
       {number}
     </div>
@@ -51,31 +42,63 @@ export default function SeatSelection() {
     }
   };
 
-  return (
-    <div className="bg-gray-200 min-h-screen flex flex-col items-center">
-      <h2 className="text-2xl font-semibold mb-4 mt-4">Select Your Seats</h2>
-      <div className="flex justify-center items-center w-full h-20 mb-4">
-        <div
-          className="w-3/5 h-1 bg-black"
-          style={{ backgroundColor: 'black' }} // You can adjust the color here
-        ></div>
+  const groupSeatsByRow = (seatsData) => {
+    const groupedSeats = {};
+    seatsData.forEach((seat) => {
+      if (!groupedSeats[seat.row]) {
+        groupedSeats[seat.row] = [];
+      }
+      groupedSeats[seat.row].push(seat);
+    });
+    return groupedSeats;
+  };
+
+  const renderSeatsByRow = (groupedSeats) => {
+    const rows = Object.keys(groupedSeats);
+    const maxRowLength = Math.max(...rows.map((row) => groupedSeats[row].length));
+
+    return (
+      <div className="grid grid-cols-2 gap-4">
+        {rows.map((row) => (
+          <div key={row} className="mb-4">
+            <h3 className="text-lg font-semibold mb-2">{row}-Row</h3>
+            <div className="flex flex-wrap gap-4">
+              {groupedSeats[row].map((seat) => (
+                <Seat
+                  key={seat.id}
+                  id={seat.id}
+                  number={seat.number}
+                  row={seat.row}
+                  isAvailable={seat.available}
+                  selected={selectedSeats.includes(seat.id)}
+                  onClick={toggleSeat}
+                />
+              ))}
+              {/* Füllen Sie die leeren Sitze auf, um sicherzustellen, dass die Reihen gleich lang sind */}
+              {Array(maxRowLength - groupedSeats[row].length)
+                .fill()
+                .map((_, index) => (
+                  <div key={index} className="p-3 border bg-gray-300 cursor-not-allowed rounded-lg"></div>
+                ))}
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="bg-white p-8 rounded-lg shadow-md">
-        <div className="grid grid-cols-8 gap-4"> {/* Adjust the number of columns here */}
-          {seatsData.map((seat) => (
-            <Seat
-              key={seat.id}
-              id={seat.id}
-              number={seat.number}
-              isAvailable={seat.available}
-              selected={selectedSeats.includes(seat.id)}
-              onClick={toggleSeat}
-            />
-          ))}
-        </div>
+    );
+  };
+
+  const groupedSeats = groupSeatsByRow(seatsData);
+
+  return (
+    <div className="bg-gray-200 min-h-screen flex flex-col justify-center items-center">
+      <h2 className="text-2xl font-semibold mb-4">Select Your Seats</h2>
+      <div className="bg-white p-8 rounded-lg shadow-md relative">
+        {/* Schwarzes Rechteck, um den Bildschirm darzustellen */}
+        <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
+        {renderSeatsByRow(groupedSeats)}
         <div className="mt-4">
           <p className="text-gray-600">
-            Selected Seats: {selectedSeats.join(', ')}
+            Selected Seats: {selectedSeats.map((seatId) => seatsData.find((seat) => seat.id === seatId).number).join(', ')}
           </p>
         </div>
       </div>
