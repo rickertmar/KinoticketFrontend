@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-function Seat({ id, number, row, isAvailable, selected, onClick }) {
+function Seat({ id, number, seatRow, isAvailable, selected, onClick, xloc, yloc }) {
+  const style = {
+    left: `${xloc}px`,
+    top: `${yloc}px`,
+  };
+
   return (
     <div
       onClick={() => {
@@ -8,6 +13,7 @@ function Seat({ id, number, row, isAvailable, selected, onClick }) {
           onClick(id);
         }
       }}
+      style={style}
       className={`p-3 border ${
         isAvailable
           ? selected
@@ -16,7 +22,7 @@ function Seat({ id, number, row, isAvailable, selected, onClick }) {
           : 'bg-gray-300 text-gray-600 cursor-not-allowed'
       } rounded-lg text-center`}
     >
-      {number}
+      {seatRow.toUpperCase()} {number}
     </div>
   );
 }
@@ -45,10 +51,10 @@ export default function SeatSelection() {
   const groupSeatsByRow = (seatsData) => {
     const groupedSeats = {};
     seatsData.forEach((seat) => {
-      if (!groupedSeats[seat.row]) {
-        groupedSeats[seat.row] = [];
+      if (!groupedSeats[seat.seatRow]) {
+        groupedSeats[seat.seatRow] = [];
       }
-      groupedSeats[seat.row].push(seat);
+      groupedSeats[seat.seatRow].push(seat);
     });
     return groupedSeats;
   };
@@ -57,32 +63,41 @@ export default function SeatSelection() {
     const rows = Object.keys(groupedSeats);
     const maxRowLength = Math.max(...rows.map((row) => groupedSeats[row].length));
 
+    const rowLabels = Array.from({ length: rows.length }, (_, i) => String.fromCharCode(65 + i)); // Generate row labels as 'A', 'B', 'C', ...
+
     return (
-      <div className="grid grid-cols-2 gap-4">
-        {rows.map((row) => (
-          <div key={row} className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">{row}-Row</h3>
-            <div className="flex flex-wrap gap-4">
-              {groupedSeats[row].map((seat) => (
-                <Seat
-                  key={seat.id}
-                  id={seat.id}
-                  number={seat.number}
-                  row={seat.row}
-                  isAvailable={seat.available}
-                  selected={selectedSeats.includes(seat.id)}
-                  onClick={toggleSeat}
-                />
-              ))}
-            
-              {Array(maxRowLength - groupedSeats[row].length)
-                .fill()
-                .map((_, index) => (
-                  <div key={index} className="p-3 border bg-gray-300 cursor-not-allowed rounded-lg"></div>
+      <div className="relative">
+        <div className="grid grid-cols-3 gap-4">
+          {rows.map((row, index) => (
+            <div key={row} className="mb-4">
+              <h3 className="text-lg font-semibold mb-2">{rowLabels[index]}-Row</h3>
+              <div className="flex flex-wrap gap-4">
+                {groupedSeats[row].map((seat) => (
+                  <Seat
+                    key={seat.id}
+                    id={seat.id}
+                    number={seat.number}
+                    seatRow={seat.seatRow}
+                    isAvailable={seat.blocked ? false : true}
+                    selected={selectedSeats.includes(seat.id)}
+                    onClick={toggleSeat}
+                    xloc={seat.xloc}
+                    yloc={seat.yloc}
+                  />
                 ))}
+
+                {Array(maxRowLength - groupedSeats[row].length)
+                  .fill()
+                  .map((_, index) => (
+                    <div
+                      key={index}
+                      className="p-3 border bg-gray-300 cursor-not-allowed rounded-lg"
+                    ></div>
+                  ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   };
@@ -92,13 +107,15 @@ export default function SeatSelection() {
   return (
     <div className="bg-gray-200 min-h-screen flex flex-col justify-center items-center">
       <h2 className="text-2xl font-semibold mb-4">Select Your Seats</h2>
-      <div className="bg-white p-8 rounded-lg shadow-md relative">
-   
+      <div className="bg-white p-8 rounded-lg shadow-md">
         <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
         {renderSeatsByRow(groupedSeats)}
         <div className="mt-4">
           <p className="text-gray-600">
-            Selected Seats: {selectedSeats.map((seatId) => seatsData.find((seat) => seat.id === seatId).number).join(', ')}
+            Selected Seats: {selectedSeats.map((seatId) => {
+              const seat = seatsData.find((seat) => seat.id === seatId);
+              return `${seat.seatRow.toUpperCase()} ${seat.number}`;
+            }).join(', ')}
           </p>
         </div>
       </div>
