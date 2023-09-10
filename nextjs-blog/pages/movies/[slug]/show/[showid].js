@@ -1,9 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 
 function Seat({ id, number, seatRow, isAvailable, selected, onClick, xloc, yloc }) {
   const style = {
     left: `${xloc}px`,
     top: `${yloc}px`,
+    width: '20px', // Adjust the width as needed
+    height: '20px', // Adjust the height as needed
+    fontSize: '10px', // Adjust the font size as needed
   };
 
   return (
@@ -14,7 +18,7 @@ function Seat({ id, number, seatRow, isAvailable, selected, onClick, xloc, yloc 
         }
       }}
       style={style}
-      className={`p-3 border ${
+      className={`p-1 border ${
         isAvailable
           ? selected
             ? 'bg-red-500 text-white cursor-not-allowed'
@@ -22,7 +26,7 @@ function Seat({ id, number, seatRow, isAvailable, selected, onClick, xloc, yloc 
           : 'bg-gray-300 text-gray-600 cursor-not-allowed'
       } rounded-lg text-center`}
     >
-      {seatRow.toUpperCase()} {number}
+      {number}
     </div>
   );
 }
@@ -60,42 +64,38 @@ export default function SeatSelection() {
   };
 
   const renderSeatsByRow = (groupedSeats) => {
-    const rows = Object.keys(groupedSeats);
-    const maxRowLength = Math.max(...rows.map((row) => groupedSeats[row].length));
+    const rowLabels = Object.keys(groupedSeats); // Get all row labels
+    const maxRowLength = Math.max(...rowLabels.map((row) => groupedSeats[row].length));
+    const numRows = rowLabels.length;
 
-    const rowLabels = Array.from({ length: rows.length }, (_, i) => String.fromCharCode(65 + i)); // Generate row labels as 'A', 'B', 'C', ...
+    // Calculate the number of columns based on the maximum row length
+    const numCols = maxRowLength * 2 + 2; // 2 seats per row + 2 for the walkway
 
     return (
       <div className="relative">
-        <div className="grid grid-cols-3 gap-4">
-          {rows.map((row, index) => (
-            <div key={row} className="mb-4">
-              <h3 className="text-lg font-semibold mb-2">{rowLabels[index]}-Row</h3>
-              <div className="flex flex-wrap gap-4">
-                {groupedSeats[row].map((seat) => (
-                  <Seat
-                    key={seat.id}
-                    id={seat.id}
-                    number={seat.number}
-                    seatRow={seat.seatRow}
-                    isAvailable={seat.blocked ? false : true}
-                    selected={selectedSeats.includes(seat.id)}
-                    onClick={toggleSeat}
-                    xloc={seat.xloc}
-                    yloc={seat.yloc}
-                  />
-                ))}
-
-                {Array(maxRowLength - groupedSeats[row].length)
-                  .fill()
-                  .map((_, index) => (
-                    <div
-                      key={index}
-                      className="p-3 border bg-gray-300 cursor-not-allowed rounded-lg"
-                    ></div>
+        <div className="grid grid-cols-24 gap-2">{/* Adjust the number of columns */}
+          {rowLabels.map((row, index) => (
+            <React.Fragment key={row}>
+              <div className="flex justify-start items-center">
+                <h3 className="text-lg font-semibold mr-2">{row}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {groupedSeats[row].map((seat) => (
+                    <Seat
+                      key={seat.id}
+                      id={seat.id}
+                      number={seat.number}
+                      seatRow={seat.seatRow}
+                      isAvailable={seat.blocked ? false : true}
+                      selected={selectedSeats.includes(seat.id)}
+                      onClick={toggleSeat}
+                      xloc={seat.xloc}
+                      yloc={seat.yloc}
+                    />
                   ))}
+                </div>
               </div>
-            </div>
+             
+            </React.Fragment>
           ))}
         </div>
       </div>
@@ -106,19 +106,24 @@ export default function SeatSelection() {
 
   return (
     <div className="bg-gray-200 min-h-screen flex flex-col justify-center items-center">
-      <h2 className="text-2xl font-semibold mb-4">Select Your Seats</h2>
-      <div className="bg-white p-8 rounded-lg shadow-md">
-        <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
-        {renderSeatsByRow(groupedSeats)}
-        <div className="mt-4">
-          <p className="text-gray-600">
-            Selected Seats: {selectedSeats.map((seatId) => {
-              const seat = seatsData.find((seat) => seat.id === seatId);
-              return `${seat.seatRow.toUpperCase()} ${seat.number}`;
-            }).join(', ')}
-          </p>
-        </div>
+    <h2 className="text-2xl font-semibold mb-4">Select Your Seats</h2>
+    <div className="bg-white p-8 rounded-lg shadow-md">
+      <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
+      <div className="mb-4">
+        {/* Spacer with width */}
+        <div className="w-5" />
+        
+      </div>
+      {renderSeatsByRow(groupedSeats)}
+      <div className="mt-4">
+        <p className="text-gray-600">
+          Selected Seats: {selectedSeats.map((seatId) => {
+            const seat = seatsData.find((seat) => seat.id === seatId);
+            return `${seat.seatRow.toUpperCase()} ${seat.number}`;
+          }).join(', ')}
+        </p>
       </div>
     </div>
+  </div>
   );
 }
