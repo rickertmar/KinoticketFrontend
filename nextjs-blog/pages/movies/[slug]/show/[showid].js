@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 
 function Seat({ id, number, seatRow, isAvailable, selected, onClick, xloc, yloc }) {
   const style = {
+    position: 'relative',
     left: `${xloc}px`,
     top: `${yloc}px`,
     width: '20px', // Adjust the width as needed
@@ -68,12 +68,12 @@ export default function SeatSelection() {
     const maxRowLength = Math.max(...rowLabels.map((row) => groupedSeats[row].length));
     const numRows = rowLabels.length;
 
-    // Calculate the number of columns based on the maximum row length
-    const numCols = maxRowLength * 2 + 2; // 2 seats per row + 2 for the walkway
+    // Reduce the number of columns to 12
+    const numCols = 12; // Reducing the number of columns to 12
 
     return (
       <div className="relative">
-        <div className="grid grid-cols-24 gap-2">{/* Adjust the number of columns */}
+        <div className={`grid grid-cols-${numCols} gap-2`}>{/* Reduce the number of columns */}
           {rowLabels.map((row, index) => (
             <React.Fragment key={row}>
               <div className="flex justify-start items-center">
@@ -107,7 +107,8 @@ export default function SeatSelection() {
   return (
     <div className="bg-gray-200 min-h-screen flex flex-col justify-center items-center">
     <h2 className="text-2xl font-semibold mb-4">Select Your Seats</h2>
-    <div className="bg-white p-8 rounded-lg shadow-md">
+    <div className="bg-white p-16 rounded-lg shadow-md" style={{ width: '90%', height: '80%'}}>
+
       <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
       <div className="mb-4">
         {/* Spacer with width */}
