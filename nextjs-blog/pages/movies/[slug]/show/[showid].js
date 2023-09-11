@@ -22,8 +22,8 @@ export default function SeatSelection() {
   };
 
   const seatStyle = {
-    width: '20px', // Adjust the width as needed
-    height: '20px', // Adjust the height as needed
+    width: '30px', // Adjust the width as needed
+    height: '30px', // Adjust the height as needed
     fontSize: '10px', // Adjust the font size as needed
   };
 

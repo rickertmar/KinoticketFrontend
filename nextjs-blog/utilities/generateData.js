@@ -4,7 +4,7 @@ function generateJsonData() {
 
   for (let seatRowCharCode = 'A'.charCodeAt(0); seatRowCharCode <= 'U'.charCodeAt(0); seatRowCharCode++) {
     const seatRow = String.fromCharCode(seatRowCharCode);
-    for (let number = 1; number <= 30; number++) {
+    for (let number = 1; number <= 17; number++) {
       let xloc;
       if (number <= 14) {
         xloc = number * 3; // Seats 1 to 14
