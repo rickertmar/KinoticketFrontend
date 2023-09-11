@@ -1,36 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-function Seat({ id, number, seatRow, isAvailable, selected, onClick, xloc, yloc }) {
-  const style = {
-    position: 'relative',
-    left: `${xloc}px`,
-    top: `${yloc}px`,
-    width: '20px', // Adjust the width as needed
-    height: '20px', // Adjust the height as needed
-    fontSize: '10px', // Adjust the font size as needed
-  };
-
-  return (
-    <div
-      onClick={() => {
-        if (isAvailable) {
-          onClick(id);
-        }
-      }}
-      style={style}
-      className={`p-1 border ${
-        isAvailable
-          ? selected
-            ? 'bg-red-500 text-white cursor-not-allowed'
-            : 'bg-green-500 text-white cursor-pointer hover:bg-green-600'
-          : 'bg-gray-300 text-gray-600 cursor-not-allowed'
-      } rounded-lg text-center`}
-    >
-      {number}
-    </div>
-  );
-}
-
 export default function SeatSelection() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatsData, setSeatsData] = useState([]);
@@ -52,66 +21,104 @@ export default function SeatSelection() {
     }
   };
 
-  const groupSeatsByRow = (seatsData) => {
-    const groupedSeats = {};
-    seatsData.forEach((seat) => {
-      if (!groupedSeats[seat.seatRow]) {
-        groupedSeats[seat.seatRow] = [];
-      }
-      groupedSeats[seat.seatRow].push(seat);
-    });
-    return groupedSeats;
+  const seatStyle = {
+    width: '20px', // Adjust the width as needed
+    height: '20px', // Adjust the height as needed
+    fontSize: '10px', // Adjust the font size as needed
   };
 
-  const renderSeatsByRow = (groupedSeats) => {
-    const rowLabels = Object.keys(groupedSeats); // Get all row labels
-    const maxRowLength = Math.max(...rowLabels.map((row) => groupedSeats[row].length));
-    const numRows = rowLabels.length;
-
-    // Reduce the number of columns to 12
-    const numCols = 12; // Reducing the number of columns to 12
-
-    return (
-      <div className="relative">
-        <div className={`grid grid-cols-${numCols} gap-2`}>{/* Reduce the number of columns */}
-          {rowLabels.map((row, index) => (
-            <React.Fragment key={row}>
-              <div className="flex justify-start items-center">
-                <h3 className="text-lg font-semibold mr-2">{row}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {groupedSeats[row].map((seat) => (
-                    <Seat
-                      key={seat.id}
-                      id={seat.id}
-                      number={seat.number}
-                      seatRow={seat.seatRow}
-                      isAvailable={seat.blocked ? false : true}
-                      selected={selectedSeats.includes(seat.id)}
-                      onClick={toggleSeat}
-                      xloc={seat.xloc}
-                      yloc={seat.yloc}
-                    />
-                  ))}
-                </div>
-              </div>
-             
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-    );
+  const screenStyle = {
+    backgroundColor: 'black',
+    height: '20px',
   };
 
-  const groupedSeats = groupSeatsByRow(seatsData);
   return (
     <div className="bg-gray-200 min-h-screen flex justify-center items-center">
-      <div className="bg-white p-16 rounded-lg shadow-md" style={{ width: '95%', height: '80%' }}>
-        <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
-        <div className="mb-4">
-          {/* Spacer with width */}
-          <div className="w-5" />
+      <div className="bg-white p-4 md:p-8 rounded-lg shadow-md w-full max-w-4xl">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Select Your Seats</h2>
+        <div className="bg-black h-5 mb-4">
+          <div className="text-white text-center">Screen</div>
+        </div> {/* Black screen */}
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <tbody>
+              {Array.from({ length: 21 }, (_, rowIndex) => (
+                <>
+                  <tr key={rowIndex}>
+                    <th className="text-right pr-2">{String.fromCharCode(65 + rowIndex)}</th>
+                    {Array.from({ length: 10 }, (_, seatIndex) => {
+                      const seat = seatsData.find(
+                        (seat) => seat.seatRow === String.fromCharCode(65 + rowIndex) && seat.number === seatIndex + 1
+                      );
+
+                      const isAvailable = seat ? !seat.blocked : false;
+
+                      return (
+                        <td key={seatIndex} className="p-2">
+                          {seat && (
+                            <div
+                              style={{
+                                ...seatStyle,
+                                cursor: isAvailable ? 'pointer' : 'not-allowed',
+                                backgroundColor: isAvailable ? (selectedSeats.includes(seat.id) ? 'red' : 'green') : 'gray',
+                                color: 'white',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'relative', 
+                              }}
+                              className={`border rounded-lg text-center`}
+                              onClick={() => toggleSeat(seat.id)}
+                            >
+                              {seat.number}
+                            </div>
+                          )}
+                        </td>
+                      );
+                    })}
+                    <td className="w-5"></td>
+                    {Array.from({ length: 10 }, (_, seatIndex) => {
+                      const seat = seatsData.find(
+                        (seat) => seat.seatRow === String.fromCharCode(65 + rowIndex) && seat.number === seatIndex + 11
+                      );
+
+                      const isAvailable = seat ? !seat.blocked : false;
+
+                      return (
+                        <td key={seatIndex + 10} className="p-2">
+                          {seat && (
+                            <div
+                              style={{
+                                ...seatStyle,
+                                cursor: isAvailable ? 'pointer' : 'not-allowed',
+                                backgroundColor: isAvailable ? (selectedSeats.includes(seat.id) ? 'red' : 'green') : 'gray',
+                                color: 'white',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'relative', 
+                              }}
+                              className={`border rounded-lg text-center`}
+                              onClick={() => toggleSeat(seat.id)}
+                            >
+                              {seat.number === 11 ? 11 : seat.number}
+                            </div>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                  {/*Walkway: empty row between J and K */}
+                  {String.fromCharCode(65 + rowIndex) === 'J' && (
+                    <tr key={`empty-row-${rowIndex}`}>
+                      <td colSpan="21" className="h-5"></td>
+                    </tr>
+                  )}
+                </>
+              ))}
+            </tbody>
+          </table>
         </div>
-        {renderSeatsByRow(groupedSeats)}
         <div className="mt-4">
           <p className="text-gray-600">
             Selected Seats: {selectedSeats.map((seatId) => {
