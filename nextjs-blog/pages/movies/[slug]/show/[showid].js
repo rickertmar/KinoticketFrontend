@@ -103,28 +103,24 @@ export default function SeatSelection() {
   };
 
   const groupedSeats = groupSeatsByRow(seatsData);
-
   return (
-    <div className="bg-gray-200 min-h-screen flex flex-col justify-center items-center">
-    <h2 className="text-2xl font-semibold mb-4">Select Your Seats</h2>
-    <div className="bg-white p-16 rounded-lg shadow-md" style={{ width: '90%', height: '80%'}}>
-
-      <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
-      <div className="mb-4">
-        {/* Spacer with width */}
-        <div className="w-5" />
-        
-      </div>
-      {renderSeatsByRow(groupedSeats)}
-      <div className="mt-4">
-        <p className="text-gray-600">
-          Selected Seats: {selectedSeats.map((seatId) => {
-            const seat = seatsData.find((seat) => seat.id === seatId);
-            return `${seat.seatRow.toUpperCase()} ${seat.number}`;
-          }).join(', ')}
-        </p>
+    <div className="bg-gray-200 min-h-screen flex justify-center items-center">
+      <div className="bg-white p-16 rounded-lg shadow-md" style={{ width: '95%', height: '80%' }}>
+        <div className="w-full h-8 bg-black flex justify-center items-center text-white">Screen</div>
+        <div className="mb-4">
+          {/* Spacer with width */}
+          <div className="w-5" />
+        </div>
+        {renderSeatsByRow(groupedSeats)}
+        <div className="mt-4">
+          <p className="text-gray-600">
+            Selected Seats: {selectedSeats.map((seatId) => {
+              const seat = seatsData.find((seat) => seat.id === seatId);
+              return `${seat.seatRow.toUpperCase()} ${seat.number}`;
+            }).join(', ')}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
   );
 }
