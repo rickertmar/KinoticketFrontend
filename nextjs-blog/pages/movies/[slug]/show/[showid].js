@@ -28,17 +28,23 @@ export default function SeatSelection() {
   };
 
   const screenStyle = {
-    backgroundColor: 'black',
+    backgroundColor: 'white', // Set to the same background color as the surrounding area
     height: '20px',
+    marginTop: '10px', // Adjust the margin to create space between Row A and the screen
   };
 
   return (
     <div className="bg-gray-200 min-h-screen flex justify-center items-center">
       <div className="bg-white p-4 md:p-8 rounded-lg shadow-md w-full max-w-4xl">
         <h2 className="text-2xl font-semibold mb-4 text-center">Select Your Seats</h2>
-        <div className="bg-black h-5 mb-4">
-          <div className="text-white text-center">Screen</div>
-        </div> {/* Black screen */}
+        <div className="bg-black h-5">
+          <div className="text-white text-center">Screen
+
+          </div>
+          </div> 
+        <div style={screenStyle} className="mb-4">
+          
+        </div> 
         <div className="overflow-x-auto">
           <table className="w-full">
             <tbody>
