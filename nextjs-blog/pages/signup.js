@@ -18,7 +18,7 @@ export default function signup(){
       setSending(true);
   
       // Make API request to authenticate
-        axios.post('/api/auth/register', {email, password, firstName, lastName}, {headers:{ 'Content-Type': 'application/json'}})
+        axios.post(process.env.API_URL+'/auth/register', {email, password, firstName, lastName}, {headers:{ 'Content-Type': 'application/json'}})
         .then(function (response){
           const { access_token, refresh_token } = response.data;
           Cookies.set('access_token', access_token)

@@ -16,7 +16,7 @@ function ProfilePage() {
 
       // Simulate an Axios request to fetch user data
       // Replace the URL with your actual API endpoint
-      axios.get('/api/users')
+      axios.get(process.env.API_URL+'/users')
         .then(response => {
           setUserData(response.data);
         })
