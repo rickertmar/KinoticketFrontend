@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/:path*",
+        "destination": "http://kinoticket.azurewebsites.net/:path*"
+      }
+    ]
+  }
+  
