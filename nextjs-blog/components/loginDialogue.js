@@ -23,7 +23,7 @@ export default function LoginDialouge({ open, setOpen }) {
     e.preventDefault();
     setSending(true);
     setCredentials(true);
-      axios.post('/api/auth/authenticate', {email, password}, {headers:{ 'Content-Type': 'application/json'}})
+      axios.post(process.env.API_URL + '/auth/authenticate', {email, password}, {headers:{ 'Content-Type': 'application/json'}})
       .then(function (response){
         const { access_token, refresh_token } = response.data;
         Cookies.set('access_token', access_token)
