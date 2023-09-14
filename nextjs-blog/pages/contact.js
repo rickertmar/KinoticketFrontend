@@ -52,8 +52,8 @@ export default function Contact() {
 
   return (
 
-    <div className="mt-5 flex justify-center items-center">
-      <div className='bg-primary-20 px-20 py-5'>
+    <div className="flex justify-center items-center bg-primary-30">
+      <div className='mt-10 px-20 py-5'>
         <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-accent-50">Contact Us</h2>
           <p className="text-lg">Feel free to reach out to us!</p>
