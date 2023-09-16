@@ -6,6 +6,7 @@ import Link from 'next/link'
 import LoginDialouge from './loginDialogue';
 import { Fragment } from 'react'
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const navigation = [
   { name: 'Program', href: '/', current: false },
@@ -108,9 +109,16 @@ export default function Navbar({isAuthenticated}) {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
+                            href=""
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                            onClick={() => {Cookies.remove('access_token'); Cookies.remove('refresh_token');}}
-                            href="/"
+                            onClick={() => {axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`; axios.post(process.env.API_URL + '/auth/logout', {headers:{ 'Content-Type': 'application/json'}})
+                            .then(function (){
+                              console.log("test")
+                              Cookies.remove('access_token')
+                              Cookies.remove('refresh_token')
+                              router.push("/")
+                            })
+                          }}
                           >
                             Sign out
                           </Link>
