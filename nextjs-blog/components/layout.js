@@ -31,8 +31,13 @@ export default function Layout({ children }) {
     <div className='font-nunito dark:bg-primary-10 bg-fixed bg-primary-40'>
       <Navbar isAuthenticated={isAuthenticated}/>
       <div className='flex flex-row justify-center'>
+<<<<<<< Updated upstream
         <LeftSidebar className="hidden"></LeftSidebar>
         <main className="min-h-screen max-w-7xl mx-5">{children}</main>
+=======
+        <LeftSidebar ></LeftSidebar>
+        <main className="min-h-screen w-full md:w-4/6 mx-5">{children}</main>
+>>>>>>> Stashed changes
         <RightSidebar></RightSidebar>
       </div>
       
