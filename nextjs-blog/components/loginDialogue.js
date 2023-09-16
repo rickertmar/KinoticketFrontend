@@ -14,7 +14,7 @@ export default function LoginDialouge({ open, setOpen }) {
   const router = useRouter();
   const close = () =>{
     setCredentials(true);
-    setOpen();
+    setOpen(false);
     setSending(false);
     setEmail("")
     setPassword("")

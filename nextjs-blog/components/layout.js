@@ -33,6 +33,7 @@ export default function Layout({ children }) {
       <div className='flex flex-row justify-center'>
         <LeftSidebar ></LeftSidebar>
         <main className="min-h-screen sm:w-4/6 w-11/12 mx-5">{children}</main>
+
         <RightSidebar></RightSidebar>
       </div>
       
