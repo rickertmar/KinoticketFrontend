@@ -118,14 +118,14 @@ export default function Movies() {
               <div className='flex flex-row mt-2 ml-2 gap-x-4 flex-nowrap overflow-x-scroll pb-5 scroll-smooth'>
                 {uniqueDates.map((date) =>(
                     <div className='flex flex-col text-white bg-primary-30 p-4 rounded-xl' key={date}>
-                      <p className='text-lg font-semibold bg-primary-20 w-fit py-1 px-2 rounded-xl '>
-                        Today/Tomorrow... : {date}
+                      <p className='md:text-lg text-base font-semibold bg-primary-20 w-fit py-1 px-2 rounded-xl '>
+                        Today... : {date}
                       </p>
                       <div className='flex flex-row mt-4 gap-x-2'>
                         {movie.showings.filter((item) => item.date === date).map((item)=>(
                           <Link href={router.query.slug + "/show/" + item.id}>
-                            <div className='flex flex-col gap-y-20 text-center bg-accent-30 p-3 hover:bg-accent-40 rounded-md' key={item.id}>
-                              <p className='text-4xl'>
+                            <div className='flex flex-col md:gap-y-20 gap-y-10 text-center bg-accent-30 p-3 hover:bg-accent-40 rounded-md' key={item.id}>
+                              <p className='md:text-4xl text-3xl'>
                                 {item.time}
                               </p>
                               <p className='text-base'>
