@@ -31,9 +31,9 @@ export default function Layout({ children }) {
     <div className='font-nunito dark:bg-primary-10 bg-fixed bg-primary-40'>
       <Navbar isAuthenticated={isAuthenticated}/>
       <div className='flex flex-row justify-center'>
-
         <LeftSidebar ></LeftSidebar>
-        <main className="min-h-screen w-full md:w-4/6 mx-5">{children}</main>
+        <main className="min-h-screen sm:w-4/6 w-11/12 mx-5">{children}</main>
+
         <RightSidebar></RightSidebar>
       </div>
       

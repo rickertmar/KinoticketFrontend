@@ -82,12 +82,12 @@ export default function Movies() {
         />
       </Head>
         <main className='bg-primary-20 mt-5'>
-          <div className='flex flex-row flex-nowrap max-w-7xl'>
-            <img src={movie.imageSrc} alt="" className="h-auto w-[30rem]"/>
+          <div className='flex xl:flex-row flex-col max-w-7xl'>
+              <img src={movie.imageSrc} alt="" className=" h-[15rem] xl:h-[55rem] w-full object-cover"/>
             <div className='flex flex-col px-5 mt-10 flex-nowrap w-full overflow-x-scroll no-scrollbar'>
               <h1 className='text-white text-6xl font-semibold'>{movie.name}</h1>
              
-              <div className='flex flex-row mt-4 gap-x-2 text-neutral-100'>
+              <div className='flex flex-row flex-wrap mt-4 gap-x-2 gap-y-2 text-neutral-100'>
                 <div className='flex flex-row items-center bg-primary-30 px-2 py-1 rounded-2xl '>
                   <PlayIcon className='h-5 w-5'/>
                   <div className='text-sm ml-1'>{movie.runningWeek}. Woche</div>
@@ -122,14 +122,14 @@ export default function Movies() {
               <div className='flex flex-row mt-2 ml-2 gap-x-4 flex-nowrap overflow-x-scroll pb-5 scroll-smooth'>
                 {uniqueDates.map((date) =>(
                     <div className='flex flex-col text-white bg-primary-30 p-4 rounded-xl' key={date}>
-                      <p className='text-lg font-semibold bg-primary-20 w-fit py-1 px-2 rounded-xl '>
-                        Today/Tomorrow... : {date}
+                      <p className='md:text-lg text-base font-semibold bg-primary-20 w-fit py-1 px-2 rounded-xl '>
+                        Today... : {date}
                       </p>
                       <div className='flex flex-row mt-4 gap-x-2'>
                         {movie.showings.filter((item) => item.date === date).map((item)=>(
                           <Link href={router.query.slug + "/show/" + item.id}>
-                            <div className='flex flex-col gap-y-20 text-center bg-accent-30 p-3 hover:bg-accent-40 rounded-md' key={item.id}>
-                              <p className='text-4xl'>
+                            <div className='flex flex-col md:gap-y-20 gap-y-10 text-center bg-accent-30 p-3 hover:bg-accent-40 rounded-md' key={item.id}>
+                              <p className='md:text-4xl text-3xl'>
                                 {item.time}
                               </p>
                               <p className='text-base'>
