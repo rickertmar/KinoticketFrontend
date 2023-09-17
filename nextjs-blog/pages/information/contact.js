@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Head from 'next/head';
 
 export default function Contact() {
   const [selectedTopic, setSelectedTopic] = useState('');
@@ -53,6 +54,10 @@ export default function Contact() {
   return (
 
     <div className="flex justify-center items-center bg-primary-30">
+      <Head>
+        <title>Contact Us - DHBW Kino</title>
+        <meta name="description" content="Contact us with your questions, feedback, or complaints. We're here to assist you!" />
+      </Head>
       <div className='mt-10 px-20 py-5'>
         <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-accent-50">Contact Us</h2>
