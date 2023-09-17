@@ -5,8 +5,33 @@ import React, { useEffect, useState } from 'react';
 export default function ConfirmationPage() {
   const router = useRouter();
   const { selectedSeats, ticketTypes, showid, slug } = router.query;
-  const [movie, setMovie] = useState(null);
-  const [showTime, setShowTime] = useState('N/A');
+  const ticketTypeToNumericPrice = (type) => {
+    switch (type) {
+      case 'Student':
+        return 8;
+      case 'Child':
+        return 6;
+      case 'Regular':
+        return 10;
+      default:
+        return 0;
+    }
+  };
+  const calculateTotalPrice = () => {
+    return Object.values(parsedTicketTypes).reduce((sum, type) => sum + ticketTypeToNumericPrice(type), 0);
+  };
+  const ticketTypeToPrice = (type) => {
+    switch (type) {
+      case 'Student':
+        return '8€';
+      case 'Child':
+        return '6€';
+      case 'Regular':
+        return '10€';
+      default:
+        return 'Unknown Price';
+    }
+  };
   const formatSlugToTitle = (slug) => {
     return slug
       .split('-')
@@ -52,44 +77,47 @@ export default function ConfirmationPage() {
       <Head>
         <title>Payment Page</title>
       </Head>
-      <main style={{ backgroundColor: '#EBEBEB' }} className="mt-5">
-        <div className="flex flex-row flex-nowrap max-w-7xl mx-auto p-6">
+      <main className="bg-primary-20 mt-5 text-white">
+        <div className="flex flex-row flex-nowrap max-w-7xl mx-auto p-6 text-white">
           <div className="flex flex-col w-full">
-            <h2 style={{ color: '#2D3339' }} className="text-3xl font-semibold mb-4 text-center w-full">
+            <h2 className="text-3xl font-semibold mb-4 text-center w-full">
               Payment for Movie: {slug ? formatSlugToTitle(slug) : 'Unknown Movie'}
               <div>
-                Showtime: {showTime}
+                Showtime: N/A
               </div>
             </h2>
             <div className="mb-4 w-full">
-              <h3 style={{ color: '#2D3339' }} className="text-xl font-bold mb-2">Selected Seats and Types</h3>
+              <h3 className="text-xl font-bold mb-2">
+                Selected Seats and Types
+              </h3>
               <ul>
                 {parsedSeats.map((seatId, index) => (
                   <li key={index}>
-                    {seatIdToInfo[seatId] ?
-                      `Seat ${seatIdToInfo[seatId].seatRow}${seatIdToInfo[seatId].number}: ${parsedTicketTypes[seatId] || 'Unknown Type'}` :
-                      `Seat ID ${seatId}: ${parsedTicketTypes[seatId] || 'Unknown Type'}`
+                    {seatIdToInfo[seatId]
+                      ? `Seat ${seatIdToInfo[seatId].seatRow}${seatIdToInfo[seatId].number}: ${parsedTicketTypes[seatId] || 'Unknown Type'} - ${ticketTypeToPrice(parsedTicketTypes[seatId])}`
+                      : `Seat ID ${seatId}: ${parsedTicketTypes[seatId] || 'Unknown Type'} - ${ticketTypeToPrice(parsedTicketTypes[seatId])}`
                     }
                   </li>
                 ))}
               </ul>
+              <br />
+              <div>
+                Total Price: {calculateTotalPrice()}€
+              </div>
             </div>
-
-            {/* Payment form */}
+  
             <div className="mb-4 w-full flex justify-between flex-wrap">
               <form onSubmit={handlePaymentSubmit} className="w-full">
                 <button
                   type="submit"
-                  style={{ backgroundColor: '#90DDF0', color: '#2D3339' }}
-                  className="transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg mb-4"
+                  className="transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg mb-4 bg-accent-40"
                 >
                   Submit Payment
                 </button>
               </form>
               <button
                 onClick={handleCancel}
-                style={{ backgroundColor: '#FF8383', color: '#2D3339' }}
-                className="transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg mb-4"
+                className="transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg mb-4 bg-red-400"
               >
                 Cancel
               </button>
@@ -99,4 +127,4 @@ export default function ConfirmationPage() {
       </main>
     </>
   );
-}
+}  
