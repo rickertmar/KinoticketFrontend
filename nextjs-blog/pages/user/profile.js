@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Head from 'next/head';
 
 function ProfilePage() {
   const [userData, setUserData] = useState(null);
@@ -39,6 +40,10 @@ function ProfilePage() {
 
   return (
     <div>
+       <Head>
+        <title>User Profile - DHBW Kino</title>
+        <meta name="description" content="View and manage your user profile on DHBW Kino. Check your email, first name, last name, and shipping address." />
+      </Head>
       <h1 className='text-white'>User Profile</h1>
       {userData ? (
         <div className='text-white'>

@@ -75,8 +75,12 @@ export default function Movies() {
     return (
       <>
         <Head>
-          <title>Kino {movie.name}</title>
-        </Head>
+        <title>{movie.name} - DHBW Kino</title>
+        <meta
+          name="description"
+          content={`Check out ${movie.name}, a ${movie.genres.join('/')} movie released in ${movie.releaseYear}.`}
+        />
+      </Head>
         <main className='bg-primary-20 mt-5'>
           <div className='flex flex-row flex-nowrap max-w-7xl'>
             <img src={movie.imageSrc} alt="" className="h-auto w-[30rem]"/>

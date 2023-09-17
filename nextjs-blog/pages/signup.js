@@ -4,6 +4,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import {useRouter} from 'next/router'
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Head from 'next/head';
 
 export default function signup(){
     const cancelButtonRef = useRef(null)
@@ -34,6 +35,10 @@ export default function signup(){
     };
     return(
         <>
+         <Head>
+                <title>Create an Account - DHBW Kino</title>
+                <meta name="description" content="Create your own account with DHBW Kino to enjoy a personalized experience." />
+            </Head>
         <div className="bg-primary-30 flex sm:flex-row  flex-col mt-5">
                 <img src='/CinemaScreen.png' alt="" className="object-cover w-full h-[20rem] sm:w-[20rem] md:w-[25rem] lg:w-[40rem] sm:h-[37rem]"/>
             <div className="flex flex-col w-full">

@@ -11,7 +11,7 @@ import axios from 'axios';
 const navigation = [
   { name: 'Program', href: '/', current: false },
   { name: 'Information', href: '/information', current: false },
-  { name: 'Contact', href: '/contact', current: false },
+  { name: 'Contact', href: '/information/contact', current: false },
 ];
 
 function classNames(...classes) {

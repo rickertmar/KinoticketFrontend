@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <div className="dark:bg-primary-20 bg-primary-30">
       <div className="mx-auto max-w-7xl pt-10 px-10 pb-10">
-        <div className="flex flex-row justify-between text-neutral-300">
+        <div className="flex flex-row flex-wrap justify-between text-neutral-300 gap-4">
           
           <div className="max-w-md flex flex-row items-center">
             <img className="h-16 w-auto" src="/DHBWKino.png" alt="DHBW Kino Icon"/>
@@ -13,9 +13,10 @@ export default function Footer() {
           <div className="pt-3 ">
             <p className="mb-2 text-md text-white font-semibold">Information</p>
             <ul className="flex flex-col gap-2">
+              <Link href="/information" className="hover:text-white ">General</Link>
               <Link href="#" className="hover:text-white ">Ticket Prices</Link>
               <Link href="#" className="hover:text-white ">Opening Hours and Directions</Link>
-              <Link href="#" className="hover:text-white ">Contact</Link>
+              <Link href="/information/contact" className="hover:text-white ">Contact</Link>
               <Link href="#" className="hover:text-white ">FAQ</Link>
             </ul>
           </div>
@@ -30,9 +31,9 @@ export default function Footer() {
           <div className="pt-3 ">
             <p className="mb-3 text-md text-white font-semibold">Legal</p>
             <ul className="flex flex-col gap-2">
-              <Link href="#" className="hover:text-white ">Imprint</Link>
-              <Link href="#" className="hover:text-white ">Privacy Policy</Link>
-              <Link href="#" className="hover:text-white ">Terms and Conditions</Link>
+              <Link href="/legal/imprint" className="hover:text-white ">Imprint</Link>
+              <Link href="/legal/privacy" className="hover:text-white ">Privacy Policy</Link>
+              <Link href="/legal/terms-and-conditions" className="hover:text-white ">Terms and Conditions</Link>
             </ul>
           </div>
          
