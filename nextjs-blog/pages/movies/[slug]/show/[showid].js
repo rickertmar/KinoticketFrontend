@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function SeatSelection() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatsData, setSeatsData] = useState([]);
+  const router = useRouter();
 
+  const navigateToTicketSelection = () => {
+    router.push({
+      pathname: `/movies/${router.query.slug}/show/${router.query.showid}/ticketselection`,
+      query: { selectedSeats: JSON.stringify(selectedSeats) }, 
+    });
+  };
+  
+  
   useEffect(() => {
     // Fetch the seat data from the JSON file
     fetch('/seatsData.json')
@@ -132,6 +142,13 @@ export default function SeatSelection() {
               return `${seat.seatRow.toUpperCase()} ${seat.number}`;
             }).join(', ')}
           </p>
+          <button 
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            disabled={selectedSeats.length === 0}
+            onClick={navigateToTicketSelection}
+          >
+            Proceed to Ticket Selection
+          </button>
         </div>
       </div>
     </div>
