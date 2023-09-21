@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Head from 'next/head';
 
 export default function Contact() {
   const [selectedTopic, setSelectedTopic] = useState('');
@@ -52,8 +53,12 @@ export default function Contact() {
 
   return (
 
-    <div className="mt-5 flex justify-center items-center">
-      <div className='bg-primary-20 px-20 py-5'>
+    <div className="flex justify-center items-center bg-primary-20 my-10">
+      <Head>
+        <title>Contact Us - DHBW Kino</title>
+        <meta name="description" content="Contact us with your questions, feedback, or complaints. We're here to assist you!" />
+      </Head>
+      <div className='mt-10 px-20 py-5'>
         <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-accent-50">Contact Us</h2>
           <p className="text-lg">Feel free to reach out to us!</p>
@@ -173,7 +178,7 @@ export default function Contact() {
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full py-3 px-4 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full py-3 px-4 bg-accent-30 text-white font-medium rounded-md hover:bg-accent-40 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               >
                 Send
               </button>

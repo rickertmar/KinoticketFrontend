@@ -9,6 +9,7 @@ module.exports = {
     fontFamily:{
       'nunito':['"nunito sans"', 'sans-serif'],
     },
+   
     extend: {
       colors:{
         'primary':{
@@ -25,6 +26,9 @@ module.exports = {
           40 : '#71aebd',
           50 : '#90ddf0',
         }, 
+      },
+      screens: {
+        'big': '1800px',
       },
     },
   },

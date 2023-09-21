@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Head from 'next/head';
 
 const movies = [
   {
@@ -155,25 +156,30 @@ function convertToSlug(inputString) {
   return slug;
 }
 
-export default function Example() {
+export default function indexPage() {
   return (
       <div className="flex flex-col justify-center items-center pb-10">
+        <Head>
+          <title>Movie Collection - DHBW Kino</title>
+          <meta name="description" content="Explore our diverse collection of movies. Find showtimes and book tickets online." />
+        </Head>
+
       <h1 className='w-fit text-white font-semibold text-4xl mt-10'> OUR MOVIE COLLECTION</h1>
         <div className="mt-6 gap-y-10 gap-x-6 flex flex-row flex-shrink-0 flex-wrap w-[18rem] md:w-[38rem] lg:w-[57rem] xl:w-[77rem]">
           
           {movies.map((movie) => (
             <div key={movie.id} className="shrink-0 dark:bg-primary-20 bg-primary-30 rounded p-2 w-[18rem] shadow-lg dark:shadow-black shadow-neutral-800 overflow-hidden max-w-fit">
               <div className="h-20 pl-2 flex flex-col justify-center">
-                  <h3 className="text-2xl text-white font-semibold">
+                  <h2 className="text-2xl text-white font-semibold">
                     {movie.name}
-                  </h3>
+                  </h2>
               </div>
               <Link href={"movies/" + convertToSlug(movie.name)}>
                 <div className="overflow-hidden bg-gray-200 hover:opacity-75">
                   <img
                     src={movie.imageSrc}
                     alt=""
-                    className="h-full w-full object-cover object-center lg:h-full lg:w-full hover:opacity-75"
+                    className="h-[25rem] w-full object-cover object-center hover:opacity-75"
                   />
                 </div>
               </Link>
