@@ -59,7 +59,7 @@ export default function ConfirmationPage() {
             <h2 className="text-3xl font-semibold mb-4 text-center w-full">
               Payment for Movie: {slug ? formatSlugToTitle(slug) : 'Unknown Movie'}
               <div>
-                Showtime: N/A
+                Showtime: 10.03.2023 - 19:00
               </div>
             </h2>
             <div className="mb-4 w-full">

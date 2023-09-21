@@ -2,7 +2,7 @@ import Head from "next/head";
 
 export default function Infos() {
   return (
-    <div className="bg-primary-20 dark:bg-primary-30">
+    <div className="bg-primary-20 my-10">
       <Head>
         <title>About Our Cinema - DHBW Kino</title>
         <meta name="description" content="Learn about our cinema located in Mannheim, Baden-Württemberg. Explore our theaters, features, and offerings." />

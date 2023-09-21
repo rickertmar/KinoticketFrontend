@@ -53,7 +53,7 @@ export default function Contact() {
 
   return (
 
-    <div className="flex justify-center items-center bg-primary-30">
+    <div className="flex justify-center items-center bg-primary-20 my-10">
       <Head>
         <title>Contact Us - DHBW Kino</title>
         <meta name="description" content="Contact us with your questions, feedback, or complaints. We're here to assist you!" />
@@ -178,7 +178,7 @@ export default function Contact() {
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full py-3 px-4 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full py-3 px-4 bg-accent-30 text-white font-medium rounded-md hover:bg-accent-40 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               >
                 Send
               </button>
