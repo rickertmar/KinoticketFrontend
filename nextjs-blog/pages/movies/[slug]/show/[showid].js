@@ -1,36 +1,6 @@
-<<<<<<< Updated upstream
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect, useState, useRef } from 'react';
+import {TransformWrapper, TransformComponent} from "react-zoom-pan-pinch";
 
-export default function SeatSelection() {
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [seatsData, setSeatsData] = useState([]);
-  const router = useRouter();
-
-  const navigateToTicketSelection = () => {
-    router.push({
-      pathname: `/movies/${router.query.slug}/show/${router.query.showid}/ticketselection`,
-      query: { selectedSeats: JSON.stringify(selectedSeats) }, 
-    });
-  };
-  
-  
-  useEffect(() => {
-    // Fetch the seat data from the JSON file
-    fetch('/seatsData.json')
-      .then((response) => response.json())
-      .then((data) => setSeatsData(data))
-      .catch((error) => console.error('Error fetching seat data:', error));
-  }, []);
-
-  const toggleSeat = (seatId) => {
-    const isSelected = selectedSeats.includes(seatId);
-    if (isSelected) {
-      setSelectedSeats(selectedSeats.filter((id) => id !== seatId));
-    } else {
-      setSelectedSeats([...selectedSeats, seatId]);
-=======
-import React, { useEffect, useState } from 'react';
 function generateJsonData() {
     const jsonData = [];
     let id = 1;
@@ -56,7 +26,6 @@ function generateJsonData() {
   
         jsonData.push(seatData);
       }
->>>>>>> Stashed changes
     }
   
     return jsonData;
@@ -95,8 +64,6 @@ function generateJsonData() {
     const cols = Math.max(...seatData.map(seat => seat.xloc));
     const rows = Math.max(...seatData.map(seat => seat.yloc));
     const [selectedSeats, setSelectedSeats] = useState([]);
-    
-    console.log(rows + "" + cols)
     function setDynamicColumns(cols) {
         document
           .querySelector('#seatsGrid')
@@ -120,58 +87,48 @@ function generateJsonData() {
     setDynamicRows(rows)
   })
     return (
-        <div className='mt-4'>
-            <div id="seatsGrid" className="grid text-white gap-2">
-                {seatData.map(seat => {
-                const gridRow = seat.yloc;
-                const gridColumn = seat.xloc;
-
-                return (
-                    <div className=''
-                    style={{
-                        gridRowStart: gridRow,
-                        gridColumnStart: gridColumn,
-                        }}
-                        key={seat.id}
-                        id={seat.id}>         
-                        <button className={selectedSeats.includes(seat.id)? 'bg-neutral-300 h-5 w-5  peer-checked:bg-neutral-700': "h-5 w-5 bg-neutral-700  disabled:bg-neutral-500"}
-                        onClick={(()=>toggleSeat(seat.id))}
-                        disabled={seat.blocked}
-                        >
-                            
-                        </button>
-                    </div>
-                    
-                
-                );
+      <div className='flex flex-col mt-10 items-center'>
+        <div className="cursor-default border-2 border-neutral-300">
+        <TransformWrapper initialScale={1} maxScale={1.5} minScale={0.95}>
+        <TransformComponent>
+          <div id="seatsGrid" className="grid text-white gap-2 cursor-default p-10 ">
+            {seatData.map((seat) => {
+              const gridRow = seat.yloc;
+              const gridColumn = seat.xloc;
+              return (
+                <div
+                  className='relative'
+                  style={{
+                    gridRowStart: gridRow,
+                    gridColumnStart: gridColumn,
+                  }}
+                  key={seat.id}
+                  id={seat.id}
+                >
+                  
+                  <button
+                    className={
+                      selectedSeats.includes(seat.id)
+                        ? 'bg-accent-50 h-2 w-2 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:h-5 xl:w-5'
+                        : 'h-2 w-2 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:h-5 xl:w-5 bg-neutral-400  disabled:bg-neutral-800'
+                    }
+                    onClick={() => toggleSeat(seat.id)}
+                    disabled={seat.blocked}
+                  ></button>
+                  {gridColumn === 1 && (
+                  <div className="text-white text-xs absolute right-8 top-[0.55rem] ">{seat.seatRow}</div>
+                )}
+                  </div>
+              );
             })}
-
-            </div>
+          </div>
+        </TransformComponent>
+          
+      </TransformWrapper>
         </div>
-<<<<<<< Updated upstream
-        <div className="mt-4">
-          <p className="text-gray-600">
-            Selected Seats: {selectedSeats.map((seatId) => {
-              const seat = seatsData.find((seat) => seat.id === seatId);
-              return `${seat.seatRow.toUpperCase()} ${seat.number}`;
-            }).join(', ')}
-          </p>
-          <button 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            disabled={selectedSeats.length === 0}
-            onClick={navigateToTicketSelection}
-          >
-            Proceed to Ticket Selection
-          </button>
-        </div>
-      </div>
+      
     </div>
-  );
-}
-=======
-     
     );
   }
   
   export default SeatGrid;
->>>>>>> Stashed changes
