@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
@@ -28,113 +29,126 @@ export default function SeatSelection() {
       setSelectedSeats(selectedSeats.filter((id) => id !== seatId));
     } else {
       setSelectedSeats([...selectedSeats, seatId]);
+=======
+import React, { useEffect, useState } from 'react';
+function generateJsonData() {
+    const jsonData = [];
+    let id = 1;
+    var xloc = 0
+    var yloc = 0
+    for (let seatRow = 1; seatRow <= 15; seatRow++) {
+        yloc+=0
+        xloc = 0
+      for (let number = 1; number <= 35; number++) {
+        xloc+=1
+        const blocked = Math.random() < 0.1;
+        if(seatRow >= 1 && seatRow <17 && number === 34){
+            xloc+=1
+        }
+        const seatData = {
+          id: id++,
+          seatRow,
+          number,
+          xloc,
+          yloc,
+          blocked,
+        };
+  
+        jsonData.push(seatData);
+      }
+>>>>>>> Stashed changes
     }
-  };
+  
+    return jsonData;
+  }
+  const seatData = generateJsonData()
+  function SeatGrid() {
+    /*
+    const seatData = [
+        {
+            "id": 1,
+            "seatRow": "A",
+            "number": 1,
+            "xloc": 1,
+            "yloc": 2,
+            "blocked": true
+        },
+        {
+            "id": 2,
+            "seatRow": "A",
+            "number": 2,
+            "xloc": 2,
+            "yloc": 2,
+            "blocked": true
+        },
+        {
+            "id": 3,
+            "seatRow": "A",
+            "number": 3,
+            "xloc": 3,
+            "yloc": 2,
+            "blocked": true
+        },
+    ]
+    */
 
-  const seatStyle = {
-    width: '30px', // Adjust the width as needed
-    height: '30px', // Adjust the height as needed
-    fontSize: '10px', // Adjust the font size as needed
-  };
+    const cols = Math.max(...seatData.map(seat => seat.xloc));
+    const rows = Math.max(...seatData.map(seat => seat.yloc));
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    
+    console.log(rows + "" + cols)
+    function setDynamicColumns(cols) {
+        document
+          .querySelector('#seatsGrid')
+          .style['grid-template-columns'] = `repeat(${cols}, minmax(0, 1fr))`
+      }
+    function setDynamicRows(rows) {
+    document
+        .querySelector('#seatsGrid')
+        .style['grid-template-rows'] = `repeat(${rows}, minmax(0, 1fr))`
+    }
+    const toggleSeat = (seatId) => {
+        const isSelected = selectedSeats.includes(seatId);
+        if (isSelected) {
+          setSelectedSeats(selectedSeats.filter((id) => id !== seatId));
+        } else {
+          setSelectedSeats([...selectedSeats, seatId]);
+        }
+      };
+  useEffect(()=>{
+    setDynamicColumns(cols)
+    setDynamicRows(rows)
+  })
+    return (
+        <div className='mt-4'>
+            <div id="seatsGrid" className="grid text-white gap-2">
+                {seatData.map(seat => {
+                const gridRow = seat.yloc;
+                const gridColumn = seat.xloc;
 
-  const screenStyle = {
-    backgroundColor: 'white', // Set to the same background color as the surrounding area
-    height: '20px',
-    marginTop: '10px', // Adjust the margin to create space between Row A and the screen
-  };
+                return (
+                    <div className=''
+                    style={{
+                        gridRowStart: gridRow,
+                        gridColumnStart: gridColumn,
+                        }}
+                        key={seat.id}
+                        id={seat.id}>         
+                        <button className={selectedSeats.includes(seat.id)? 'bg-neutral-300 h-5 w-5  peer-checked:bg-neutral-700': "h-5 w-5 bg-neutral-700  disabled:bg-neutral-500"}
+                        onClick={(()=>toggleSeat(seat.id))}
+                        disabled={seat.blocked}
+                        >
+                            
+                        </button>
+                    </div>
+                    
+                
+                );
+            })}
 
-  return (
-    <div className="bg-gray-200 min-h-screen flex justify-center items-center">
-      <div className="bg-white p-4 md:p-8 rounded-lg shadow-md w-full max-w-4xl">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Select Your Seats</h2>
-        <div className="bg-black h-5">
-          <div className="text-white text-center">Screen
-
-          </div>
-          </div> 
-        <div style={screenStyle} className="mb-4">
-          
-        </div> 
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <tbody>
-              {Array.from({ length: 21 }, (_, rowIndex) => (
-                <>
-                  <tr key={rowIndex}>
-                    <th className="text-right pr-2">{String.fromCharCode(65 + rowIndex)}</th>
-                    {Array.from({ length: 10 }, (_, seatIndex) => {
-                      const seat = seatsData.find(
-                        (seat) => seat.seatRow === String.fromCharCode(65 + rowIndex) && seat.number === seatIndex + 1
-                      );
-
-                      const isAvailable = seat ? !seat.blocked : false;
-
-                      return (
-                        <td key={seatIndex} className="p-2">
-                          {seat && (
-                            <div
-                              style={{
-                                ...seatStyle,
-                                cursor: isAvailable ? 'pointer' : 'not-allowed',
-                                backgroundColor: isAvailable ? (selectedSeats.includes(seat.id) ? 'red' : 'green') : 'gray',
-                                color: 'white',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                position: 'relative', 
-                              }}
-                              className={`border rounded-lg text-center`}
-                              onClick={() => toggleSeat(seat.id)}
-                            >
-                              {seat.number}
-                            </div>
-                          )}
-                        </td>
-                      );
-                    })}
-                    <td className="w-5"></td>
-                    {Array.from({ length: 10 }, (_, seatIndex) => {
-                      const seat = seatsData.find(
-                        (seat) => seat.seatRow === String.fromCharCode(65 + rowIndex) && seat.number === seatIndex + 11
-                      );
-
-                      const isAvailable = seat ? !seat.blocked : false;
-
-                      return (
-                        <td key={seatIndex + 10} className="p-2">
-                          {seat && (
-                            <div
-                              style={{
-                                ...seatStyle,
-                                cursor: isAvailable ? 'pointer' : 'not-allowed',
-                                backgroundColor: isAvailable ? (selectedSeats.includes(seat.id) ? 'red' : 'green') : 'gray',
-                                color: 'white',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                position: 'relative', 
-                              }}
-                              className={`border rounded-lg text-center`}
-                              onClick={() => toggleSeat(seat.id)}
-                            >
-                              {seat.number === 11 ? 11 : seat.number}
-                            </div>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                  {/*Walkway: empty row between J and K */}
-                  {String.fromCharCode(65 + rowIndex) === 'J' && (
-                    <tr key={`empty-row-${rowIndex}`}>
-                      <td colSpan="21" className="h-5"></td>
-                    </tr>
-                  )}
-                </>
-              ))}
-            </tbody>
-          </table>
+            </div>
         </div>
+<<<<<<< Updated upstream
         <div className="mt-4">
           <p className="text-gray-600">
             Selected Seats: {selectedSeats.map((seatId) => {
@@ -154,3 +168,10 @@ export default function SeatSelection() {
     </div>
   );
 }
+=======
+     
+    );
+  }
+  
+  export default SeatGrid;
+>>>>>>> Stashed changes
