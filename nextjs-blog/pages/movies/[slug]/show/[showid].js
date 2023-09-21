@@ -32,8 +32,8 @@ function generateJsonData() {
   }
   const seatData = generateJsonData()
   function SeatGrid() {
-    /*
-    const seatData = [
+    
+    /*const seatData = [
         {
             "id": 1,
             "seatRow": "A",
