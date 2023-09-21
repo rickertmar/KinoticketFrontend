@@ -4,42 +4,8 @@ import React, { useEffect, useState } from 'react';
 
 export default function ConfirmationPage() {
   const router = useRouter();
-  const { selectedSeats, ticketTypes, showid, slug } = router.query;
-  const ticketTypeToNumericPrice = (type) => {
-    switch (type) {
-      case 'Student':
-        return 8;
-      case 'Child':
-        return 6;
-      case 'Regular':
-        return 10;
-      default:
-        return 0;
-    }
-  };
-  const calculateTotalPrice = () => {
-    return Object.values(parsedTicketTypes).reduce((sum, type) => sum + ticketTypeToNumericPrice(type), 0);
-  };
-  const ticketTypeToPrice = (type) => {
-    switch (type) {
-      case 'Student':
-        return '8€';
-      case 'Child':
-        return '6€';
-      case 'Regular':
-        return '10€';
-      default:
-        return 'Unknown Price';
-    }
-  };
-  const formatSlugToTitle = (slug) => {
-    return slug
-      .split('-')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
+  const { totalSeats, ticketTypes, totalPrice, showid, slug, selectedSeats } = router.query;
   const [parsedSeats, setParsedSeats] = useState([]);
-  const [parsedTicketTypes, setParsedTicketTypes] = useState({});
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
 
   useEffect(() => {
@@ -58,10 +24,15 @@ export default function ConfirmationPage() {
     if (selectedSeats) {
       setParsedSeats(JSON.parse(selectedSeats));
     }
-    if (ticketTypes) {
-      setParsedTicketTypes(JSON.parse(ticketTypes));
-    }
-  }, [selectedSeats, ticketTypes]);
+  }, [selectedSeats]);
+
+
+  const formatSlugToTitle = (slug) => {
+    return slug
+      .split('-')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
 
   const handlePaymentSubmit = () => {
     alert('Payment submitted');
@@ -71,6 +42,11 @@ export default function ConfirmationPage() {
   const handleCancel = () => {
     router.back();
   };
+
+  const formattedSeats = parsedSeats.map((seatId) => {
+    const info = seatIdToInfo[seatId];
+    return info ? `${info.seatRow}${info.number}` : seatId;
+  }).join(', ');
 
   return (
     <>
@@ -83,26 +59,23 @@ export default function ConfirmationPage() {
             <h2 className="text-3xl font-semibold mb-4 text-center w-full">
               Payment for Movie: {slug ? formatSlugToTitle(slug) : 'Unknown Movie'}
               <div>
-                Showtime: N/A
+                Showtime: 10.03.2023 - 19:00
               </div>
             </h2>
             <div className="mb-4 w-full">
               <h3 className="text-xl font-bold mb-2">
                 Selected Seats and Types
               </h3>
-              <ul>
-                {parsedSeats.map((seatId, index) => (
-                  <li key={index}>
-                    {seatIdToInfo[seatId]
-                      ? `Seat ${seatIdToInfo[seatId].seatRow}${seatIdToInfo[seatId].number}: ${parsedTicketTypes[seatId] || 'Unknown Type'} - ${ticketTypeToPrice(parsedTicketTypes[seatId])}`
-                      : `Seat ID ${seatId}: ${parsedTicketTypes[seatId] || 'Unknown Type'} - ${ticketTypeToPrice(parsedTicketTypes[seatId])}`
-                    }
-                  </li>
-                ))}
-              </ul>
-              <br />
               <div>
-                Total Price: {calculateTotalPrice()}€
+                Total Seats: {totalSeats} - {formattedSeats}
+              </div>
+              <div>
+                Regular: {ticketTypes ? JSON.parse(ticketTypes).Regular : 0}, 
+                Student: {ticketTypes ? JSON.parse(ticketTypes).Student : 0}, 
+                Child: {ticketTypes ? JSON.parse(ticketTypes).Child : 0}
+              </div>
+              <div>
+                Total Price: {totalPrice}€
               </div>
             </div>
   
@@ -127,4 +100,4 @@ export default function ConfirmationPage() {
       </main>
     </>
   );
-}  
+}

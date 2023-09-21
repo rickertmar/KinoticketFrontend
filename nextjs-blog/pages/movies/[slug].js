@@ -82,8 +82,8 @@ export default function Movies() {
         />
       </Head>
         <main className='bg-primary-20 mt-5'>
-          <div className='flex xl:flex-row flex-col max-w-7xl'>
-              <img src={movie.imageSrc} alt="" className=" h-[15rem] xl:h-[55rem] w-full object-cover"/>
+          <div className='flex 2xl:flex-row flex-col max-w-7xl'>
+              <img src={movie.imageSrc} alt="" className=" h-[15rem] 2xl:h-[55rem] w-full object-cover"/>
             <div className='flex flex-col px-5 mt-10 flex-nowrap w-full overflow-x-scroll no-scrollbar'>
               <h1 className='text-white text-6xl font-semibold'>{movie.name}</h1>
              
