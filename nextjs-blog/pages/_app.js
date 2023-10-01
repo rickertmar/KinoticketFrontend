@@ -3,6 +3,7 @@ import Layout from "../components/layout";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 function parseJwt(token) {
     if (!token) { return; }
@@ -27,7 +28,8 @@ export default function MyApp({ Component, pageProps }) {
                 setRole(authjwt.ROLE)
             }else{
                 if(refreshjwt.exp*1000 > Date.now()){
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${authjwt.access_token}`;
+
                     axios.post('/api/auth/refresh-token', {headers:{ 'Content-Type': 'application/json'}})
                     .then(function (response){
                         const { access_token, refresh_token } = response.data;
