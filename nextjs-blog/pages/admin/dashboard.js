@@ -98,7 +98,7 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 bg-gray-100 overflow-y-auto"> {/* Add overflow-y-auto to main content */}
+      <main className="flex-1 p-4 bg-primary-50 overflow-y-auto"> 
         {selectedItem === 'dashboard' && (
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>

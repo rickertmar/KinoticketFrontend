@@ -12,9 +12,8 @@ const UserManagement = () => {
       {/* Sidebar */}
       {/* ... (sidebar code remains the same) */}
 
-      {/* Main Content */}
-      <main className="flex-1 p-4 bg-gray-100">
-        <div className="flex flex-col items-center justify-center h-full">
+      <main className="flex-1 p-4 bg-primary-50 overflow-y-auto">
+        <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl font-semibold mb-4">User Management</h1>
           <div className="bg-white p-4 rounded-lg shadow-md w-full overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">

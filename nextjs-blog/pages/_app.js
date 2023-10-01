@@ -28,6 +28,7 @@ export default function MyApp({ Component, pageProps }) {
                 setRole(authjwt.ROLE)
             }else{
                 if(refreshjwt.exp*1000 > Date.now()){
+                    
                     axios.defaults.headers.common['Authorization'] = `Bearer ${authjwt.access_token}`;
 
                     axios.post('/api/auth/refresh-token', {headers:{ 'Content-Type': 'application/json'}})
