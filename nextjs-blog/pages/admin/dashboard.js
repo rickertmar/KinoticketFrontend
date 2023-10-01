@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import UserManagement from './users';
+import Movies from './movies';
+import Tickets from './ticket';
 
 const Dashboard = () => {
   const [selectedItem, setSelectedItem] = useState('dashboard'); 
@@ -8,12 +10,19 @@ const Dashboard = () => {
     setSelectedItem(item);
   };
 
+  const ticketSalesData = [
+    { month: 'January', ticketsSold: 100, revenue: 5000 },
+    { month: 'February', ticketsSold: 120, revenue: 6000 },
+    { month: 'March', ticketsSold: 80, revenue: 4000 },
+    // Add more data as needed
+  ];
+
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
       <aside className="bg-primary-20 text-white w-64">
         <div className="p-4">
-          <h1 className="text-2xl font-semibold mb-4">Cinema Admin</h1>
+          <h1 className="text-2xl font-semibold mb-4 text-accent-50">Cinema Admin</h1>
           <nav className="mt-6">
             <ul>
               <li className="mb-4">
@@ -103,12 +112,16 @@ const Dashboard = () => {
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
             <p>Welcome to the admin dashboard page.</p>
+            <div>
+              <Tickets data={ticketSalesData} />
+            </div>
           </div>
         )}
         {selectedItem === 'movies' && (
           // Insert your Movies component here
           <div>
             {/* Your Movies component JSX */}
+            <Movies setSelectedItem={setSelectedItem} />
           </div>
         )}
         {selectedItem === 'users' && (
