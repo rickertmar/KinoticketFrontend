@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserManagement from './users';
 import Movies from './movies';
 import Tickets from './ticket';
 
-const Dashboard = () => {
-  const [selectedItem, setSelectedItem] = useState('dashboard'); 
+const Dashboard = ({ isAuthenticated, role }) => {
+  const [selectedItem, setSelectedItem] = useState('dashboard');
+  const [showAccessDeniedMessage, setShowAccessDeniedMessage] = useState(false);
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
@@ -16,6 +17,15 @@ const Dashboard = () => {
     { month: 'March', ticketsSold: 80, revenue: 4000 },
     // Add more data as needed
   ];
+
+  useEffect(() => {
+    if (!isAuthenticated || role !== 'ADMIN') {
+      setShowAccessDeniedMessage(true);
+    } else {
+      setShowAccessDeniedMessage(false);
+    }
+  }, [isAuthenticated, role]);
+
 
   return (
     <div className="flex h-screen">
@@ -107,8 +117,13 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 bg-primary-50 overflow-y-auto"> 
-        {selectedItem === 'dashboard' && (
+      <main className="flex-1 p-4 bg-primary-50 overflow-y-auto">
+        {showAccessDeniedMessage && (
+          <div className="bg-red-500 text-white p-4 mb-4 rounded-md">
+            Access Denied! You do not have permission to access this page.
+          </div>
+        )}
+        {selectedItem === 'dashboard' && !showAccessDeniedMessage && (
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
             <p>Welcome to the admin dashboard page.</p>
@@ -117,15 +132,13 @@ const Dashboard = () => {
             </div>
           </div>
         )}
-        {selectedItem === 'movies' && (
-          // Insert your Movies component here
+        {selectedItem === 'movies' && !showAccessDeniedMessage && (
           <div>
             {/* Your Movies component JSX */}
             <Movies setSelectedItem={setSelectedItem} />
           </div>
         )}
-        {selectedItem === 'users' && (
-          // Render the UserManagement component here
+        {selectedItem === 'users' && !showAccessDeniedMessage && (
           <UserManagement />
         )}
         {/* Add more content components for other sidebar items */}
