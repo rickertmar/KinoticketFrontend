@@ -212,14 +212,15 @@ function SeatGrid() {
     setDynamicRows(rows);
   });
   return (
-    <div className="bg-primary-30 text-white flex flex-row mt-10">
-      <div className="bg-primary-20 cursor-default border-2 border-neutral-300 flex-grow-3">
-        <TransformWrapper initialScale={1} maxScale={1.5} minScale={0.95}>
-          <TransformComponent>
-            <div
-              id="seatsGrid"
-              className="grid text-white gap-2 cursor-default p-10 "
-            >
+    <div className="bg-primary-30 text-white mt-10">
+    <div className="flex flex-col md:flex-row w-full">
+    <div className="bg-primary-20 cursor-default border-2 border-neutral-300 flex-grow md:w-2/3 ">
+          <TransformWrapper initialScale={1} maxScale={1.5} minScale={0.95}>
+            <TransformComponent>
+              <div
+                id="seatsGrid"
+                className="grid text-white gap-2 cursor-default p-10 "
+              >
               {seatData.map((seat) => {
                 const gridRow = seat.yloc;
                 const gridColumn = seat.xloc;
@@ -236,12 +237,13 @@ function SeatGrid() {
                     <button
                       className={
                         selectedSeats.includes(seat.id)
-                          ? "bg-accent-40 h-2 w-2 md:h-3 md:w-3 lg:w-4 lg:h-4"
-                          : "h-2 w-2 md:h-3 md:w-3 lg:w-4 lg:h-4 bg-neutral-300  disabled:bg-primary-40"
+                          ? "sm:h-4 w-4 md:h-3 md:w-3 lg:w-4 lg:h-4 bg-accent-40"
+                          : "sm:h-4 w-4 md:h-3 md:w-3 lg:w-4 lg:h-4 bg-neutral-300 disabled:bg-primary-40"
                       }
                       onClick={() => toggleSeat(seat.id)}
                       disabled={seat.blocked}
                     ></button>
+
                     {gridColumn === 1 && (
                       <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
                         {seat.seatRow}
@@ -254,13 +256,12 @@ function SeatGrid() {
           </TransformComponent>
         </TransformWrapper>
       </div>
+      
       <>
-        <div className="flex flex-row flex-nowrap max-w-7xl p-6 justify-center items-center">
-          <div className="flex flex-col p-6 flex-grow-1">
-            <h2 className="text-3xl font-semibold mb-4 text-center w-full">
-              Select your ticket type
-            </h2>
-
+      <div className="flex flex-col justify-between p-6 flex-grow mt-8 mb-8 md:w-1/3 md:ml-4">
+        <h2 className="text-3xl md:text-xl font-semibold mb-4 text-center w-full">
+          Select your ticket type
+        </h2>
             {[
               { label: "Regular 10€", type: "Regular" },
               { label: "Student 8€", type: "Student" },
@@ -311,8 +312,8 @@ function SeatGrid() {
               </button>
             </div>
           </div>
-        </div>
       </>
+    </div>
     </div>
   );
 }
