@@ -241,8 +241,8 @@ function SeatGrid() {
                       <button
                         className={
                           selectedSeats.includes(seat.id)
-                            ? "h-4 w-4 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 big:w-7 big:h-7 bg-accent-40"
-                            : "h-4 w-4 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 big:w-7 big:h-7 bg-neutral-300 disabled:bg-primary-40"
+                            ? "h-3 w-3 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 big:w-7 big:h-7 bg-accent-40"
+                            : "h-3 w-3 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 big:w-7 big:h-7 bg-neutral-300 disabled:bg-primary-40"
                         }
                         onClick={() => toggleSeat(seat.id)}
                         disabled={seat.blocked}
