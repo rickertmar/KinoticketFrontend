@@ -212,56 +212,60 @@ function SeatGrid() {
     setDynamicRows(rows);
   });
   return (
-    <div className="bg-primary-30 text-white mt-10">
-    <div className="flex flex-col md:flex-row w-full">
-    <div className="bg-primary-20 cursor-default border-2 border-neutral-300 flex-grow md:w-2/3 ">
+    <div className="bg-primary-30 text-white mt-10 xl:text-2xl">
+      <div className="flex flex-col md:flex-row w-full">
+        <div className="bg-primary-20 cursor-default border-2 border-neutral-300 flex-grow md:w-2/3 ">
           <TransformWrapper initialScale={1} maxScale={1.5} minScale={0.95}>
             <TransformComponent>
               <div
                 id="seatsGrid"
-                className="grid text-white gap-2 cursor-default p-10 "
+                className="grid text-white cursor-default p-10"
+                style={{
+                  gap: "16px",
+                }}
               >
-              {seatData.map((seat) => {
-                const gridRow = seat.yloc;
-                const gridColumn = seat.xloc;
-                return (
-                  <div
-                    className="relative"
-                    style={{
-                      gridRowStart: gridRow,
-                      gridColumnStart: gridColumn,
-                    }}
-                    key={seat.id}
-                    id={seat.id}
-                  >
-                    <button
-                      className={
-                        selectedSeats.includes(seat.id)
-                          ? "sm:h-4 w-4 md:h-3 md:w-3 lg:w-4 lg:h-4 bg-accent-40"
-                          : "sm:h-4 w-4 md:h-3 md:w-3 lg:w-4 lg:h-4 bg-neutral-300 disabled:bg-primary-40"
-                      }
-                      onClick={() => toggleSeat(seat.id)}
-                      disabled={seat.blocked}
-                    ></button>
+                {seatData.map((seat) => {
+                  const gridRow = seat.yloc;
+                  const gridColumn = seat.xloc;
+                  return (
+                    <div
+                      className="relative"
+                      style={{
+                        gridRowStart: gridRow,
+                        gridColumnStart: gridColumn,
+                        gap: "25px",
+                      }}
+                      key={seat.id}
+                      id={seat.id}
+                    >
+                      <button
+                        className={
+                          selectedSeats.includes(seat.id)
+                            ? "h-4 w-4 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 big:w-7 big:h-7 bg-accent-40"
+                            : "h-4 w-4 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 big:w-7 big:h-7 bg-neutral-300 disabled:bg-primary-40"
+                        }
+                        onClick={() => toggleSeat(seat.id)}
+                        disabled={seat.blocked}
+                      ></button>
 
-                    {gridColumn === 1 && (
-                      <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
-                        {seat.seatRow}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </TransformComponent>
-        </TransformWrapper>
-      </div>
-      
-      <>
-      <div className="flex flex-col justify-between p-6 flex-grow mt-8 mb-8 md:w-1/3 md:ml-4">
-        <h2 className="text-3xl md:text-xl font-semibold mb-4 text-center w-full">
-          Select your ticket type
-        </h2>
+                      {gridColumn === 1 && (
+                        <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
+                          {seat.seatRow}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </TransformComponent>
+          </TransformWrapper>
+        </div>
+
+        <>
+          <div className="flex flex-col justify-between p-6 flex-grow mt-8 mb-8 md:w-1/3 md:ml-4">
+            <h2 className="text-3xl lg:text-2xl xl:text-4xl md:text-xl font-semibold mb-4 text-center w-full">
+              Select your ticket type
+            </h2>
             {[
               { label: "Regular 10€", type: "Regular" },
               { label: "Student 8€", type: "Student" },
@@ -312,8 +316,8 @@ function SeatGrid() {
               </button>
             </div>
           </div>
-      </>
-    </div>
+        </>
+      </div>
     </div>
   );
 }
