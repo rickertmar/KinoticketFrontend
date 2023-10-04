@@ -35,7 +35,7 @@ function generateJsonData() {
 const seatData = generateJsonData();
 function SeatGrid() {
   const router = useRouter();
-  
+
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [ticketTypes, setTicketTypes] = useState({
     Regular: selectedSeats.length,
@@ -179,8 +179,8 @@ function SeatGrid() {
 
   const cols = Math.max(...seatData.map((seat) => seat.xloc));
   const rows = Math.max(...seatData.map((seat) => seat.yloc));
-  
-  const {showid, slug } = router.query;
+
+  const { showid, slug } = router.query;
   const navigateToTicketSelection = () => {
     router.push({
       pathname: `/movies/${router.query.slug}/show/${router.query.showid}/ticketselection`,
@@ -293,7 +293,10 @@ function SeatGrid() {
             <div className="text-center w-full">
               <button
                 onClick={handlePayment}
-                className="transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg bg-accent-40"
+                disabled={selectedSeats.length === 0}
+                className={`transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg ${
+                  selectedSeats.length === 0 ? "bg-accent-20" : "bg-accent-40"
+                }`}
               >
                 Proceed to Payment
               </button>
