@@ -213,16 +213,14 @@ function SeatGrid() {
   });
   return (
     <div className="bg-primary-30 text-white mt-10 xl:text-2xl">
-      <div className="flex flex-col md:flex-row w-full">
-        <div className="bg-primary-20 cursor-default border-2 border-neutral-300 flex-grow md:w-2/3 ">
-          <TransformWrapper initialScale={1} maxScale={1.5} minScale={0.95}>
+    <div className="flex flex-col md:flex-row w-full">
+    <TransformWrapper initialScale={1} maxScale={1.5} minScale={0.95} doubleClick={false} >
+    <div className="bg-primary-20 cursor-default border-2 border-neutral-300 w-full justify-center items-center flex-grow md:w-2/3">
+
             <TransformComponent>
               <div
                 id="seatsGrid"
-                className="grid text-white cursor-default p-10"
-                style={{
-                  gap: "16px",
-                }}
+                className="grid text-white gap-2 cursor-default p-10"
               >
                 {seatData.map((seat) => {
                   const gridRow = seat.yloc;
@@ -248,24 +246,25 @@ function SeatGrid() {
                         disabled={seat.blocked}
                       ></button>
 
-                      {gridColumn === 1 && (
-                        <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
-                          {seat.seatRow}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </TransformComponent>
-          </TransformWrapper>
-        </div>
+                    {gridColumn === 1 && (
+                      <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
+                        {seat.seatRow}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+              
+          </TransformComponent>
 
-        <>
-          <div className="flex flex-col justify-between p-6 flex-grow mt-8 mb-8 md:w-1/3 md:ml-4">
-            <h2 className="text-3xl lg:text-2xl xl:text-4xl md:text-xl font-semibold mb-4 text-center w-full">
-              Select your ticket type
-            </h2>
+      </div>
+      </TransformWrapper>
+      <>
+      <div className="flex flex-col justify-between p-6 flex-grow mt-8 mb-8 md:w-1/3 md:ml-4">
+        <h2 className="text-3xl lg:text-2xl xl:text-4xl md:text-xl font-semibold mb-4 text-center w-full">
+          Select your ticket type
+        </h2>
             {[
               { label: "Regular 10€", type: "Regular" },
               { label: "Student 8€", type: "Student" },
