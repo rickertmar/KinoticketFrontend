@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UserManagement from './users';
 import Movies from './movies';
 import Tickets from './ticket';
+import Showing from './showing';
 
 const Dashboard = ({ isAuthenticated, role }) => {
   const [selectedItem, setSelectedItem] = useState('dashboard');
@@ -111,6 +112,31 @@ const Dashboard = ({ isAuthenticated, role }) => {
                 </a>
               </li>
               {/* Add more sidebar items as needed */}
+              <li className="mb-4">
+  <a
+    href="#"
+    onClick={() => handleItemClick('showing')}
+    className={`flex items-center text-white ${
+      selectedItem === 'showing' ? 'opacity-100' : 'opacity-75'
+    } hover:opacity-100 transition duration-300`}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6 mr-2"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M9 5l7 7-7 7"
+      />
+    </svg>
+    Showing
+  </a>
+</li>
             </ul>
           </nav>
         </div>
@@ -141,6 +167,13 @@ const Dashboard = ({ isAuthenticated, role }) => {
         {selectedItem === 'users' && !showAccessDeniedMessage && (
           <UserManagement />
         )}
+
+{selectedItem === 'showing' && !showAccessDeniedMessage && (
+  <div>
+    <Showing />
+  </div>
+)}
+
         {/* Add more content components for other sidebar items */}
       </main>
     </div>
