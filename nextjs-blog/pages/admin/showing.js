@@ -185,7 +185,7 @@ const Showing = () => {
           </form>
         </div>
 
-        // Display existing showings
+        
 <div className="mt-10">
   <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4">Existing Showings</h2>
   
