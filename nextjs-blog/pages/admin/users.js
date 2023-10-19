@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
+import Head from 'next/head';
 
 const initialUsers = [
-  { id: 1, name: 'John Doe', role: 'Admin', status: 'Active' },
+  { id: 1, name: 'John Doe', role: 'Worker', status: 'Active' },
   { id: 2, name: 'Jane Smith', role: 'User', status: 'Inactive' },
-  // Add more users as needed
+  { id: 3, name: 'Alice Johnson', role: 'User', status: 'Active' },
+  { id: 4, name: 'Bob Williams', role: 'Admin', status: 'Active' },
+  { id: 5, name: 'Carol Brown', role: 'User', status: 'Inactive' },
+  { id: 6, name: 'David Jones', role: 'Admin', status: 'Active' },
+  { id: 7, name: 'Ella Davis', role: 'Worker', status: 'Active' },
+  { id: 8, name: 'Frank Wilson', role: 'Admin', status: 'Inactive' },
+  { id: 9, name: 'Grace Lee', role: 'User', status: 'Active' },
+  { id: 10, name: 'Hank Miller', role: 'Admin', status: 'Active' },
+  { id: 11, name: 'Ivy Thomas', role: 'User', status: 'Inactive' },
+  { id: 12, name: 'Jack Anderson', role: 'Admin', status: 'Active' },
 ];
+
 
 const UserManagement = () => {
   const [users, setUsers] = useState(initialUsers);
@@ -14,69 +25,112 @@ const UserManagement = () => {
     setSelectedUser(user);
   };
 
-  const handleDeleteUser = () => {
-    if (selectedUser) {
-      // Filter out the selected user to delete it
-      const updatedUsers = users.filter((user) => user.id !== selectedUser.id);
-      // Update the users list
+  const handleDeleteUser = (userId) => {
+    const confirmDelete = window.confirm('Are you sure you would like to delete this user?');
+    if (confirmDelete) {
+      const updatedUsers = users.filter((user) => user.id !== userId);
       setUsers(updatedUsers);
-      // Deselect the deleted user
-      setSelectedUser(null);
+      if (selectedUser && selectedUser.id === userId) {
+        setSelectedUser(null);
+      }
     }
   };
+  
+  const handleChangeRole = (userId, newRole) => {
+    const confirmChangeRole = window.confirm('Are you sure you would like to assign Worker role to this user?');
+    if (confirmChangeRole) {
+      const updatedUsers = users.map((user) =>
+        user.id === userId ? { ...user, role: newRole } : user
+      );
+      setUsers(updatedUsers);
+    }
+  };
+  
 
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      {/* ... (sidebar code remains the same) */}
+    <div className="flex justify-center items-center">
+      <Head>
+        <title>User Management</title>
+        <meta name="description" content="Manage users of the application." />
+      </Head>
+      <div className="mt-10 px-20 py-5">
+        <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-accent-50">
+            User Management
+          </h2>
+        </div>
 
-      <main className="flex-1 p-4 bg-primary-50 overflow-y-auto">
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-semibold mb-4">User Management</h1>
-          <div className="p-4 rounded-lg shadow-md w-full overflow-x-auto">
-            <table className="min-w-full divide-y bg-primary-30">
+        <div className="mt-10">
+          <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4">
+            Existing Users
+          </h2>
+          {users.length > 0 ? (
+            <table className="min-w-full">
               <thead>
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Role</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
+                <tr className="w-full h-16 border-gray-300 border-b py-8">
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    ID
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Name
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Role
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Status
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
-                  <tr
-                    key={user.id}
-                    onClick={() => handleUserClick(user)}
-                    className={`cursor-pointer ${selectedUser === user ? 'bg-primary-100' : ''}`}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{user.id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{user.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{user.role}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{user.status}</td>
+              {users.map((user) => (
+  <tr
+    key={user.id}
+    onClick={() => handleUserClick(user)}
+    className={`cursor-pointer border-b border-gray-400 ${selectedUser === user ? 'bg-primary-100' : ''}`}
+  >
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      {user.id}
+                    </td>
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      {user.name}
+                    </td>
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      {user.role}
+                    </td>
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      {user.status}
+                    </td>
+                    <td className="text-sm pr-6">
+
+                    <button
+  onClick={() => handleChangeRole(user.id, 'Worker')}
+  className="px-3 py-2 bg-accent-30 text-white rounded-md"
+>
+  Worker
+</button>
+
+<button
+  onClick={() => handleDeleteUser(user.id)}
+  className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md mr-2"
+>
+  Delete
+</button>
+
+</td>
+
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
-        </div>
-        <div className="p-4 bg-primary-50 w-full mt-4">
-          {selectedUser && (
-            <div className="mb-4 text-white">
-              <h2 className="text-xl font-semibold mb-2">Selected User</h2>
-              <p><strong>Name:</strong> {selectedUser.name}</p>
-              <p><strong>Role:</strong> {selectedUser.role}</p>
-              <p><strong>Status:</strong> {selectedUser.status}</p>
-              <button
-                onClick={handleDeleteUser}
-                className="px-4 py-2 bg-red-500 hover-bg-red-600 text-white rounded-md"
-              >
-                Delete User
-              </button>
-            </div>
+          ) : (
+            <p className="text-white">No users available.</p>
           )}
         </div>
-      </main>
+      </div>
     </div>
   );
 };
