@@ -52,22 +52,30 @@ const Showing = () => {
 
  
 
-  const handleDelete = async (showingId) => {
-    try {
-      // Make a DELETE request to delete the showing with the given ID
-      await axios.delete(`${process.env.API_URL}/showings/${showingId}`);
-      // After successful deletion, fetch updated showings and remove the deleted item from the state
-      fetchShowings();
-      // Remove the deleted showing from the state
-      setShowings((prevShowings) => prevShowings.filter((showing) => showing.id !== showingId));
-    } catch (error) {
-      console.error('Error deleting showing:', error);
+  const handleDelete = (showingId) => {
+    // Display a confirmation dialog
+    const confirmDelete = window.confirm('Are you sure you would like to delete this showing?');
+    if (confirmDelete) {
+        // Always remove the deleted showing from the state, regardless of the API request outcome
+        setShowings((prevShowings) => prevShowings.filter((showing) => showing.id !== showingId));
+        setSampleShowings((prevShowings) => prevShowings.filter((showing) => showing.id !== showingId));
+
+        // Make a DELETE request to delete the showing with the given ID
+        axios.delete(`${process.env.API_URL}/showings/${showingId}`)
+            .then(() => {
+                console.log('Showing deleted successfully');
+            })
+            .catch((error) => {
+                console.error('Error deleting showing:', error);
+            });
     }
-  };
+};
+
   
 
   // Sample test data for existing showings
-  const sampleShowings = [
+ 
+const [sampleShowings, setSampleShowings] = useState([
     {
       id: 1,
       time: '2023-09-15T14:30',
@@ -84,7 +92,8 @@ const Showing = () => {
       cinemaHallId: 2,
       seatPrice: 10.99,
     },
-  ];
+]);
+
   return (
     <div className="flex justify-center items-center">
       <Head>
@@ -185,80 +194,46 @@ const Showing = () => {
           </form>
         </div>
 
-        
-<div className="mt-10">
-  <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4">Existing Showings</h2>
-  
-  <ul>
-    {showings.length > 0 ? (
-      showings.map((showing) => (
-        <li key={showing.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
-          <p>
-            <strong className="text-gray-700">Showing Time:</strong> {showing.time}
-          </p>
-          <p>
-            <strong className="text-gray-700">Showing Extras:</strong>{' '}
-            {showing.showingExtras || 'N/A'}
-          </p>
-          <p>
-            <strong className="text-gray-700">Movie ID:</strong> {showing.movieId}
-          </p>
-          <p>
-            <strong className="text-gray-700">Cinema Hall ID:</strong> {showing.cinemaHallId}
-          </p>
-          <p>
-            <strong className="text-gray-700">Seat Price:</strong> ${showing.seatPrice.toFixed(2)}
-          </p>
-          <div className="mt-2">
-            <button
-              onClick={() => handleEdit(showing)}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(showing.id)}
-              className="bg-red-500 text-white px-4 py-2 rounded-md"
-            >
-              Delete
-            </button>
-          </div>
-        </li>
-      ))
-    ) : sampleShowings.length > 0 ? (
-      sampleShowings.map((showing) => (
-        <li key={showing.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
-          <p>
-            <strong className="text-gray-700">Showing Time:</strong> {showing.time}
-          </p>
-          <p>
-            <strong className="text-gray-700">Showing Extras:</strong> {showing.showingExtras || 'N/A'}
-          </p>
-          <p>
-            <strong className="text-gray-700">Movie ID:</strong> {showing.movieId}
-          </p>
-          <p>
-            <strong className="text-gray-700">Cinema Hall ID:</strong> {showing.cinemaHallId}
-          </p>
-          <p>
-            <strong className="text-gray-700">Seat Price:</strong> ${showing.seatPrice.toFixed(2)}
-          </p>
-          <div className="flex justify-center items-center mt-2 ">
-         
-            <button
-              onClick={() => handleDelete(showing.id)}
-              className="bg-red-500 text-white px-4 py-2 rounded-md"
-            >
-              Delete
-            </button>
-          </div>
-        </li>
-      ))
-    ) : (
-      <p className="text-white">No showings available.</p>
-    )}
-  </ul>
+        <div className="mt-10">
+            <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4">Existing Showings</h2>
+            {(showings.length > 0 || sampleShowings.length > 0) ? (
+                <table className="min-w-full">
+                    <thead>
+                        <tr className="w-full h-16 border-gray-300 border-b py-8">
+                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Showing Time</th>
+                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Extras</th>
+                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Movie ID</th>
+                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Cinema Hall ID</th>
+                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Seat Price</th>
+                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {showings.concat(sampleShowings).map((showing) => (
+                            <tr key={showing.id} className="h-24 border-gray-300 border-b">
+                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">{showing.time}</td>
+                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">{showing.showingExtras}</td>
+                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">{showing.movieId}</td>
+                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">{showing.cinemaHallId}</td>
+                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">${showing.seatPrice.toFixed(2)}</td>
+                                <td className="text-sm pr-6">
+                                    <button
+                                        onClick={() => handleDelete(showing.id)}
+                                        className="text-red-500 focus:outline-none"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+  ) : (
+    <p className="text-white">No showings available.</p>
+  )}
 </div>
+
+
 
 
       </div>
