@@ -1,57 +1,182 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import UserManagement from './users';
+import Movies from './movies';
+import Tickets from './ticket';
+import Showing from './showing';
 
-export default function UserManagement() {
-    const users = [
-        { id: 1, name: 'John Doe', role: 'Admin', status: 'Active' },
-        { id: 2, name: 'Jane Smith', role: 'User', status: 'Inactive' },
-        // Add more users as needed
-    ];
+const Dashboard = ({ isAuthenticated, role }) => {
+  const [selectedItem, setSelectedItem] = useState('dashboard');
+  const [showAccessDeniedMessage, setShowAccessDeniedMessage] = useState(false);
 
-    return (
-        <div className="flex flex-col">
-            <h1 className="text-2xl font-bold mb-4">User Management</h1>
-            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        ID
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Name
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Role
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {users.map((user) => (
-                                    <tr key={user.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {user.id}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {user.name}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {user.role}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {user.status}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+  };
+
+  const ticketSalesData = [
+    { month: 'January', ticketsSold: 100, revenue: 5000 },
+    { month: 'February', ticketsSold: 120, revenue: 6000 },
+    { month: 'March', ticketsSold: 80, revenue: 4000 },
+    // Add more data as needed
+  ];
+
+  useEffect(() => {
+    if (!isAuthenticated || role !== 'ADMIN') {
+      setShowAccessDeniedMessage(true);
+    } else {
+      setShowAccessDeniedMessage(false);
+    }
+  }, [isAuthenticated, role]);
+
+
+  return (
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <aside className="bg-primary-20 text-white w-64">
+        <div className="p-4">
+          <h1 className="text-2xl font-semibold mb-4 text-accent-50">Cinema Admin</h1>
+          <nav className="mt-6">
+            <ul>
+              <li className="mb-4">
+                <a
+                  href="#"
+                  onClick={() => handleItemClick('dashboard')}
+                  className={`flex items-center text-white ${
+                    selectedItem === 'dashboard' ? 'opacity-100' : 'opacity-75'
+                  } hover:opacity-100 transition duration-300`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16m-7 6h7"
+                    />
+                  </svg>
+                  Dashboard
+                </a>
+              </li>
+              <li className="mb-4">
+                <a
+                  href="#"
+                  onClick={() => handleItemClick('movies')}
+                  className={`flex items-center text-white ${
+                    selectedItem === 'movies' ? 'opacity-100' : 'opacity-75'
+                  } hover:opacity-100 transition duration-300`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                  Movies
+                </a>
+              </li>
+              <li className="mb-4">
+                <a
+                  href="#"
+                  onClick={() => handleItemClick('users')}
+                  className={`flex items-center text-white ${
+                    selectedItem === 'users' ? 'opacity-100' : 'opacity-75'
+                  } hover:opacity-100 transition duration-300`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                  Users
+                </a>
+              </li>
+              {/* Add more sidebar items as needed */}
+              <li className="mb-4">
+  <a
+    href="#"
+    onClick={() => handleItemClick('showing')}
+    className={`flex items-center text-white ${
+      selectedItem === 'showing' ? 'opacity-100' : 'opacity-75'
+    } hover:opacity-100 transition duration-300`}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6 mr-2"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M9 5l7 7-7 7"
+      />
+    </svg>
+    Showing
+  </a>
+</li>
+            </ul>
+          </nav>
         </div>
-    );
-}
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-4 bg-primary-50 overflow-y-auto">
+        {showAccessDeniedMessage && (
+          <div className="bg-red-500 text-white p-4 mb-4 rounded-md">
+            Access Denied! You do not have permission to access this page.
+          </div>
+        )}
+        {selectedItem === 'dashboard' && !showAccessDeniedMessage && (
+          <div className="flex flex-col items-center justify-center">
+            <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
+            <p>Welcome to the admin dashboard page.</p>
+            <div>
+              <Tickets data={ticketSalesData} />
+            </div>
+          </div>
+        )}
+        {selectedItem === 'movies' && !showAccessDeniedMessage && (
+          <div>
+            {/* Your Movies component JSX */}
+            <Movies setSelectedItem={setSelectedItem} />
+          </div>
+        )}
+        {selectedItem === 'users' && !showAccessDeniedMessage && (
+          <UserManagement />
+        )}
+
+{selectedItem === 'showing' && !showAccessDeniedMessage && (
+  <div>
+    <Showing />
+  </div>
+)}
+
+        {/* Add more content components for other sidebar items */}
+      </main>
+    </div>
+  );
+};
+export default Dashboard;
