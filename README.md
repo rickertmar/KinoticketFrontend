@@ -8,7 +8,7 @@ This is the frontend repository for the KinoticketSystem project by DHBW Mannhei
 - **Framework and Build Tool**: React, Next.js
 - **Styling**: Tailwind CSS
 - **Routing**: Next.js Routing
-- **Development and Build Tools**: Babel, ESLint, Prettier
+
 
 ## Project Structure
 
