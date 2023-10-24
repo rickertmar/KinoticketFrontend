@@ -154,8 +154,6 @@ const Dashboard = ({ isAuthenticated, role }) => {
         )}
         {selectedItem === "dashboard" && !showAccessDeniedMessage && (
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
-            <p>Welcome to the admin dashboard page.</p>
             <div>
               <Tickets data={ticketSalesData} />
             </div>
@@ -163,7 +161,7 @@ const Dashboard = ({ isAuthenticated, role }) => {
         )}
         {selectedItem === "addmovie" && !showAccessDeniedMessage && (
           <div>
-            <AddNewMovie handleItemClick={handleItemClick}/>
+            <AddNewMovie handleItemClick={handleItemClick} />
           </div>
         )}
 
