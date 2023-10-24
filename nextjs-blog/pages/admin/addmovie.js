@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
-const AddNewMovie = () => {
 
-  const router = useRouter();
+const AddNewMovie = ({ handleItemClick }) => {
   const cancelAddMovie=()=>{
-    router.back();
-  }
+      handleItemClick("movies");
+    }
 
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -50,17 +48,17 @@ const AddNewMovie = () => {
     } catch (error) {
       console.error('Error adding movie:', error);
     }
-    router.push(`\movies`);
+    handleItemClick("movies");
   };
 
   return (
 
-    <div className="my-3 flex flex-col justify-center items-center min-h-screen">
+    <div className=" flex flex-col justify-center items-center min-h-screen">
       <Head>
         <title>Add Movie</title>
         <meta name="description" content="Add a new movie to the list." />
       </Head>
-      <div className="mt-10 px-20 py-5 w-full max-w-2xl bg-primary-20">
+      <div className="mb-15 rounded-3xl px-20 py-5 w-full max-w-2xl bg-primary-20">
         <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-accent-50">
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl bg-accent p-3 rounded">
             Add Movie
@@ -248,7 +246,7 @@ const AddNewMovie = () => {
           </button>
           <button
             onClick={cancelAddMovie}
-            className="w-full py-3 px-4 bg-accent-30 text-white font-medium rounded-md bg-red-500 hover:bg-red-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="w-full py-3 px-4 text-white font-medium rounded-md bg-red-500 hover:bg-red-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             >
               Cancel
             </button>

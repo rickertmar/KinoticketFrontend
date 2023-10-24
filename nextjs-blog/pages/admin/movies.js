@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
 
-const AddMovie = () => {
-  const router = useRouter();
-  const continueAddMovie=()=>{
-    router.push(`\addmovie`);
+
+const AddMovie = ({ handleItemClick }) => {
+  const continueAddMovie = () => {
+    handleItemClick("addmovie");
   }
+  
 
   const [movies, setMovies] = useState([
     {
@@ -37,6 +36,58 @@ const AddMovie = () => {
       releaseCountry: 'USA',
       imageSrc: 'dark-knight.jpg',
       actors: 'Christian Bale, Heath Ledger, Aaron Eckhart',
+    },{
+      id: 3,
+      title: 'Inception',
+      fsk: 'FSK16',
+      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
+      releaseYear: '2010',
+      genres: 'Sci-Fi',
+      director: 'Christopher Nolan',
+      runningWeek: 1,
+      runtime: '148 minutes',
+      releaseCountry: 'USA',
+      imageSrc: 'inception.jpg',
+      actors: 'Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page',
+    },{
+      id: 4,
+      title: 'Inception',
+      fsk: 'FSK16',
+      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
+      releaseYear: '2010',
+      genres: 'Sci-Fi',
+      director: 'Christopher Nolan',
+      runningWeek: 1,
+      runtime: '148 minutes',
+      releaseCountry: 'USA',
+      imageSrc: 'inception.jpg',
+      actors: 'Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page',
+    },{
+      id: 5,
+      title: 'Inception',
+      fsk: 'FSK16',
+      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
+      releaseYear: '2010',
+      genres: 'Sci-Fi',
+      director: 'Christopher Nolan',
+      runningWeek: 1,
+      runtime: '148 minutes',
+      releaseCountry: 'USA',
+      imageSrc: 'inception.jpg',
+      actors: 'Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page',
+    },{
+      id: 6,
+      title: 'Inception',
+      fsk: 'FSK16',
+      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
+      releaseYear: '2010',
+      genres: 'Sci-Fi',
+      director: 'Christopher Nolan',
+      runningWeek: 1,
+      runtime: '148 minutes',
+      releaseCountry: 'USA',
+      imageSrc: 'inception.jpg',
+      actors: 'Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page',
     },
   ]);
 
@@ -94,9 +145,9 @@ const AddMovie = () => {
   return (
 
     <div className="flex flex-col justify-center items-center my-">
-  <div className="mt-10 px-20 py-5 w-full max-w-2xl flex flex-1 flex-col bg-primary-20 justify-center items-center">
-    <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4 bg-accent p-3 rounded w-full">Existing Movies</h2>
-    <div className="overflow-y-auto flex-1 w-full"> {/* Add overflow-y-auto and flex-1 */}
+ <div className="rounded-3xl mb-15 px-10 py-5 w-full max-w-2xl flex flex-1 flex-col bg-primary-20 justify-center items-center">
+    <h2 className="flex ml-4 justify-center items-center text-2xl font-semibold text-accent-50 mb-4 bg-accent p-3 rounded w-full">Existing Movies</h2>
+    <div className="overflow-y-auto flex-1 w-full"> 
       {movies.length > 0 ? (
         <table className="min-w-full">
           <thead>
@@ -113,7 +164,7 @@ const AddMovie = () => {
                 <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">{movie.title}</td>
                 <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">{movie.releaseYear}</td>
                 <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">{movie.genres}</td>
-                <td className="text-sm pr-6">
+                <td className="text-sm">
                   <button
                     onClick={() => handleDeleteMovie(movie.id)}
                     className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md mr-2"
