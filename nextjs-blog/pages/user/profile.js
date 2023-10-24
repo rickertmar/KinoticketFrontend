@@ -1,60 +1,102 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import Head from 'next/head';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Head from "next/head";
 
 function ProfilePage() {
   const [userData, setUserData] = useState(null);
+  const [reservedTickets, setReservedTickets] = useState([]);
 
   useEffect(() => {
-    // Fetch the access token from the 'access_token' cookie
-    const accessToken = Cookies.get('access_token')
-
-    // Check if the access token is available
+    const accessToken = Cookies.get("access_token");
     if (accessToken) {
-      // Set the Authorization header with the bearer token
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
-      // Simulate an Axios request to fetch user data
-      // Replace the URL with your actual API endpoint
-      axios.get(process.env.API_URL+'/users', {headers:{ 'Content-Type': 'application/json'}})
-        .then(response => {
+      // Fetch user data
+      axios
+        .get(process.env.API_URL + "/users", {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
           setUserData(response.data);
         })
-        .catch(error => {
-          console.error('Error fetching user data:', error);
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+
+      // Fetch reserved tickets for the user
+      axios
+        .get(process.env.API_URL + "/reservation/getUserReservations", {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          setReservedTickets(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching reserved tickets:", error);
         });
     }
   }, []);
-
-  const getAccessTokenFromCookie = () => {
-    const cookies = document.cookie.split(';');
-    for (const cookie of cookies) {
-      const [name, value] = cookie.trim().split('=');
-      if (name === 'access_token') {
-        return value;
-      }
-    }
-    return null;
-  };
-
   return (
-    <div>
-       <Head>
-        <title>User Profile - DHBW Kino</title>
-        <meta name="description" content="View and manage your user profile on DHBW Kino. Check your email, first name, last name, and shipping address." />
-      </Head>
-      <h1 className='text-white'>User Profile</h1>
-      {userData ? (
-        <div className='text-white'>
-          <p>Email: {userData.email}</p>
-          <p>First Name: {userData.first_name}</p>
-          <p>Last Name: {userData.last_name}</p>
-          <h2>Shipping Address</h2>
-        </div>
-      ) : (
-        <p>Loading user data...</p>
-      )}
+    <div className="flex flex-col justify-center items-center h-screen">
+      <div className="rounded-full mb-15 px-6 py-3 w-full max-w-l h-64 flex flex-1 flex-col bg-primary-20 justify-center items-center">
+        <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4 bg-accent p-3 rounded w-full">
+          User Profile
+        </h2>
+
+        {userData ? (
+          <div className="space-y-4 w-full text-white">
+            <div className="flex flex-col justify-center items-center">
+              <label className="block text-sm font-medium">Email:</label>
+              <p className="mt-1">{userData.email}</p>
+            </div>
+            <div className="flex flex-col justify-center items-center">
+              <label className="block text-sm font-medium">First Name:</label>
+              <p className="mt-1">{userData.first_name}</p>
+            </div>
+            <div className="flex flex-col justify-center items-center">
+              <label className="block text-sm font-medium">Last Name:</label>
+              <p className="mt-1">{userData.last_name}</p>
+            </div>
+            <div className="flex flex-col justify-center items-center">
+              <h2 className="text-xl font-semibold mb-4">
+                Shipping Address ??{" "}
+              </h2>
+              {/* You can add the shipping address details here */}
+            </div>
+
+            {/* You can add the Reservation and related Information about User here? */}
+            <div className="mt-4">
+              <h3 className="flex justify-center items-center text-l text-accent-50 font-semibold mb-2">
+                Reserved Tickets:
+              </h3>
+              {reservedTickets.map((ticket) => (
+                <div key={ticket.id} className="mb-4">
+                  <p>
+                    <strong>Movie Title:</strong> {ticket.movietitle}
+                  </p>
+                  <p>
+                    <strong>Username:</strong> {ticket.username}
+                  </p>
+                  <p>
+                    <strong>Showing Start:</strong> {ticket.showingStart}
+                  </p>
+                  <p>
+                    <strong>Showing Extras:</strong> {ticket.showingExtras}
+                  </p>
+                  <p>
+                    <strong>Total Price:</strong> ${ticket.totalPrice}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-center items-center w-full text-white">
+            <span>Loading user data...</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
