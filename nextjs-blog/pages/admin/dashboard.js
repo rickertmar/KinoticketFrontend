@@ -10,7 +10,6 @@ const Dashboard = ({ isAuthenticated, role }) => {
   const [showAccessDeniedMessage, setShowAccessDeniedMessage] = useState(false);
 
   const handleItemClick = (item) => {
-    console.log("Changing selectedItem to:", item); // Add this line
     setSelectedItem(item);
   };
 
