@@ -11,7 +11,7 @@ function generateJsonData() {
   for (let seatRow = 1; seatRow <= 15; seatRow++) {
     yloc += 0;
     xloc = 0;
-    for (let number = 1; number <= 20; number++) {
+    for (let number = 1; number <= 24; number++) {
       xloc += 1;
       const blocked = Math.random() < 0.1;
       if (seatRow >= 1 && seatRow < 17 && number === 15) {
@@ -35,34 +35,32 @@ function generateJsonData() {
 const seatData = generateJsonData();
 function SeatGrid() {
   const router = useRouter();
-
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [ticketTypes, setTicketTypes] = useState({
     Regular: selectedSeats.length,
     Student: 0,
     Child: 0,
   });
-  const [seatIdToInfo, setSeatIdToInfo] = useState({});
-
-  useEffect(() => {
-    fetch("/seatsData.json")
-      .then((response) => response.json())
-      .then((seatsData) => {
-        const newSeatIdToInfo = {};
-        seatsData.forEach((seat) => {
-          newSeatIdToInfo[seat.id] = {
-            seatRow: seat.seatRow,
-            number: seat.number,
-          };
-        });
-        setSeatIdToInfo(newSeatIdToInfo);
-      });
-  }, []);
-
+  const [arrayChanged, setArrayChanged] = useState(false)
   const handleCancel = () => {
     router.back();
   };
-
+  useEffect(() => {
+    let timer;
+      setArrayChanged(true);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (arrayChanged) {
+          //send request to server to block seats
+          console.log('Running your logic...' + selectedSeats);
+          //update seats
+          setArrayChanged(false);
+        }
+      }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [selectedSeats]);
   useEffect(() => {
     setTicketTypes((prevTicketTypes) => ({
       ...prevTicketTypes,
@@ -211,16 +209,17 @@ function SeatGrid() {
     setDynamicColumns(cols);
     setDynamicRows(rows);
   });
+
   return (
     <div className="bg-primary-30 text-white mt-10 xl:text-2xl">
-    <div className="flex flex-col md:flex-row w-full">
-    <TransformWrapper initialScale={1} maxScale={1.5} minScale={0.95} doubleClick={false} >
-    <div className="bg-primary-20 cursor-default border-2 border-neutral-300 w-full justify-center items-center flex-grow md:w-2/3">
-
-            <TransformComponent>
+    <div className="flex flex-col sm:flex-row w-full">
+    
+    <div className="flex bg-primary-20 cursor-default border-2 border-neutral-300 w-full justify-center sm:w-2/3 shrink-0 ">
+    <TransformWrapper maxScale={1.5} minScale={0.5} doubleClick={false} >
+            <TransformComponent wrapperStyle={{width:"100%", height:"100%"}} contentStyle={{}}>
               <div
                 id="seatsGrid"
-                className="grid text-white gap-2 cursor-default p-10"
+                className="grid text-white gap-2 cursor-default shrink-0"
               >
                 {seatData.map((seat) => {
                   const gridRow = seat.yloc;
@@ -239,8 +238,8 @@ function SeatGrid() {
                       <button
                         className={
                           selectedSeats.includes(seat.id)
-                            ? "h-3 w-3 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 big:w-7 big:h-7 bg-accent-40"
-                            : "h-3 w-3 md:h-3 md:w-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 big:w-7 big:h-7 bg-neutral-300 disabled:bg-primary-40"
+                            ? "h-3 w-3 bg-accent-40"
+                            : "h-3 w-3 bg-neutral-300 disabled:bg-primary-40"
                         }
                         onClick={() => toggleSeat(seat.id)}
                         disabled={seat.blocked}
@@ -257,12 +256,12 @@ function SeatGrid() {
             </div>
               
           </TransformComponent>
-
+          </TransformWrapper>
       </div>
-      </TransformWrapper>
+
       <>
-      <div className="flex flex-col justify-between p-6 flex-grow mt-8 mb-8 md:w-1/3 md:ml-4">
-        <h2 className="text-3xl lg:text-2xl xl:text-4xl md:text-xl font-semibold mb-4 text-center w-full">
+      <div className="flex flex-col justify-between py-6 pr-2 flex-grow mt-8 mb-8 sm:w-1/3 sm:ml-4">
+        <h2 className="text-3xl lg:text-2xl xl:text-4xl sm:text-xl font-semibold mb-4 text-center w-full">
           Select your ticket type
         </h2>
             {[
