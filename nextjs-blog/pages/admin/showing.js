@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Head from 'next/head';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Head from "next/head";
 
 const Showing = () => {
   const [showings, setShowings] = useState([]);
   const [formData, setFormData] = useState({
-    time: '',
-    showingExtras: '',
-    movieId: '',
-    cinemaHallId: '',
-    seatPrice: '',
+    time: "",
+    showingExtras: "",
+    movieId: "",
+    cinemaHallId: "",
+    seatPrice: "",
   });
 
   useEffect(() => {
@@ -19,10 +19,10 @@ const Showing = () => {
 
   const fetchShowings = async () => {
     try {
-      const response = await axios.get(process.env.API_URL + '/showings');
+      const response = await axios.get(process.env.API_URL + "/showings");
       setShowings(response.data);
     } catch (error) {
-      console.error('Error fetching showings:', error);
+      console.error("Error fetching showings:", error);
     }
   };
 
@@ -30,18 +30,18 @@ const Showing = () => {
     e.preventDefault();
     try {
       // Make a POST request to create a new showing
-      await axios.post(process.env.API_URL + '/showings', formData);
+      await axios.post(process.env.API_URL + "/showings", formData);
       // Clear the form and fetch updated showings
       setFormData({
-        time: '',
-        showingExtras: '',
-        movieId: '',
-        cinemaHallId: '',
-        seatPrice: '',
+        time: "",
+        showingExtras: "",
+        movieId: "",
+        cinemaHallId: "",
+        seatPrice: "",
       });
       fetchShowings();
     } catch (error) {
-      console.error('Error creating showing:', error);
+      console.error("Error creating showing:", error);
     }
   };
 
@@ -50,49 +50,52 @@ const Showing = () => {
     setFormData({ ...formData, [name]: value });
   };
 
- 
-
   const handleDelete = (showingId) => {
     // Display a confirmation dialog
-    const confirmDelete = window.confirm('Are you sure you would like to delete this showing?');
+    const confirmDelete = window.confirm(
+      "Are you sure you would like to delete this showing?"
+    );
     if (confirmDelete) {
-        // Always remove the deleted showing from the state, regardless of the API request outcome
-        setShowings((prevShowings) => prevShowings.filter((showing) => showing.id !== showingId));
-        setSampleShowings((prevShowings) => prevShowings.filter((showing) => showing.id !== showingId));
+      // Always remove the deleted showing from the state, regardless of the API request outcome
+      setShowings((prevShowings) =>
+        prevShowings.filter((showing) => showing.id !== showingId)
+      );
+      setSampleShowings((prevShowings) =>
+        prevShowings.filter((showing) => showing.id !== showingId)
+      );
 
-        // Make a DELETE request to delete the showing with the given ID
-        axios.delete(`${process.env.API_URL}/showings/${showingId}`)
-            .then(() => {
-                console.log('Showing deleted successfully');
-            })
-            .catch((error) => {
-                console.error('Error deleting showing:', error);
-            });
+      // Make a DELETE request to delete the showing with the given ID
+      axios
+        .delete(`${process.env.API_URL}/showings/${showingId}`)
+        .then(() => {
+          console.log("Showing deleted successfully");
+        })
+        .catch((error) => {
+          console.error("Error deleting showing:", error);
+        });
     }
-};
-
-  
+  };
 
   // Sample test data for existing showings
- 
-const [sampleShowings, setSampleShowings] = useState([
+
+  const [sampleShowings, setSampleShowings] = useState([
     {
       id: 1,
-      time: '2023-09-15T14:30',
-      showingExtras: '3D',
+      time: "2023-09-15T14:30",
+      showingExtras: "3D",
       movieId: 101,
       cinemaHallId: 1,
       seatPrice: 12.99,
     },
     {
       id: 2,
-      time: '2023-09-15T17:00',
-      showingExtras: '2D',
+      time: "2023-09-15T17:00",
+      showingExtras: "2D",
       movieId: 102,
       cinemaHallId: 2,
       seatPrice: 10.99,
     },
-]);
+  ]);
 
   return (
     <div className="flex justify-center items-center">
@@ -112,7 +115,10 @@ const [sampleShowings, setSampleShowings] = useState([
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="time" className="block text-sm font-medium text-white">
+              <label
+                htmlFor="time"
+                className="block text-sm font-medium text-white"
+              >
                 Showing Time
               </label>
               <input
@@ -126,7 +132,10 @@ const [sampleShowings, setSampleShowings] = useState([
               />
             </div>
             <div>
-              <label htmlFor="showing-extras" className="block text-sm font-medium text-white">
+              <label
+                htmlFor="showing-extras"
+                className="block text-sm font-medium text-white"
+              >
                 Showing Extras
               </label>
               <select
@@ -144,7 +153,10 @@ const [sampleShowings, setSampleShowings] = useState([
               </select>
             </div>
             <div>
-              <label htmlFor="movie-id" className="block text-sm font-medium text-white">
+              <label
+                htmlFor="movie-id"
+                className="block text-sm font-medium text-white"
+              >
                 Movie ID
               </label>
               <input
@@ -158,7 +170,10 @@ const [sampleShowings, setSampleShowings] = useState([
               />
             </div>
             <div>
-              <label htmlFor="cinema-hall-id" className="block text-sm font-medium text-white">
+              <label
+                htmlFor="cinema-hall-id"
+                className="block text-sm font-medium text-white"
+              >
                 Cinema Hall ID
               </label>
               <input
@@ -172,7 +187,10 @@ const [sampleShowings, setSampleShowings] = useState([
               />
             </div>
             <div>
-              <label htmlFor="seat-price" className="block text-sm font-medium text-white">
+              <label
+                htmlFor="seat-price"
+                className="block text-sm font-medium text-white"
+              >
                 Seat Price
               </label>
               <input
@@ -194,48 +212,78 @@ const [sampleShowings, setSampleShowings] = useState([
           </form>
         </div>
 
+        {/* Existing Showings */}
+
         <div className="mt-10">
-            <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4">Existing Showings</h2>
-            {(showings.length > 0 || sampleShowings.length > 0) ? (
-                <table className="min-w-full">
-                    <thead>
-                        <tr className="w-full h-16 border-gray-300 border-b py-8">
-                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Showing Time</th>
-                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Extras</th>
-                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Movie ID</th>
-                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Cinema Hall ID</th>
-                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Seat Price</th>
-                            <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {showings.concat(sampleShowings).map((showing) => (
-                            <tr key={showing.id} className="h-24 border-gray-300 border-b">
-                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">{showing.time}</td>
-                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">{showing.showingExtras}</td>
-                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">{showing.movieId}</td>
-                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">{showing.cinemaHallId}</td>
-                                <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">${showing.seatPrice.toFixed(2)}</td>
-                                <td className="text-sm pr-6">
-                                    <button
-                                        onClick={() => handleDelete(showing.id)}
-                                        className="text-red-500 focus:outline-none"
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-  ) : (
-    <p className="text-white">No showings available.</p>
-  )}
-</div>
+          <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4">
+            Existing Showings
+          </h2>
+          {showings.length > 0 || sampleShowings.length > 0 ? (
+            <table className="min-w-full">
+              <thead>
+                <tr className="w-full h-16 border-gray-300 border-b py-8">
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Showing Time
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Extras
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Movie ID
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Cinema Hall ID
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Seat Price
+                  </th>
+                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Hier dann Response von Showing ändern  */}
 
+                {showings.concat(sampleShowings).map((showing) => (
+                  <tr
+                    key={showing.id}
+                    className="h-24 border-gray-300 border-b"
+                  >
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      {showing.time}
+                    </td>
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      {showing.showingExtras}
+                    </td>
 
-
-
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      {showing.movieId}
+                      {/* Showing ID als dropbox? oder MovieName als Dropbox  */}
+                    </td>
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      {showing.cinemaHallId}
+                      {/* CinemaHallId wird dann vllt als Default eingegeben?  */}
+                    </td>
+                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                      ${showing.seatPrice.toFixed(2)}
+                    </td>
+                    <td className="text-sm pr-6">
+                      <button
+                        onClick={() => handleDelete(showing.id)}
+                        className="text-red-500 focus:outline-none"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-white">No showings available.</p>
+          )}
+        </div>
       </div>
     </div>
   );

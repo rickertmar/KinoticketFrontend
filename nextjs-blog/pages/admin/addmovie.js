@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import Head from 'next/head';
-
+import React, { useState } from "react";
+import axios from "axios";
+import Head from "next/head";
 
 const AddNewMovie = ({ handleItemClick }) => {
-  const cancelAddMovie=()=>{
-      handleItemClick("movies");
-    }
+  const cancelAddMovie = () => {
+    handleItemClick("movies");
+  };
 
   const [newMovie, setNewMovie] = useState({
-    title: '',
-    fsk: '',
-    description: '',
-    releaseYear: '',
-    genres: '',
-    director: '',
-    runningWeek: '',
-    runtime: '',
-    releaseCountry: '',
-    imageSrc: '',
-    actors: '',
+    title: "",
+    fsk: "",
+    description: "",
+    releaseYear: "",
+    genres: "",
+    director: "",
+    runningWeek: "",
+    runtime: "",
+    releaseCountry: "",
+    imageSrc: "",
+    actors: "",
   });
 
   const handleInputChange = (e) => {
@@ -27,32 +26,33 @@ const AddNewMovie = ({ handleItemClick }) => {
     setNewMovie({ ...newMovie, [name]: value });
   };
 
-  
   const handleAddMovie = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(process.env.API_URL+ '/cinemas/{cinemaId}/movies', newMovie); // check if newMovie attribute korrekte Datentyp hat
+      await axios.post(
+        process.env.API_URL + "/cinemas/{cinemaId}/movies",
+        newMovie
+      ); // check if newMovie attribute korrekte Datentyp hat
       setNewMovie({
-        title: '',
-        fsk: '',
-        description: '',
-        releaseYear: '',
-        genres: '',
-        director: '',
-        runningWeek: '',
-        runtime: '',
-        releaseCountry: '',
-        imageSrc: '',
-        actors: '',
+        title: "",
+        fsk: "",
+        description: "",
+        releaseYear: "",
+        genres: "",
+        director: "",
+        runningWeek: "",
+        runtime: "",
+        releaseCountry: "",
+        imageSrc: "",
+        actors: "",
       });
     } catch (error) {
-      console.error('Error adding movie:', error);
+      console.error("Error adding movie:", error);
     }
     handleItemClick("movies");
   };
 
   return (
-
     <div className=" flex flex-col justify-center items-center min-h-screen">
       <Head>
         <title>Add Movie</title>
@@ -64,11 +64,19 @@ const AddNewMovie = ({ handleItemClick }) => {
             Add Movie
           </h2>
         </div>
-        <form className="mt-8 space-y-6  p-6 rounded shadow" onSubmit={handleAddMovie}>
+        <form
+          className="mt-8 space-y-6  p-6 rounded shadow"
+          onSubmit={handleAddMovie}
+        >
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-white"
+            >
               Title
             </label>
+
+            {/* Je nach dem wenns unnötig ist was entfernen. Hier wird aktuell nach alle Parameterübergabe sortiert */}
             <input
               type="text"
               name="title"
@@ -81,7 +89,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="fsk" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="fsk"
+              className="block text-sm font-medium text-white"
+            >
               FSK
             </label>
             <input
@@ -96,7 +107,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-white"
+            >
               Description
             </label>
             <textarea
@@ -111,7 +125,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="releaseYear" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="releaseYear"
+              className="block text-sm font-medium text-white"
+            >
               Release Year
             </label>
             <select
@@ -130,7 +147,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="genres" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="genres"
+              className="block text-sm font-medium text-white"
+            >
               Genres
             </label>
             <select
@@ -149,7 +169,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="director" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="director"
+              className="block text-sm font-medium text-white"
+            >
               Director
             </label>
             <input
@@ -164,7 +187,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="runningWeek" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="runningWeek"
+              className="block text-sm font-medium text-white"
+            >
               Running Week
             </label>
             <input
@@ -179,7 +205,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="runtime" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="runtime"
+              className="block text-sm font-medium text-white"
+            >
               Runtime
             </label>
             <input
@@ -194,7 +223,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="releaseCountry" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="releaseCountry"
+              className="block text-sm font-medium text-white"
+            >
               Release Country
             </label>
             <input
@@ -209,7 +241,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="imageSrc" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="imageSrc"
+              className="block text-sm font-medium text-white"
+            >
               Image Source
             </label>
             <input
@@ -224,7 +259,10 @@ const AddNewMovie = ({ handleItemClick }) => {
           </div>
 
           <div>
-            <label htmlFor="actors" className="block text-sm font-medium text-white">
+            <label
+              htmlFor="actors"
+              className="block text-sm font-medium text-white"
+            >
               Actors
             </label>
             <input
@@ -247,14 +285,12 @@ const AddNewMovie = ({ handleItemClick }) => {
           <button
             onClick={cancelAddMovie}
             className="w-full py-3 px-4 text-white font-medium rounded-md bg-red-500 hover:bg-red-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            >
-              Cancel
-            </button>
+          >
+            Cancel
+          </button>
         </form>
       </div>
-
-      
-      </div>
+    </div>
   );
 };
 
