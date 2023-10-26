@@ -24,9 +24,9 @@ const Tickets = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-primary-20">
-      <div className="rounded-3xl mb-15 px-10 py-5 w-full max-w-2xl flex flex-1 flex-col bg-primary-50 justify-center items-center">
-        <h1 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4 bg-accent p-3 rounded w-full">
+    <div className="flex flex-col justify-center items-center">
+      <div className="rounded-3xl mb-15 px-10 py-5 w-full max-w-2xl flex flex-1 flex-col bg-primary-20 justify-center items-center">
+        <h1 className="flex ml-4 justify-center items-center text-2xl font-semibold text-accent-50 mb-4 bg-accent p-3 rounded w-full">
           Admin Dashboard
         </h1>
 
@@ -64,19 +64,20 @@ const Tickets = () => {
             Ticket Sales Data
           </h2>
           <table className="min-w-full divide-y divide-gray-200 text-white">
-            <thead>
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                  Month
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                  Tickets Sold
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                  Revenue ($)
-                </th>
-              </tr>
-            </thead>
+          <thead>
+                <tr className="w-full h-16 border-gray-300 border-b py-8">
+                  <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                    Month
+                  </th>
+                  <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                    Tickets Sold
+                  </th>
+                  <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                    Revenue ($)
+                  </th>
+                </tr>
+              </thead>
+
             <tbody>
               {ticketSalesData.map((item) => (
                 <tr key={item.month}>
