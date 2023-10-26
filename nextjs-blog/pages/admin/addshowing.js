@@ -68,7 +68,7 @@ const AddNewShowing = ({ handleItemClick }) => {
 
             {/* Je nach dem wenns unnötig ist was entfernen. Hier wird aktuell nach alle Parameterübergabe sortiert */}
             <input
-              type="text"
+              type="datetime-local"
               name="time"
               id="time"
               className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm text-black"
@@ -89,7 +89,7 @@ const AddNewShowing = ({ handleItemClick }) => {
               id="showingExtras"
               name="showingExtras"
               className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm text-black"
-              value={newMovie.showingExtras}
+              value={newShowing.showingExtras}
               onChange={handleInputChange}
               required
             >
@@ -111,7 +111,7 @@ const AddNewShowing = ({ handleItemClick }) => {
               name="movieId"
               rows="4"
               className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm text-black"
-              value={newMovie.movieId}
+              value={newShowing.movieId}
               onChange={handleInputChange}
               required
             />
@@ -129,7 +129,7 @@ const AddNewShowing = ({ handleItemClick }) => {
               name="cinemaHallId"
               rows="4"
               className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm text-black"
-              value={newMovie.cinemaHallId}
+              value={newShowing.cinemaHallId}
               onChange={handleInputChange}
               required
             />
@@ -146,7 +146,7 @@ const AddNewShowing = ({ handleItemClick }) => {
               name="seatPrice"
               rows="4"
               className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm text-black"
-              value={newMovie.seatPrice}
+              value={newShowing.seatPrice}
               onChange={handleInputChange}
               required
             />

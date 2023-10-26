@@ -4,6 +4,7 @@ import Movies from "./movies";
 import Tickets from "./ticket";
 import Showing from "./showing";
 import AddNewMovie from "./addmovie";
+import AddNewShowing from "./addshowing";
 
 const Dashboard = ({ isAuthenticated, role }) => {
   const [selectedItem, setSelectedItem] = useState("dashboard");
@@ -163,6 +164,11 @@ const Dashboard = ({ isAuthenticated, role }) => {
             <AddNewMovie handleItemClick={handleItemClick} />
           </div>
         )}
+        {selectedItem === "addshowing" && !showAccessDeniedMessage && (
+          <div>
+            <AddNewShowing handleItemClick={handleItemClick} />
+          </div>
+        )}
 
         {selectedItem === "movies" && !showAccessDeniedMessage && (
           <div>
@@ -176,7 +182,7 @@ const Dashboard = ({ isAuthenticated, role }) => {
 
         {selectedItem === "showing" && !showAccessDeniedMessage && (
           <div>
-            <Showing />
+            <Showing handleItemClick={handleItemClick} />
           </div>
         )}
 
