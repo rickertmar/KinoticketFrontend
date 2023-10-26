@@ -22,7 +22,8 @@ const AddNewMovie = ({ handleItemClick }) => {
     const { name, value } = e.target;
     setNewMovie({ ...newMovie, [name]: value });
   };
-  const handleAddMovie = (e) => {
+
+  const handleAddMovie = async (e) => {
     e.preventDefault();
 
     // Convert releaseYear and runningWeek to integers
@@ -38,43 +39,29 @@ const AddNewMovie = ({ handleItemClick }) => {
       return;
     }
 
-    const accessToken = Cookies.get("access_token");
-    if (accessToken) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-      axios
-        .post(process.env.API_URL + "/cinemas/1/movies", movieData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          validateStatus: function (status) {
-            return status >= 200 && status < 505;
-          },
-        })
-
-        .then((response) => {
-          // Handle the response here
-          console.log(response);
-          console.log("Movie added successfully:", response.data);
-          setNewMovie({
-            title: "",
-            fsk: "",
-            description: "",
-            releaseYear: "",
-            genres: "",
-            director: "",
-            runningWeek: "",
-            runtime: "",
-            releaseCountry: "",
-            imageSrc: "",
-            actors: "",
-          });
-          handleItemClick("movies");
-        })
-        .catch((error) => {
-          console.error("Error adding movie:", error);
-        });
-    } else {
-      alert("Authentication token not found. Please login again.");
+    try {
+      await axios.post(process.env.API_URL + "/cinemas/1/movies", movieData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("access_token")}`,
+        },
+      });
+      setNewMovie({
+        title: "",
+        fsk: "",
+        description: "",
+        releaseYear: "",
+        genres: "",
+        director: "",
+        runningWeek: "",
+        runtime: "",
+        releaseCountry: "",
+        imageSrc: "",
+        actors: "",
+      });
+      handleItemClick("movies");
+    } catch (error) {
+      console.error("Error adding movie:", error);
     }
   };
 
