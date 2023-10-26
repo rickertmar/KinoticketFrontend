@@ -10,20 +10,7 @@ export default function TicketSelection() {
   const [ticketTypes, setTicketTypes] = useState({ Regular: parsedSeats.length, Student: 0, Child: 0 });
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
 
-  useEffect(() => {
-    fetch("/seatsData.json")
-      .then((response) => response.json())
-      .then((seatsData) => {
-        const newSeatIdToInfo = {};
-        seatsData.forEach((seat) => {
-          newSeatIdToInfo[seat.id] = {
-            seatRow: seat.seatRow,
-            number: seat.number,
-          };
-        });
-        setSeatIdToInfo(newSeatIdToInfo);
-      });
-  }, []);
+
 
   const handleCancel = () => {
     router.back();
