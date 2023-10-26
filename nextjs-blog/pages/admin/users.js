@@ -1,44 +1,69 @@
-import React, { useState } from "react";
-import Head from "next/head";
-
-const initialUsers = [
-  { id: 1, name: "John Doe", role: "Worker", status: "Active" },
-  { id: 2, name: "Jane Smith", role: "User", status: "Inactive" },
-  { id: 3, name: "Alice Johnson", role: "User", status: "Active" },
-  { id: 4, name: "Bob Williams", role: "Admin", status: "Active" },
-  { id: 5, name: "Carol Brown", role: "User", status: "Inactive" },
-  { id: 6, name: "David Jones", role: "Admin", status: "Active" },
-  { id: 7, name: "Ella Davis", role: "Worker", status: "Active" },
-  { id: 8, name: "Frank Wilson", role: "Admin", status: "Inactive" },
-  { id: 9, name: "Grace Lee", role: "User", status: "Active" },
-  { id: 10, name: "Hank Miller", role: "Admin", status: "Active" },
-  { id: 11, name: "Ivy Thomas", role: "User", status: "Inactive" },
-  { id: 12, name: "Jack Anderson", role: "Admin", status: "Active" },
-];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const UserManagement = () => {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]); // Initialize with an empty array
   const [selectedUser, setSelectedUser] = useState(null);
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
   };
 
+  useEffect(() => {
+    const accessToken = Cookies.get("access_token");
+    if (accessToken) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+      // Fetch user data
+      axios
+        .get(process.env.API_URL + "/users/all", {
+          headers: { "Content-Type": "application/json" },
+          validateStatus: function (status) {
+            return status >= 200 && status < 305; // Accept status code in the range 200-304
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setUsers(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, []);
+
   const handleDeleteUser = (userId) => {
     const confirmDelete = window.confirm(
       "Are you sure you would like to delete this user?"
     );
     if (confirmDelete) {
-      const updatedUsers = users.filter((user) => user.id !== userId);
-      setUsers(updatedUsers);
-      if (selectedUser && selectedUser.id === userId) {
-        setSelectedUser(null);
-      }
+      axios
+        .delete(`${process.env.API_URL}/users/id/${userId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("access_token")}`,
+          },
+        })
+        .then((response) => {
+          // If the deletion was successful, update the local state
+          const updatedUsers = users.filter((user) => user.id !== userId);
+          setUsers(updatedUsers);
+          if (selectedUser && selectedUser.id === userId) {
+            setSelectedUser(null);
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting user:", error);
+          alert("Failed to delete the user. Please try again.");
+        });
     }
   };
 
   // Falls wir die möglichkeit haben wollen Ein Nutzer Worker Role zu geben.
   // Aktuell haben wir keine Worker page daher Worker gleichberechtigt wie User
+
+  /*
   const handleChangeRole = (userId, newRole) => {
     const confirmChangeRole = window.confirm(
       "Are you sure you would like to assign Worker role to this user?"
@@ -50,6 +75,7 @@ const UserManagement = () => {
       setUsers(updatedUsers);
     }
   };
+  */
 
   return (
     <div className="flex flex-col justify-center items-center my-">
@@ -69,7 +95,7 @@ const UserManagement = () => {
                     Name
                   </th>
                   <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
-                    Status
+                    Email
                   </th>
                   <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
                     Role
@@ -85,20 +111,23 @@ const UserManagement = () => {
                     key={user.id}
                     onClick={() => handleUserClick(user)}
                     className={`h-24 border-gray-300 border-b ${
-                      selectedUser === user ? "bg-primary-100" : ""
+                      selectedUser && selectedUser.id === user.id
+                        ? "bg-primary-100"
+                        : ""
                     }`}
                   >
                     <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
                       {user.id}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
-                      {user.name}
+                      {user.firstName}, {user.lastName}
                     </td>
+                    <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
+                      {user.email}
+                    </td>
+
                     <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
                       {user.role}
-                    </td>
-                    <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
-                      {user.status}
                     </td>
                     <td className="text-sm pr-6">
                       <button
