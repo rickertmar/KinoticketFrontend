@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
+import { findSeatById } from '../[showid]';
 
 export default function ConfirmationPage() {
   const router = useRouter();
-  const { totalSeats, ticketTypes, totalPrice, showid, slug, selectedSeats } = router.query;
+  const { totalSeats, ticketTypes, totalPrice, showid, slug, selectedSeats, seatData } = router.query;
+
   const [parsedSeats, setParsedSeats] = useState([]);
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
 
@@ -13,7 +15,16 @@ export default function ConfirmationPage() {
     if (selectedSeats) {
       setParsedSeats(JSON.parse(selectedSeats));
     }
-  }, [selectedSeats]);
+
+    if (seatData) {
+      const seatInfo = JSON.parse(seatData);
+      const mapping = {};
+      seatInfo.forEach((seat) => {
+        mapping[seat.id] = { seatRow: seat.seatRow, number: seat.number };
+      });
+      setSeatIdToInfo(mapping);
+    }
+  }, [selectedSeats, seatData]);
 
 
   const formatSlugToTitle = (slug) => {
@@ -32,10 +43,7 @@ export default function ConfirmationPage() {
     router.back();
   };
 
-  const formattedSeats = parsedSeats.map((seatId) => {
-    const info = seatIdToInfo[seatId];
-    return info ? `${info.seatRow}${info.number}` : seatId;
-  }).join(', ');
+const formattedSeats = parsedSeats.map(findSeatById).join(', ');
 
   return (
     <>

@@ -108,20 +108,19 @@ export default function Navbar({isAuthenticated}) {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <Link
-                            href=""
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          <button
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 w-full text-left')}
                             onClick={() => {axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`; axios.post(process.env.API_URL + '/auth/logout', {headers:{ 'Content-Type': 'application/json'}})
                             .then(function (){
                               console.log("test")
                               Cookies.remove('access_token')
                               Cookies.remove('refresh_token')
-                              router.push("/")
+                              router.reload()
                             })
                           }}
                           >
                             Sign out
-                          </Link>
+                          </button>
                         )}
                       </Menu.Item>
                     </Menu.Items>
