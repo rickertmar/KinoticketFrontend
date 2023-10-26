@@ -10,9 +10,11 @@ import {
 } from "recharts";
 
 const ticketSalesData = [
-  { month: "January", ticketsSold: 100, revenue: 5000 },
-  { month: "February", ticketsSold: 120, revenue: 6000 },
-  { month: "March", ticketsSold: 80, revenue: 4000 },
+  { month: "January", ticketsSold: 1000, revenue: 5000 },
+  { month: "February", ticketsSold: 1200, revenue: 6000 },
+  { month: "March", ticketsSold: 800, revenue: 4000 },
+  { month: "April", ticketsSold: 1080, revenue: 4200 },
+  { month: "May", ticketsSold: 2000, revenue: 7200 },
   // Add more data as needed
 ];
 
@@ -64,19 +66,19 @@ const Tickets = () => {
             Ticket Sales Data
           </h2>
           <table className="min-w-full divide-y divide-gray-200 text-white">
-          <thead>
-                <tr className="w-full h-16 border-gray-300 border-b py-8">
-                  <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
-                    Month
-                  </th>
-                  <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
-                    Tickets Sold
-                  </th>
-                  <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
-                    Revenue ($)
-                  </th>
-                </tr>
-              </thead>
+            <thead>
+              <tr className="w-full h-16 border-gray-300 border-b py-8">
+                <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                  Month
+                </th>
+                <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                  Tickets Sold
+                </th>
+                <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                  Revenue ($)
+                </th>
+              </tr>
+            </thead>
 
             <tbody>
               {ticketSalesData.map((item) => (
