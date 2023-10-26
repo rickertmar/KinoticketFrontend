@@ -65,7 +65,7 @@ const Tickets = () => {
           <h2 className="text-xl font-semibold mb-4 text-accent-50">
             Ticket Sales Data
           </h2>
-          <table className="min-w-full divide-y divide-gray-200 text-white">
+          <table className="min-w-full">
             <thead>
               <tr className="w-full h-16 border-gray-300 border-b py-8">
                 <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
@@ -82,14 +82,14 @@ const Tickets = () => {
 
             <tbody>
               {ticketSalesData.map((item) => (
-                <tr key={item.month}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <tr key={item.month} className="h-24 border-gray-300 border-b">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white tracking-normal leading-4">
                     {item.month}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white tracking-normal leading-4">
                     {item.ticketsSold}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white tracking-normal leading-4">
                     ${item.revenue}
                   </td>
                 </tr>

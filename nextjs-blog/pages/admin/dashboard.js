@@ -153,10 +153,8 @@ const Dashboard = ({ isAuthenticated, role }) => {
           </div>
         )}
         {selectedItem === "dashboard" && !showAccessDeniedMessage && (
-          <div className="flex flex-col items-center justify-center">
-            <div>
-              <Tickets data={ticketSalesData} />
-            </div>
+          <div>
+            <Tickets data={ticketSalesData} />
           </div>
         )}
         {selectedItem === "addmovie" && !showAccessDeniedMessage && (
