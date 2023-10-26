@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useRouter } from "next/router";
+import LoginDialouge from "../../../../components/loginDialogue";
 import { ShieldExclamationIcon } from "@heroicons/react/24/outline";
 
 function generateJsonData() {
@@ -33,7 +34,14 @@ function generateJsonData() {
   return jsonData;
 }
 const seatData = generateJsonData();
-function SeatGrid() {
+
+export const findSeatById = (id) => {
+  const seat = seatData.find((seat) => seat.id === id);
+  const rowLetter = String.fromCharCode(64 + parseInt(seat.seatRow)); // Convert 1 to 'A', 2 to 'B', etc.
+  return seat ? `${rowLetter}${seat.number}` : null;
+};
+
+function SeatGrid({isAuthenticated}) {
   const router = useRouter();
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [ticketTypes, setTicketTypes] = useState({
@@ -71,6 +79,9 @@ function SeatGrid() {
   }, [selectedSeats]);
 
   const handlePayment = () => {
+    if (!isAuthenticated) {
+      alert("You must be logged in to proceed to payment.");
+      return;}
     const totalSeats = selectedSeats.length;
     const totalPrice =
       ticketTypes.Regular * 10 +
