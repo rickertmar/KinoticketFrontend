@@ -49,7 +49,6 @@ function SeatGrid({ isAuthenticated }) {
     Student: 0,
     Child: 0,
   });
-
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
   const [arrayChanged, setArrayChanged] = useState(false);
 
