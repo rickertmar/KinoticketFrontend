@@ -38,8 +38,8 @@ function ProfilePage() {
     }
   }, []);
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <div className="rounded-full mb-15 px-6 py-3 w-full max-w-l h-64 flex flex-1 flex-col bg-primary-20 justify-center items-center">
+    <div className="flex flex-col justify-center items-center h-screen my-3">
+      <div className="rounded-3xl pt-20 w-full max-w-l h-64 flex flex-1 flex-col bg-primary-20 items-center">
         <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4 bg-accent p-3 rounded w-full">
           User Profile
         </h2>
