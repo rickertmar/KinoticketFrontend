@@ -32,7 +32,7 @@ export default function Layout({ children }) {
       <Navbar isAuthenticated={isAuthenticated}/>
       <div className='flex flex-row justify-center'>
         <LeftSidebar ></LeftSidebar>
-        <main isAuthenticated = {isAuthenticated} className="min-h-screen sm:w-4/6 w-11/12 mx-5">{children}</main>
+        <main className="min-h-screen sm:w-4/6 w-11/12 mx-5">{children}</main>
 
         <RightSidebar></RightSidebar>
       </div>
