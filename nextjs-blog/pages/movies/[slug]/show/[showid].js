@@ -41,6 +41,8 @@ function SeatGrid() {
     Student: 0,
     Child: 0,
   });
+
+  const [seatIdToInfo, setSeatIdToInfo] = useState({});
   const [arrayChanged, setArrayChanged] = useState(false)
   const handleCancel = () => {
     router.back();
