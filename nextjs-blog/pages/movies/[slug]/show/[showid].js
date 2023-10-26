@@ -11,7 +11,7 @@ function generateJsonData() {
   for (let seatRow = 1; seatRow <= 15; seatRow++) {
     yloc += 0;
     xloc = 0;
-    for (let number = 1; number <= 20; number++) {
+    for (let number = 1; number <= 24; number++) {
       xloc += 1;
       const blocked = Math.random() < 0.1;
       if (seatRow >= 1 && seatRow < 17 && number === 15) {
@@ -35,20 +35,34 @@ function generateJsonData() {
 const seatData = generateJsonData();
 function SeatGrid() {
   const router = useRouter();
-  
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [ticketTypes, setTicketTypes] = useState({
     Regular: selectedSeats.length,
     Student: 0,
     Child: 0,
   });
+
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
-
-
+  const [arrayChanged, setArrayChanged] = useState(false)
   const handleCancel = () => {
     router.back();
   };
-
+  useEffect(() => {
+    let timer;
+      setArrayChanged(true);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (arrayChanged) {
+          //send request to server to block seats
+          console.log('Running your logic...' + selectedSeats);
+          //update seats
+          setArrayChanged(false);
+        }
+      }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [selectedSeats]);
   useEffect(() => {
     setTicketTypes((prevTicketTypes) => ({
       ...prevTicketTypes,
@@ -165,8 +179,8 @@ function SeatGrid() {
 
   const cols = Math.max(...seatData.map((seat) => seat.xloc));
   const rows = Math.max(...seatData.map((seat) => seat.yloc));
-  
-  const {showid, slug } = router.query;
+
+  const { showid, slug } = router.query;
   const navigateToTicketSelection = () => {
     router.push({
       pathname: `/movies/${router.query.slug}/show/${router.query.showid}/ticketselection`,
@@ -197,37 +211,42 @@ function SeatGrid() {
     setDynamicColumns(cols);
     setDynamicRows(rows);
   });
+
   return (
-    <div className="bg-primary-30 text-white flex flex-row mt-10">
-      <div className="bg-primary-20 cursor-default border-2 border-neutral-300 flex-grow-3">
-        <TransformWrapper initialScale={1} maxScale={1.5} minScale={0.95}>
-          <TransformComponent>
-            <div
-              id="seatsGrid"
-              className="grid text-white gap-2 cursor-default p-10 "
-            >
-              {seatData.map((seat) => {
-                const gridRow = seat.yloc;
-                const gridColumn = seat.xloc;
-                return (
-                  <div
-                    className="relative"
-                    style={{
-                      gridRowStart: gridRow,
-                      gridColumnStart: gridColumn,
-                    }}
-                    key={seat.id}
-                    id={seat.id}
-                  >
-                    <button
-                      className={
-                        selectedSeats.includes(seat.id)
-                          ? "bg-accent-40 h-2 w-2 md:h-3 md:w-3 lg:w-4 lg:h-4"
-                          : "h-2 w-2 md:h-3 md:w-3 lg:w-4 lg:h-4 bg-neutral-300  disabled:bg-primary-40"
-                      }
-                      onClick={() => toggleSeat(seat.id)}
-                      disabled={seat.blocked}
-                    ></button>
+    <div className="bg-primary-30 text-white mt-10 xl:text-2xl">
+    <div className="flex flex-col sm:flex-row w-full">
+    
+    <div className="flex bg-primary-20 cursor-default border-2 border-neutral-300 w-full justify-center sm:w-2/3 shrink-0 ">
+    <TransformWrapper maxScale={1.5} minScale={0.5} doubleClick={false} >
+            <TransformComponent wrapperStyle={{width:"100%", height:"100%"}} contentStyle={{}}>
+              <div
+                id="seatsGrid"
+                className="grid text-white gap-2 cursor-default shrink-0"
+              >
+                {seatData.map((seat) => {
+                  const gridRow = seat.yloc;
+                  const gridColumn = seat.xloc;
+                  return (
+                    <div
+                      className="relative"
+                      style={{
+                        gridRowStart: gridRow,
+                        gridColumnStart: gridColumn,
+                        gap: "25px",
+                      }}
+                      key={seat.id}
+                      id={seat.id}
+                    >
+                      <button
+                        className={
+                          selectedSeats.includes(seat.id)
+                            ? "h-3 w-3 bg-accent-40"
+                            : "h-3 w-3 bg-neutral-300 disabled:bg-primary-40"
+                        }
+                        onClick={() => toggleSeat(seat.id)}
+                        disabled={seat.blocked}
+                      ></button>
+
                     {gridColumn === 1 && (
                       <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
                         {seat.seatRow}
@@ -237,16 +256,16 @@ function SeatGrid() {
                 );
               })}
             </div>
+              
           </TransformComponent>
-        </TransformWrapper>
+          </TransformWrapper>
       </div>
-      <>
-        <div className="flex flex-row flex-nowrap max-w-7xl p-6 justify-center items-center">
-          <div className="flex flex-col p-6 flex-grow-1">
-            <h2 className="text-3xl font-semibold mb-4 text-center w-full">
-              Select your ticket type
-            </h2>
 
+      <>
+      <div className="flex flex-col justify-between py-6 pr-2 flex-grow mt-8 mb-8 sm:w-1/3 sm:ml-4">
+        <h2 className="text-3xl lg:text-2xl xl:text-4xl sm:text-xl font-semibold mb-4 text-center w-full">
+          Select your ticket type
+        </h2>
             {[
               { label: "Regular 10€", type: "Regular" },
               { label: "Student 8€", type: "Student" },
@@ -279,7 +298,10 @@ function SeatGrid() {
             <div className="text-center w-full">
               <button
                 onClick={handlePayment}
-                className="transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg bg-accent-40"
+                disabled={selectedSeats.length === 0}
+                className={`transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg ${
+                  selectedSeats.length === 0 ? "bg-accent-20" : "bg-accent-40"
+                }`}
               >
                 Proceed to Payment
               </button>
@@ -294,8 +316,8 @@ function SeatGrid() {
               </button>
             </div>
           </div>
-        </div>
-      </>
+        </>
+      </div>
     </div>
   );
 }
