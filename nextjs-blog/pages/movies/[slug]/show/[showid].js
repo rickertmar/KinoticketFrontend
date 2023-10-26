@@ -44,20 +44,6 @@ function SeatGrid() {
   });
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
 
-  useEffect(() => {
-    fetch("/seatsData.json")
-      .then((response) => response.json())
-      .then((seatsData) => {
-        const newSeatIdToInfo = {};
-        seatsData.forEach((seat) => {
-          newSeatIdToInfo[seat.id] = {
-            seatRow: seat.seatRow,
-            number: seat.number,
-          };
-        });
-        setSeatIdToInfo(newSeatIdToInfo);
-      });
-  }, []);
 
   const handleCancel = () => {
     router.back();
