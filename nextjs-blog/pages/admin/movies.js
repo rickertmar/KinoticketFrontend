@@ -3,6 +3,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const AddMovie = ({ handleItemClick }) => {
+  const continueAddMovie = () => {
+    handleItemClick("addmovie");
+  };
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -106,7 +109,7 @@ const AddMovie = ({ handleItemClick }) => {
           )}
         </div>
         <button
-          onClick={handleItemClick}
+          onClick={continueAddMovie}
           className="my-3 transition duration-300 ease-in-out font-normal py-3 px-6 rounded-lg bg-accent-40 text-white"
         >
           Add Movie
