@@ -65,7 +65,6 @@ export default function indexPage() {
             return acc;
           }, []);
           setMovieSet(movies);
-          console.log(movies +"test")
         })
         .catch(function (error) {
           console.error(error);
