@@ -50,9 +50,8 @@ function SeatGrid({ isAuthenticated }) {
     Child: 0,
   });
 
-
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
-  const [arrayChanged, setArrayChanged] = useState(false)
+  const [arrayChanged, setArrayChanged] = useState(false);
 
   const handleCancel = () => {
     router.back();
@@ -282,7 +281,6 @@ function SeatGrid({ isAuthenticated }) {
                         onClick={() => toggleSeat(seat.id)}
                         disabled={seat.blocked}
                       ></button>
-
                       {gridColumn === 1 && (
                         <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
                           {seat.seatRow}
@@ -295,10 +293,9 @@ function SeatGrid({ isAuthenticated }) {
             </TransformComponent>
           </TransformWrapper>
         </div>
-
         <>
           <div className="flex flex-col justify-between py-6 pr-2 flex-grow mt-8 mb-8 sm:w-1/3 sm:ml-4">
-            <h2 className="text-3xl lg:text-2xl xl:text-4xl sm:text-xl font-semibold mb-4 text-center w-full">
+            <h2 className="text-xl lg:text-xl xl:text-2xl sm:text-xl font-semibold mb-4 text-center w-full text-sm">
               Select your ticket type
             </h2>
             {[
@@ -307,7 +304,7 @@ function SeatGrid({ isAuthenticated }) {
               { label: "Child 6€", type: "Child" },
             ].map(({ label, type }) => (
               <div key={type} className="mb-4 w-full text-center">
-                <label className="block font-bold mb-2">{label}</label>
+                <label className="block font-bold mb-2 text-sm">{label}</label>
                 <button
                   onClick={() => adjustTicketTypeCount(type, -1)}
                   className={`px-2 py-1 rounded-l text-white ${
@@ -319,8 +316,7 @@ function SeatGrid({ isAuthenticated }) {
                 >
                   -
                 </button>
-
-                <span className="px-4">{ticketTypes[type]}</span>
+                <span className="px-4 text-sm">{ticketTypes[type]}</span>
                 <button
                   onClick={() => adjustTicketTypeCount(type, 1)}
                   className="bg-accent-40 text-white px-2 py-1 rounded-r"
@@ -329,23 +325,21 @@ function SeatGrid({ isAuthenticated }) {
                 </button>
               </div>
             ))}
-
             <div className="text-center w-full">
               <button
                 onClick={handlePayment}
                 disabled={selectedSeats.length === 0}
-                className={`transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg ${
+                className={`transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg text-sm ${
                   selectedSeats.length === 0 ? "bg-accent-20" : "bg-accent-40"
                 }`}
               >
                 Proceed to Payment
               </button>
             </div>
-
             <div className="text-center w-full mt-4">
               <button
                 onClick={handleCancel}
-                className="transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg bg-red-400"
+                className="transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg text-sm bg-red-400"
               >
                 Cancel
               </button>
@@ -357,6 +351,4 @@ function SeatGrid({ isAuthenticated }) {
     </div>
   );
 }
-
 export default SeatGrid;
-
