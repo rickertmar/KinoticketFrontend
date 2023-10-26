@@ -43,7 +43,6 @@ function ProfilePage() {
         <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4 bg-accent p-3 rounded w-full">
           User Profile
         </h2>
-
         {userData ? (
           <div className="space-y-4 w-full text-white">
             <div className="flex flex-col justify-center items-center">

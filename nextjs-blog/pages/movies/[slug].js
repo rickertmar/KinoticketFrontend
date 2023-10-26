@@ -2,95 +2,94 @@ import Head from 'next/head';
 import { PlayIcon, GlobeAltIcon, ClockIcon, InformationCircleIcon, TagIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const movie = {
-  id: 1,
-  name: 'Joker',
-  imageSrc: 'https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg',
-  fsk: 'FSK18',
-  description: "A socially inept clown for hire - Arthur Fleck aspires to be a stand up comedian among his small job working dressed as a clown holding a sign for advertising. He takes care of his mother- Penny Fleck, and as he learns more about his mental illness, he learns more about his past. Dealing with all the negativity and bullying from society he heads downwards on a spiral, in turn showing how his alter ego \"Joker\", came to be.",
-  releaseYear: "2019",
-  genres: ["Drama", "Thriller", "Crime"],
-  director: "Todd Phillips",
-  runningWeek: "2",
-  runtime:"122min",
-  releaseCountry: "USA",
-  actors: ["Joaquin Phoniex", "Robert De Niro", "Zazie Beetz"],
-  showings:[
-    {
-      id: 1,
-      date: '31.08',
-      time: '12:30',
-    },
-    {
-      id: 2,
-      date: '31.08',
-      time: '15:00',
-    },
-    {
-      id: 3,
-      date: '31.08',
-      time: '19:00',
-    },
-    {
-      id: 4,
-      date: '31.08',
-      time: '20:30',
-    },
-    {
-      id: 5,
-      date: '01.09',
-      time: '13:00',
-    },
-    {
-      id: 6,
-      date: '01.09',
-      time: '14:30',
-    },
-    {
-      id: 7,
-      date: '01.09',
-      time: '17:30',
-    },
-    {
-      id: 8,
-      date: '01.09',
-      time: '19:30',
-    },
-    {
-      id: 9,
-      date: '02.09',
-      time: '14:30',
-    },
-    {
-      id: 10,
-      date: '02.09',
-      time: '19:30',
-    },
-  ]
-}
 export default function Movies() {
+  const [movie, setMovie] = useState([])
+  const [showings, setShowings] = useState([])
   const router = useRouter()
-  const uniqueDates = [...new Set(movie.showings.map(showing => showing.date))];
+  
+  const idMatch = router.asPath.match(/\/movies\/(\d+)/);
+  const id = idMatch ? idMatch[1] : null;
+
+  useEffect(()=>{
+    axios
+      .get(process.env.API_URL + '/cinemas/movies/'+ id, {
+        headers: { 'Content-Type': 'application/json' },
+        validateStatus: function (status) {
+          return status >= 200 && status <= 302;
+        },
+      })
+      .then(function(response){
+        setMovie(response.data)
+        console.log(movie)
+      })
+    axios
+      .get(process.env.API_URL + '/showings/get-by-movie-id/'+ id,{
+        headers: { 'Content-Type': 'application/json' },
+          validateStatus: function (status) {
+            return status >= 200 && status <= 302;
+          },
+      })
+      .then(function(response){
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+  const formattedShowings = response.data.map((showingData) => {
+  const showDate = new Date(showingData.time);
+  const dayOptions = { day: "2-digit", month: "2-digit" };
+  let dateText;
+
+  if (showDate.toDateString() === today.toDateString()) {
+    dateText = "Today " + showDate.toLocaleDateString("en-GB", dayOptions);
+  } else if (showDate.toDateString() === tomorrow.toDateString()) {
+    dateText = "Tomorrow " + showDate.toLocaleDateString("en-GB", dayOptions);
+  } else {
+    dateText = showDate.toLocaleDateString("en-GB", { weekday: "long" }) + " " + showDate.toLocaleDateString("en-GB", dayOptions);
+  }
+
+  return {
+    id: showingData.id,
+    date: dateText,
+    time: showDate.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }),
+    extras: showingData.showingExtras,
+  };
+});
+formattedShowings.sort((a, b) => {
+  const dateA = new Date(a.time);
+  const dateB = new Date(b.time);
+  if (dateA > dateB) return 1;
+  if (dateA < dateB) return -1;
+  return 0;
+});
+formattedShowings.reverse();
+
+setShowings(formattedShowings);
+      })
+  }, [])
+
+  const uniqueDates = [...new Set(showings.map(showing => showing.date))];
     return (
       <>
         <Head>
-        <title>{movie.name} - DHBW Kino</title>
+        <title>{movie.title} - DHBW Kino</title>
         <meta
           name="description"
-          content={`Check out ${movie.name}, a ${movie.genres.join('/')} movie released in ${movie.releaseYear}.`}
+          content={`Check out ${movie.title}, a movie released in ${movie.releaseYear}.`}
         />
       </Head>
         <main className='bg-primary-20 mt-5'>
           <div className='flex 2xl:flex-row flex-col max-w-7xl'>
               <img src={movie.imageSrc} alt="" className=" h-[15rem] 2xl:h-[55rem] w-full object-cover"/>
             <div className='flex flex-col px-5 mt-10 flex-nowrap w-full overflow-x-scroll no-scrollbar'>
-              <h1 className='text-white text-6xl font-semibold'>{movie.name}</h1>
+              <h1 className='text-white text-6xl font-semibold'>{movie.title}</h1>
              
               <div className='flex flex-row flex-wrap mt-4 gap-x-2 gap-y-2 text-neutral-100'>
                 <div className='flex flex-row items-center bg-primary-30 px-2 py-1 rounded-2xl '>
                   <PlayIcon className='h-5 w-5'/>
-                  <div className='text-sm ml-1'>{movie.runningWeek}. Woche</div>
+                  <div className='text-sm ml-1'>{movie.runningWeek}. Week</div>
                 </div>
                 <div className='flex flex-row items-center bg-primary-30 px-2 py-1 rounded-2xl'>
                   <GlobeAltIcon className='h-5 w-5'/>
@@ -106,12 +105,12 @@ export default function Movies() {
                 </div>
                 <div className='flex flex-row items-center bg-primary-30 px-2 py-1 rounded-2xl'>
                   <TagIcon className='h-5 w-5'/>
-                  <div className='text-sm ml-1'>{movie.genres.join('/')}</div>
+                  <div className='text-sm ml-1'>{movie.genres}</div>
                 </div>
               </div>
               <ul className='text-neutral-200 mt-3 ml-2 text-sm'>
                 <li> <b>Director</b>: {movie.director}</li>
-                <li><b>With:</b> {movie.actors.join(', ')}</li>
+                <li><b>With:</b> {movie.actors}</li>
               </ul>
               <p className='mt-8 text-white ml-2'>
                 {movie.description}
@@ -123,17 +122,17 @@ export default function Movies() {
                 {uniqueDates.map((date) =>(
                     <div className='flex flex-col text-white bg-primary-30 p-4 rounded-xl' key={date}>
                       <p className='md:text-lg text-base font-semibold bg-primary-20 w-fit py-1 px-2 rounded-xl '>
-                        Today... : {date}
+                        {date}
                       </p>
                       <div className='flex flex-row mt-4 gap-x-2'>
-                        {movie.showings.filter((item) => item.date === date).map((item)=>(
+                        {showings.filter((item) => item.date === date).map((item)=>(
                           <Link href={router.query.slug + "/show/" + item.id}>
                             <div className='flex flex-col md:gap-y-20 gap-y-10 text-center bg-accent-30 p-3 hover:bg-accent-40 rounded-md' key={item.id}>
                               <p className='md:text-4xl text-3xl'>
                                 {item.time}
                               </p>
                               <p className='text-base'>
-                                D-Box, OV
+                                {item.extras}
                               </p>
                             </div>
                           </Link>
