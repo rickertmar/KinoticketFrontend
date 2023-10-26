@@ -3,7 +3,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useRouter } from "next/router";
 import { ShieldExclamationIcon } from "@heroicons/react/24/outline";
 
-function generateJsonData({IsAuthenticated}) {
+function generateJsonData() {
   const jsonData = [];
   let id = 1;
   var xloc = 0;
@@ -44,20 +44,6 @@ function SeatGrid() {
   });
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
 
-  useEffect(() => {
-    fetch("/seatsData.json")
-      .then((response) => response.json())
-      .then((seatsData) => {
-        const newSeatIdToInfo = {};
-        seatsData.forEach((seat) => {
-          newSeatIdToInfo[seat.id] = {
-            seatRow: seat.seatRow,
-            number: seat.number,
-          };
-        });
-        setSeatIdToInfo(newSeatIdToInfo);
-      });
-  }, []);
 
   const handleCancel = () => {
     router.back();
@@ -73,7 +59,6 @@ function SeatGrid() {
   }, [selectedSeats]);
 
   const handlePayment = () => {
-    if(IsAuthenticated()) {
     const totalSeats = selectedSeats.length;
     const totalPrice =
       ticketTypes.Regular * 10 +
@@ -91,16 +76,6 @@ function SeatGrid() {
         selectedSeats: JSON.stringify(selectedSeats),
       },
     });
-    }else{
-      router.push({
-        pathname: `/login`,
-        query: {
-          redirect: `/movies/${router.query.slug}/show/${router.query.showid}/ticketselection`,
-          selectedSeats: JSON.stringify(selectedSeats),
-        },
-      });
-    }
-    
   };
 
   const adjustTicketTypeCount = (type, delta) => {
