@@ -33,38 +33,38 @@ function generateJsonData() {
 
   return jsonData;
 }
-const seatData = generateJsonData();
-
 export const findSeatById = (id) => {
   const seat = seatData.find((seat) => seat.id === id);
-  const rowLetter = String.fromCharCode(64 + parseInt(seat.seatRow)); // Convert 1 to 'A', 2 to 'B', etc.
+  const rowLetter = String.fromCharCode(64 + parseInt(seat.seatRow));
   return seat ? `${rowLetter}${seat.number}` : null;
 };
-
-function SeatGrid({isAuthenticated}) {
+const seatData = generateJsonData();
+function SeatGrid({ isAuthenticated }) {
   const router = useRouter();
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [attemptedToPay, setAttemptedToPay] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [ticketTypes, setTicketTypes] = useState({
     Regular: selectedSeats.length,
     Student: 0,
     Child: 0,
   });
-  const [arrayChanged, setArrayChanged] = useState(false)
+  const [arrayChanged, setArrayChanged] = useState(false);
   const handleCancel = () => {
     router.back();
   };
   useEffect(() => {
     let timer;
-      setArrayChanged(true);
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        if (arrayChanged) {
-          //send request to server to block seats
-          console.log('Running your logic...' + selectedSeats);
-          //update seats
-          setArrayChanged(false);
-        }
-      }, 2000);
+    setArrayChanged(true);
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (arrayChanged) {
+        //send request to server to block seats
+        console.log("Running your logic..." + selectedSeats);
+        //update seats
+        setArrayChanged(false);
+      }
+    }, 2000);
     return () => {
       clearTimeout(timer);
     };
@@ -80,14 +80,15 @@ function SeatGrid({isAuthenticated}) {
 
   const handlePayment = () => {
     if (!isAuthenticated) {
-      alert("You must be logged in to proceed to payment.");
-      return;}
+      setIsLoginOpen(true);
+      setAttemptedToPay(true);
+      return;
+    }
     const totalSeats = selectedSeats.length;
     const totalPrice =
       ticketTypes.Regular * 10 +
       ticketTypes.Student * 8 +
       ticketTypes.Child * 6;
-
     router.push({
       pathname: `/movies/${router.query.slug}/show/${router.query.showid}/confirmation`,
       query: {
@@ -100,6 +101,27 @@ function SeatGrid({isAuthenticated}) {
       },
     });
   };
+  useEffect(() => {
+    if (isAuthenticated && attemptedToPay) {
+      const totalSeats = selectedSeats.length;
+      const totalPrice =
+        ticketTypes.Regular * 10 +
+        ticketTypes.Student * 8 +
+        ticketTypes.Child * 6;
+      router.push({
+        pathname: `/movies/${router.query.slug}/show/${router.query.showid}/confirmation`,
+        query: {
+          totalSeats: totalSeats,
+          ticketTypes: JSON.stringify(ticketTypes),
+          totalPrice: totalPrice,
+          showid: showid,
+          slug: slug,
+          selectedSeats: JSON.stringify(selectedSeats),
+        },
+      });
+      setAttemptedToPay(false);
+    }
+  }, [isAuthenticated, attemptedToPay]);
 
   const adjustTicketTypeCount = (type, delta) => {
     const newCount = Math.max(0, ticketTypes[type] + delta);
@@ -188,7 +210,6 @@ function SeatGrid({isAuthenticated}) {
 
   const cols = Math.max(...seatData.map((seat) => seat.xloc));
   const rows = Math.max(...seatData.map((seat) => seat.yloc));
-
   const { showid, slug } = router.query;
   const navigateToTicketSelection = () => {
     router.push({
@@ -223,11 +244,13 @@ function SeatGrid({isAuthenticated}) {
 
   return (
     <div className="bg-primary-30 text-white mt-10 xl:text-2xl">
-    <div className="flex flex-col sm:flex-row w-full">
-    
-    <div className="flex bg-primary-20 cursor-default border-2 border-neutral-300 w-full justify-center sm:w-2/3 shrink-0 ">
-    <TransformWrapper maxScale={1.5} minScale={0.5} doubleClick={false} >
-            <TransformComponent wrapperStyle={{width:"100%", height:"100%"}} contentStyle={{}}>
+      <div className="flex flex-col sm:flex-row w-full">
+        <div className="flex bg-primary-20 cursor-default border-2 border-neutral-300 w-full justify-center sm:w-2/3 shrink-0 ">
+          <TransformWrapper maxScale={1.5} minScale={0.5} doubleClick={false}>
+            <TransformComponent
+              wrapperStyle={{ width: "100%", height: "100%" }}
+              contentStyle={{}}
+            >
               <div
                 id="seatsGrid"
                 className="grid text-white gap-2 cursor-default shrink-0"
@@ -256,25 +279,24 @@ function SeatGrid({isAuthenticated}) {
                         disabled={seat.blocked}
                       ></button>
 
-                    {gridColumn === 1 && (
-                      <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
-                        {seat.seatRow}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-              
-          </TransformComponent>
+                      {gridColumn === 1 && (
+                        <div className="text-white text-xs absolute right-8 top-[0.3rem] ">
+                          {seat.seatRow}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </TransformComponent>
           </TransformWrapper>
-      </div>
+        </div>
 
-      <>
-      <div className="flex flex-col justify-between py-6 pr-2 flex-grow mt-8 mb-8 sm:w-1/3 sm:ml-4">
-        <h2 className="text-3xl lg:text-2xl xl:text-4xl sm:text-xl font-semibold mb-4 text-center w-full">
-          Select your ticket type
-        </h2>
+        <>
+          <div className="flex flex-col justify-between py-6 pr-2 flex-grow mt-8 mb-8 sm:w-1/3 sm:ml-4">
+            <h2 className="text-3xl lg:text-2xl xl:text-4xl sm:text-xl font-semibold mb-4 text-center w-full">
+              Select your ticket type
+            </h2>
             {[
               { label: "Regular 10€", type: "Regular" },
               { label: "Student 8€", type: "Student" },
@@ -327,8 +349,10 @@ function SeatGrid({isAuthenticated}) {
           </div>
         </>
       </div>
+      <LoginDialouge open={isLoginOpen} setOpen={setIsLoginOpen} />
     </div>
   );
 }
 
 export default SeatGrid;
+
