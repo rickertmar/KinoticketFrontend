@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import Head from "next/head";
 
 const AddNewMovie = ({ handleItemClick }) => {
-  const cancelAddMovie = () => {
-    handleItemClick("movies");
-  };
-
   const [newMovie, setNewMovie] = useState({
     title: "",
     fsk: "",
@@ -25,30 +22,63 @@ const AddNewMovie = ({ handleItemClick }) => {
     const { name, value } = e.target;
     setNewMovie({ ...newMovie, [name]: value });
   };
-
-  const handleAddMovie = async (e) => {
+  const handleAddMovie = (e) => {
     e.preventDefault();
-    try {
-      await axios.post(
-        process.env.API_URL + "/cinemas/{cinemaId}/movies",
-        newMovie
-      ); // check if newMovie attribute korrekte Datentyp hat
-      setNewMovie({
-        title: "",
-        fsk: "",
-        description: "",
-        releaseYear: "",
-        genres: "",
-        director: "",
-        runningWeek: "",
-        runtime: "",
-        releaseCountry: "",
-        imageSrc: "",
-        actors: "",
-      });
-    } catch (error) {
-      console.error("Error adding movie:", error);
+
+    // Convert releaseYear and runningWeek to integers
+    const movieData = {
+      ...newMovie,
+      releaseYear: parseInt(newMovie.releaseYear, 10),
+      runningWeek: parseInt(newMovie.runningWeek, 10),
+    };
+
+    // Ensure the values are valid integers
+    if (isNaN(movieData.releaseYear) || isNaN(movieData.runningWeek)) {
+      alert("Please provide valid values for Release Year and Running Week.");
+      return;
     }
+
+    const accessToken = Cookies.get("access_token");
+    if (accessToken) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      axios
+        .post(process.env.API_URL + "/cinemas/1/movies", movieData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          validateStatus: function (status) {
+            return status >= 200 && status < 505;
+          },
+        })
+
+        .then((response) => {
+          // Handle the response here
+          console.log(response);
+          console.log("Movie added successfully:", response.data);
+          setNewMovie({
+            title: "",
+            fsk: "",
+            description: "",
+            releaseYear: "",
+            genres: "",
+            director: "",
+            runningWeek: "",
+            runtime: "",
+            releaseCountry: "",
+            imageSrc: "",
+            actors: "",
+          });
+          handleItemClick("movies");
+        })
+        .catch((error) => {
+          console.error("Error adding movie:", error);
+        });
+    } else {
+      alert("Authentication token not found. Please login again.");
+    }
+  };
+
+  const cancelAddMovie = () => {
     handleItemClick("movies");
   };
 
@@ -293,5 +323,4 @@ const AddNewMovie = ({ handleItemClick }) => {
     </div>
   );
 };
-
 export default AddNewMovie;
