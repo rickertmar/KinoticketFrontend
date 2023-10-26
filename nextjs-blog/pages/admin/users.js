@@ -48,70 +48,53 @@ const UserManagement = () => {
   
 
   return (
-    <div className="flex justify-center items-center">
-      <Head>
-        <title>User Management</title>
-        <meta name="description" content="Manage users of the application." />
-      </Head>
-      <div className="mt-10 px-20 py-5">
-        <div className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
-          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-accent-50">
-            User Management
-          </h2>
-        </div>
-
-        <div className="mt-10">
-          <h2 className="flex justify-center items-center text-2xl font-semibold text-accent-50 mb-4">
-            Existing Users
-          </h2>
+    <div className="flex flex-col justify-center items-center my-">
+      <div className="rounded-3xl mb-15 px-10 py-5 w-full max-w-2xl flex flex-1 flex-col bg-primary-20 justify-center items-center">
+        <h2 className="flex ml-4 justify-center items-center text-2xl font-semibold text-accent-50 mb-4 bg-accent p-3 rounded w-full">
+          Existing Users
+        </h2>
+        <div className="overflow-y-auto flex-1 w-full">
           {users.length > 0 ? (
-            <table className="min-w-full">
-              <thead>
-                <tr className="w-full h-16 border-gray-300 border-b py-8">
-                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                    ID
-                  </th>
-                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                    Name
-                  </th>
-                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                    Role
-                  </th>
-                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                    Status
-                  </th>
-                  <th className="text-white font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
+           <table className="min-w-full">
+           <thead>
+             <tr className="w-full h-16 border-gray-300 border-b py-8">
+               <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                 ID
+               </th>
+               <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                 Name
+               </th>
+               <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                 Status
+               </th>
+               <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                 Role
+               </th>
+               <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
+                 Actions
+               </th>
+             </tr>
+           </thead>
               <tbody>
               {users.map((user) => (
   <tr
     key={user.id}
     onClick={() => handleUserClick(user)}
-    className={`cursor-pointer border-b border-gray-400 ${selectedUser === user ? 'bg-primary-100' : ''}`}
+    className={`h-24 border-gray-300 border-b ${selectedUser === user ? 'bg-primary-100' : ''}`}
   >
-                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                    <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
                       {user.id}
                     </td>
-                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                    <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
                       {user.name}
                     </td>
-                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                    <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
                       {user.role}
                     </td>
-                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
+                    <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
                       {user.status}
                     </td>
                     <td className="text-sm pr-6">
-
-                    <button
-  onClick={() => handleChangeRole(user.id, 'Worker')}
-  className="px-3 py-2 bg-accent-30 text-white rounded-md"
->
-  Worker
-</button>
 
 <button
   onClick={() => handleDeleteUser(user.id)}
