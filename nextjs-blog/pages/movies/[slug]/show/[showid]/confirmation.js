@@ -10,6 +10,7 @@ export default function ConfirmationPage() {
   const [parsedSeats, setParsedSeats] = useState([]);
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
 
+
   useEffect(() => {
     if (selectedSeats) {
       setParsedSeats(JSON.parse(selectedSeats));

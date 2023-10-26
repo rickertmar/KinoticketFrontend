@@ -10,6 +10,7 @@ export default function TicketSelection({ isAuthenticated }) {
 const [ticketTypes, setTicketTypes] = useState({ Regular: parsedSeats.length, Student: 0, Child: 0 });
   const [seatIdToInfo, setSeatIdToInfo] = useState({});
 
+
   const handleCancel = () => {
     router.back();
   };

@@ -49,7 +49,11 @@ function SeatGrid({ isAuthenticated }) {
     Student: 0,
     Child: 0,
   });
-  const [arrayChanged, setArrayChanged] = useState(false);
+
+
+  const [seatIdToInfo, setSeatIdToInfo] = useState({});
+  const [arrayChanged, setArrayChanged] = useState(false)
+
   const handleCancel = () => {
     router.back();
   };
