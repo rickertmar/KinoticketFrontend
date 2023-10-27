@@ -57,18 +57,9 @@ function ProfilePage() {
               <label className="block text-sm font-medium">Last Name:</label>
               <p className="mt-1">{userData.last_name}</p>
             </div>
-            <div className="flex flex-col justify-center items-center">
-              <h2 className="text-xl font-semibold mb-4">
-                Shipping Address ??{" "}
-              </h2>
-              {/* You can add the shipping address details here */}
-            </div>
 
             {/* You can add the Reservation and related Information about User here? */}
             <div className="mt-4">
-              <h3 className="flex justify-center items-center text-l text-accent-50 font-semibold mb-2">
-                Reserved Tickets:
-              </h3>
               {reservedTickets.map((ticket) => (
                 <div key={ticket.id} className="mb-4">
                   <p>
