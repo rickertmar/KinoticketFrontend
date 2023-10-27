@@ -36,7 +36,7 @@ const AddMovie = ({ handleItemClick }) => {
     if (confirmDelete) {
       console.log("selected id" + movieId);
       axios
-        .delete(`${process.env.API_URL}/cinemas/1/movies/${movieId}`, {
+        .delete(`${process.env.API_URL}/cinemas/movies/${movieId}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${Cookies.get("access_token")}`,
