@@ -90,7 +90,7 @@ const ConfirmationPage= () =>{
     </>
   );
 }
-const exporter = dynamic(()=>Promise.resolve(NoSSRYourComponent), {
+const exporter = dynamic(()=>Promise.resolve(ConfirmationPage), {
   ssr: false,
 })
 export default exporter
