@@ -3,82 +3,56 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useRouter } from "next/router";
 import LoginDialouge from "../../../../components/loginDialogue";
 import { ShieldExclamationIcon } from "@heroicons/react/24/outline";
+import Cookies from "js-cookie";
+import axios from "axios";
 
-function generateJsonData() {
-  const jsonData = [];
-  let id = 1;
-  var xloc = 0;
-  var yloc = 0;
-  for (let seatRow = 1; seatRow <= 15; seatRow++) {
-    yloc += 0;
-    xloc = 0;
-    for (let number = 1; number <= 24; number++) {
-      xloc += 1;
-      const blocked = Math.random() < 0.1;
-      if (seatRow >= 1 && seatRow < 17 && number === 15) {
-        xloc += 1;
-      }
-      const seatData = {
-        id: id++,
-        seatRow,
-        number,
-        xloc,
-        yloc,
-        blocked,
-      };
-
-      jsonData.push(seatData);
-    }
-  }
-
-  return jsonData;
-}
-export const findSeatById = (id) => {
-  const seat = seatData.find((seat) => seat.id === id);
-  const rowLetter = String.fromCharCode(64 + parseInt(seat.seatRow));
-  return seat ? `${rowLetter}${seat.number}` : null;
-};
-const seatData = generateJsonData();
-function SeatGrid({ isAuthenticated }) {
+function SeatGrid({isAuthenticated}) {
   const router = useRouter();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [attemptedToPay, setAttemptedToPay] = useState(false);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeatsId, setselectedSeatsId] = useState([]);
+  const [seatData, setSeatData] = useState([])
   const [ticketTypes, setTicketTypes] = useState({
-    Regular: selectedSeats.length,
+    Regular: selectedSeatsId.length,
     Student: 0,
     Child: 0,
-  });
-  const [seatIdToInfo, setSeatIdToInfo] = useState({});
-  const [arrayChanged, setArrayChanged] = useState(false);
-
+  })
   const handleCancel = () => {
     router.back();
   };
-  useEffect(() => {
-    let timer;
-    setArrayChanged(true);
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      if (arrayChanged) {
-        //send request to server to block seats
-        console.log("Running your logic..." + selectedSeats);
-        //update seats
-        setArrayChanged(false);
-      }
-    }, 2000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [selectedSeats]);
+  useEffect(()=>{
+    const id = router.asPath.match(/(\d+)(?!.*\d)/);
+    const lastNumber = id ? id[0] : null;
+      axios.get(process.env.API_URL+'/showings/'+ lastNumber + "/get-seats", { headers: { 'Content-Type': 'application/json' },
+      validateStatus: function (status) {
+        return status >= 200 && status <= 302;
+      },})
+        .then(response => {
+          const seatList = response.data.map((seat)=>{
+            console.log(seat.xloc)
+            return{
+              id: seat.id,
+              yloc: seat.yloc/10,
+              xloc: seat.xloc/10,
+              blocked: seat.blocked,
+              seatRow: seat.seatRow,
+              number: seat.number
+            }
+        }
+        )
+        console.log(seatList)
+        setSeatData(seatList)
+      })
+
+  }, [])
   useEffect(() => {
     setTicketTypes((prevTicketTypes) => ({
       ...prevTicketTypes,
-      Regular: selectedSeats.length,
+      Regular: selectedSeatsId.length,
       Student: 0,
       Child: 0,
     }));
-  }, [selectedSeats]);
+  }, [selectedSeatsId]);
 
   const handlePayment = () => {
     if (!isAuthenticated) {
@@ -86,7 +60,7 @@ function SeatGrid({ isAuthenticated }) {
       setAttemptedToPay(true);
       return;
     }
-    const totalSeats = selectedSeats.length;
+    const totalSeats = selectedSeatsId.length;
     const totalPrice =
       ticketTypes.Regular * 10 +
       ticketTypes.Student * 8 +
@@ -98,32 +72,11 @@ function SeatGrid({ isAuthenticated }) {
         ticketTypes: JSON.stringify(ticketTypes),
         totalPrice: totalPrice,
         showid: showid,
-        slug: slug,
-        selectedSeats: JSON.stringify(selectedSeats),
+        selectedSeatsId: JSON.stringify(selectedSeatsId),
+        seatData: JSON.stringify(seatData),
       },
     });
   };
-  useEffect(() => {
-    if (isAuthenticated && attemptedToPay) {
-      const totalSeats = selectedSeats.length;
-      const totalPrice =
-        ticketTypes.Regular * 10 +
-        ticketTypes.Student * 8 +
-        ticketTypes.Child * 6;
-      router.push({
-        pathname: `/movies/${router.query.slug}/show/${router.query.showid}/confirmation`,
-        query: {
-          totalSeats: totalSeats,
-          ticketTypes: JSON.stringify(ticketTypes),
-          totalPrice: totalPrice,
-          showid: showid,
-          slug: slug,
-          selectedSeats: JSON.stringify(selectedSeats),
-        },
-      });
-      setAttemptedToPay(false);
-    }
-  }, [isAuthenticated, attemptedToPay]);
 
   const adjustTicketTypeCount = (type, delta) => {
     const newCount = Math.max(0, ticketTypes[type] + delta);
@@ -132,11 +85,11 @@ function SeatGrid({ isAuthenticated }) {
       ticketTypes[type] +
       newCount;
 
-    if (totalTickets <= selectedSeats.length) {
+    if (totalTickets <= selectedSeatsId.length) {
       if (
         type !== "Regular" &&
         delta < 0 &&
-        ticketTypes.Regular + 1 <= selectedSeats.length
+        ticketTypes.Regular + 1 <= selectedSeatsId.length
       ) {
         setTicketTypes({
           ...ticketTypes,
@@ -182,45 +135,10 @@ function SeatGrid({ isAuthenticated }) {
     }
   };
 
-  /*const seatData = [
-        {
-            "id": 1,
-            "seatRow": "A",
-            "number": 1,
-            "xloc": 1,
-            "yloc": 2,
-            "blocked": true
-        },
-        {
-            "id": 2,
-            "seatRow": "A",
-            "number": 2,
-            "xloc": 2,
-            "yloc": 2,
-            "blocked": true
-        },
-        {
-            "id": 3,
-            "seatRow": "A",
-            "number": 3,
-            "xloc": 3,
-            "yloc": 2,
-            "blocked": true
-        },
-    ]
-    */
-
   const cols = Math.max(...seatData.map((seat) => seat.xloc));
   const rows = Math.max(...seatData.map((seat) => seat.yloc));
-  const { showid, slug } = router.query;
-  const navigateToTicketSelection = () => {
-    router.push({
-      pathname: `/movies/${router.query.slug}/show/${router.query.showid}/ticketselection`,
-      query: {
-        selectedSeats: JSON.stringify(selectedSeats),
-      },
-    });
-  };
+  
+  const {showid, slug } = router.query;
   function setDynamicColumns(cols) {
     document.querySelector("#seatsGrid").style[
       "grid-template-columns"
@@ -232,11 +150,11 @@ function SeatGrid({ isAuthenticated }) {
     ] = `repeat(${rows}, minmax(0, 1fr))`;
   }
   const toggleSeat = (seatId) => {
-    const isSelected = selectedSeats.includes(seatId);
+    const isSelected = selectedSeatsId.includes(seatId);
     if (isSelected) {
-      setSelectedSeats(selectedSeats.filter((id) => id !== seatId));
+      setselectedSeatsId(selectedSeatsId.filter((id) => id !== seatId));
     } else {
-      setSelectedSeats([...selectedSeats, seatId]);
+      setselectedSeatsId([...selectedSeatsId, seatId]);
     }
   };
   useEffect(() => {
@@ -256,7 +174,7 @@ function SeatGrid({ isAuthenticated }) {
               >
                 <div
                   id="seatsGrid"
-                  className="grid text-white gap-2 cursor-default shrink-0 justify-items-center align-items-center"
+                  className="grid text-white cursor-default shrink-0 justify-items-center align-items-center"
                 >
                   <div
                     className="text-center text-white py-1"
@@ -274,14 +192,13 @@ function SeatGrid({ isAuthenticated }) {
                         style={{
                           gridRowStart: gridRow,
                           gridColumnStart: gridColumn,
-                          gap: "25px",
                         }}
                         key={seat.id}
                         id={seat.id}
                       >
                         <button
                           className={
-                            selectedSeats.includes(seat.id)
+                            selectedSeatsId.includes(seat.id)
                               ? "h-3 w-3 bg-accent-40"
                               : "h-3 w-3 bg-neutral-300 disabled:bg-primary-40"
                           }
@@ -290,10 +207,10 @@ function SeatGrid({ isAuthenticated }) {
                         ></button>
                         {gridColumn === 1 && (
                           <div
-                            className="text-white text-xs absolute right-8"
-                            style={{ top: "0.4rem" }}
+                            className="text-white text-xs absolute right-8 font-bold"
+                            style={{ top: "0.6rem" }}
                           >
-                            {String.fromCharCode(64 + seat.seatRow)}
+                            {seat.seatRow}
                           </div>
                         )}
                       </div>
@@ -339,9 +256,9 @@ function SeatGrid({ isAuthenticated }) {
             <div className="text-center w-full">
               <button
                 onClick={handlePayment}
-                disabled={selectedSeats.length === 0}
+                disabled={selectedSeatsId.length === 0}
                 className={`transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg text-sm ${
-                  selectedSeats.length === 0 ? "bg-accent-20" : "bg-accent-40"
+                  selectedSeatsId.length === 0 ? "bg-accent-20" : "bg-accent-40"
                 }`}
               >
                 Proceed to Payment

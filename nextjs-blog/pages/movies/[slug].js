@@ -64,7 +64,6 @@ formattedShowings.sort((a, b) => {
   if (dateA < dateB) return -1;
   return 0;
 });
-formattedShowings.reverse();
 
 setShowings(formattedShowings);
       })
