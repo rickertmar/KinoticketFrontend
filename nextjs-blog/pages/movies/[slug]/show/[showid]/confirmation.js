@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-export default function ConfirmationPage() {
+const ConfirmationPage= () =>{
   const router = useRouter();
   const { ticketTypes, totalPrice, showid, selectedSeatsId, seatData  } = router.query;
   const parsedSeats = JSON.parse(seatData)
@@ -90,3 +90,7 @@ export default function ConfirmationPage() {
     </>
   );
 }
+const exporter = dynamic(()=>Promise.resolve(NoSSRYourComponent), {
+  ssr: false,
+})
+export default exporter
