@@ -10,10 +10,10 @@ function SeatGrid({isAuthenticated}) {
   const router = useRouter();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [attemptedToPay, setAttemptedToPay] = useState(false);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeatsId, setselectedSeatsId] = useState([]);
   const [seatData, setSeatData] = useState([])
   const [ticketTypes, setTicketTypes] = useState({
-    Regular: selectedSeats.length,
+    Regular: selectedSeatsId.length,
     Student: 0,
     Child: 0,
   })
@@ -48,11 +48,11 @@ function SeatGrid({isAuthenticated}) {
   useEffect(() => {
     setTicketTypes((prevTicketTypes) => ({
       ...prevTicketTypes,
-      Regular: selectedSeats.length,
+      Regular: selectedSeatsId.length,
       Student: 0,
       Child: 0,
     }));
-  }, [selectedSeats]);
+  }, [selectedSeatsId]);
 
   const handlePayment = () => {
     if (!isAuthenticated) {
@@ -60,7 +60,7 @@ function SeatGrid({isAuthenticated}) {
       setAttemptedToPay(true);
       return;
     }
-    const totalSeats = selectedSeats.length;
+    const totalSeats = selectedSeatsId.length;
     const totalPrice =
       ticketTypes.Regular * 10 +
       ticketTypes.Student * 8 +
@@ -72,32 +72,11 @@ function SeatGrid({isAuthenticated}) {
         ticketTypes: JSON.stringify(ticketTypes),
         totalPrice: totalPrice,
         showid: showid,
-        slug: slug,
-        selectedSeats: JSON.stringify(selectedSeats),
+        selectedSeatsId: JSON.stringify(selectedSeatsId),
+        seatData: JSON.stringify(seatData),
       },
     });
   };
-  useEffect(() => {
-    if (isAuthenticated && attemptedToPay) {
-      const totalSeats = selectedSeats.length;
-      const totalPrice =
-        ticketTypes.Regular * 10 +
-        ticketTypes.Student * 8 +
-        ticketTypes.Child * 6;
-      router.push({
-        pathname: `/movies/${router.query.slug}/show/${router.query.showid}/confirmation`,
-        query: {
-          totalSeats: totalSeats,
-          ticketTypes: JSON.stringify(ticketTypes),
-          totalPrice: totalPrice,
-          showid: showid,
-          slug: slug,
-          selectedSeats: JSON.stringify(selectedSeats),
-        },
-      });
-      setAttemptedToPay(false);
-    }
-  }, [isAuthenticated, attemptedToPay]);
 
   const adjustTicketTypeCount = (type, delta) => {
     const newCount = Math.max(0, ticketTypes[type] + delta);
@@ -106,11 +85,11 @@ function SeatGrid({isAuthenticated}) {
       ticketTypes[type] +
       newCount;
 
-    if (totalTickets <= selectedSeats.length) {
+    if (totalTickets <= selectedSeatsId.length) {
       if (
         type !== "Regular" &&
         delta < 0 &&
-        ticketTypes.Regular + 1 <= selectedSeats.length
+        ticketTypes.Regular + 1 <= selectedSeatsId.length
       ) {
         setTicketTypes({
           ...ticketTypes,
@@ -171,11 +150,11 @@ function SeatGrid({isAuthenticated}) {
     ] = `repeat(${rows}, minmax(0, 1fr))`;
   }
   const toggleSeat = (seatId) => {
-    const isSelected = selectedSeats.includes(seatId);
+    const isSelected = selectedSeatsId.includes(seatId);
     if (isSelected) {
-      setSelectedSeats(selectedSeats.filter((id) => id !== seatId));
+      setselectedSeatsId(selectedSeatsId.filter((id) => id !== seatId));
     } else {
-      setSelectedSeats([...selectedSeats, seatId]);
+      setselectedSeatsId([...selectedSeatsId, seatId]);
     }
   };
   useEffect(() => {
@@ -219,7 +198,7 @@ function SeatGrid({isAuthenticated}) {
                       >
                         <button
                           className={
-                            selectedSeats.includes(seat.id)
+                            selectedSeatsId.includes(seat.id)
                               ? "h-3 w-3 bg-accent-40"
                               : "h-3 w-3 bg-neutral-300 disabled:bg-primary-40"
                           }
@@ -277,9 +256,9 @@ function SeatGrid({isAuthenticated}) {
             <div className="text-center w-full">
               <button
                 onClick={handlePayment}
-                disabled={selectedSeats.length === 0}
+                disabled={selectedSeatsId.length === 0}
                 className={`transition duration-300 ease-in-out font-bold py-3 px-6 rounded-lg text-sm ${
-                  selectedSeats.length === 0 ? "bg-accent-20" : "bg-accent-40"
+                  selectedSeatsId.length === 0 ? "bg-accent-20" : "bg-accent-40"
                 }`}
               >
                 Proceed to Payment
