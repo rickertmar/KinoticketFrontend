@@ -1,74 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddShowing = ({ handleItemClick }) => {
-  const continueAddShowing = () => {
-    handleItemClick("addshowing");
-  };
+  const [showings, setShowings] = useState([]); // Initialize with an empty array
 
-  const [showings, setShowings] = useState([
-    {
-        id: 1,
-        time: '2023-09-15 14:30',
-        showingExtras: '3D',
-        movieId: 101,
-        cinemaHallId: 1,
-        seatPrice: 12.99,
-      },
-      {
-        id: 2,
-        time: '2023-09-15 17:00',
-        showingExtras: '2D',
-        movieId: 102,
-        cinemaHallId: 2,
-        seatPrice: 10.99,
-      },
-  ]);
+  useEffect(() => {
+    const accessToken = Cookies.get("access_token");
+    if (accessToken) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
-  const [newShowing, setNewShowing] = useState({
-    id: "",
-    time: "",
-    showingExtras: "",
-    movieId: "",
-    cinemaHallId: "",
-    seatPrice: "",
-  });
-
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setNewShowing({ ...newShowing, [id]: value });
-  };
-
-  const handleAddShowing = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        process.env.API_URL + "/cinemas/{cinemaId}/showings",
-        newShowing
-      ); // check if newShowing attribute korrekte Datentyp hat
-      setNewShowing({
-        id: "",
-        time: "",
-        showingExtras: "",
-        movieId: "",
-        cinemaHallId: "",
-        seatPrice: "",
-      });
-    } catch (error) {
-      console.error("Error adding showing:", error);
+      // Fetch showings data
+      axios
+        .get(process.env.API_URL + "/showings", {
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache",
+          },
+          validateStatus: function (status) {
+            return status >= 200 && status < 405;
+          },
+        })
+        .then((response) => {
+          setShowings(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching showings data:", error);
+        });
     }
-  };
+  }, []);
 
+  // Add API DELETE request here to remove the showing from the database
   const handleDeleteShowing = (showingId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this showing?"
     );
     if (confirmDelete) {
-      setShowings((prevShowings) =>
-        prevShowings.filter((showing) => showing.id !== showingId)
-      );
-      //API DELETEMOVIE
+      console.log("selected id" + showingId);
+      axios
+        .delete(`${process.env.API_URL}/showings/${showingId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("access_token")}`,
+          },
+        })
+        .then((response) => {
+          // If the deletion was successful, update the local showings list
+          // Assuming you have a state called `showings` and a setter `setShowings`
+          setShowings((prevShowings) =>
+            prevShowings.filter((showing) => showing.id !== showingId)
+          );
+        })
+        .catch((error) => {
+          console.error("Error deleting showing:", error);
+          alert("Failed to delete the showing. Please try again.");
+        });
     }
+  };
+
+  const continueAddShowing = () => {
+    handleItemClick("addshowing");
   };
 
   return (
@@ -81,7 +73,7 @@ const AddShowing = ({ handleItemClick }) => {
           {showings.length > 0 ? (
             <table className="min-w-full">
               <thead>
-              <tr className="w-full h-16 border-gray-300 border-b py-8">
+                <tr className="w-full h-16 border-gray-300 border-b py-8">
                   <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
                     Showing Time
                   </th>
@@ -92,7 +84,7 @@ const AddShowing = ({ handleItemClick }) => {
                     Movie ID
                   </th>
                   <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
-                    Cinema Hall ID
+                    Title
                   </th>
                   <th className="text-white font-bold pr-6 text-left text-sm tracking-normal leading-4">
                     Seat Price
@@ -102,11 +94,12 @@ const AddShowing = ({ handleItemClick }) => {
                   </th>
                 </tr>
               </thead>
-
-              {/* Je nach dem was wir angezeigt haben wollen. Vllt Id auch?  */}
               <tbody>
                 {showings.map((showing) => (
-                  <tr key={showing.id} className="h-24 border-gray-300 border-b">
+                  <tr
+                    key={showing.id}
+                    className="h-24 border-gray-300 border-b"
+                  >
                     <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
                       {showing.time}
                     </td>
@@ -114,10 +107,10 @@ const AddShowing = ({ handleItemClick }) => {
                       {showing.showingExtras}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
-                      {showing.movieId}
+                      {showing.movie.id}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
-                      {showing.cinemaHallId}
+                      {showing.movie.title}
                     </td>
                     <td className="text-sm pr-6 whitespace-no-wrap text-white tracking-normal leading-4">
                       {showing.seatPrice}

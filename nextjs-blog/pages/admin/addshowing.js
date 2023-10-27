@@ -3,12 +3,7 @@ import axios from "axios";
 import Head from "next/head";
 
 const AddNewShowing = ({ handleItemClick }) => {
-  const cancelAddShowing = () => {
-    handleItemClick("showing");
-  };
-
   const [newShowing, setNewShowing] = useState({
-    id: "",
     time: "",
     showingExtras: "",
     movieId: "",
@@ -23,13 +18,30 @@ const AddNewShowing = ({ handleItemClick }) => {
 
   const handleAddShowing = async (e) => {
     e.preventDefault();
+
+    // Convert movieId, cinemaHallId to integers and seatPrice to double
+    const showingData = {
+      ...newShowing,
+      movieId: parseInt(newShowing.movieId, 10),
+      cinemaHallId: parseInt(newShowing.cinemaHallId, 10),
+      seatPrice: parseFloat(newShowing.seatPrice),
+    };
+
+    // Ensure the values are valid
+    if (
+      isNaN(showingData.movieId) ||
+      isNaN(showingData.cinemaHallId) ||
+      isNaN(showingData.seatPrice)
+    ) {
+      alert(
+        "Please provide valid values for Movie ID, Cinema Hall ID, and Seat Price."
+      );
+      return;
+    }
+
     try {
-      await axios.post(
-        process.env.API_URL + "/cinemas/{cinemaId}/showing",
-        newShowing
-      ); // check if newShowing attribute korrekte Datentyp hat
+      await axios.post(process.env.API_URL + "/showings", showingData);
       setNewShowing({
-        id: "",
         time: "",
         showingExtras: "",
         movieId: "",
@@ -42,8 +54,12 @@ const AddNewShowing = ({ handleItemClick }) => {
     handleItemClick("showing");
   };
 
+  const cancelAddShowing = () => {
+    handleItemClick("showing");
+  };
+
   return (
-    <div className=" flex flex-col justify-center items-center min-h-screen">
+    <div className="flex flex-col justify-center items-center min-h-screen">
       <Head>
         <title>Add Showing</title>
         <meta name="description" content="Add a new showing to the list." />
@@ -55,7 +71,7 @@ const AddNewShowing = ({ handleItemClick }) => {
           </h2>
         </div>
         <form
-          className="mt-8 space-y-6  p-6 rounded shadow"
+          className="mt-8 space-y-6 p-6 rounded shadow"
           onSubmit={handleAddShowing}
         >
           <div>
@@ -65,8 +81,6 @@ const AddNewShowing = ({ handleItemClick }) => {
             >
               Showing Time
             </label>
-
-            {/* Je nach dem wenns unnötig ist was entfernen. Hier wird aktuell nach alle Parameterübergabe sortiert */}
             <input
               type="datetime-local"
               name="time"
@@ -77,7 +91,6 @@ const AddNewShowing = ({ handleItemClick }) => {
               required
             />
           </div>
-
           <div>
             <label
               htmlFor="showingExtras"
@@ -95,10 +108,9 @@ const AddNewShowing = ({ handleItemClick }) => {
             >
               <option value="">Select an Extra</option>
               <option value="3D">3D</option>
-              <option value="Atmos">Dolby Atmos</option>
+              <option value="2D">2D</option>
             </select>
           </div>
-
           <div>
             <label
               htmlFor="movieId"
@@ -106,17 +118,16 @@ const AddNewShowing = ({ handleItemClick }) => {
             >
               Movie ID
             </label>
-            <textarea
-              id="movieId"
+            <input
+              type="number"
               name="movieId"
-              rows="4"
+              id="movieId"
               className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm text-black"
               value={newShowing.movieId}
               onChange={handleInputChange}
               required
             />
           </div>
-
           <div>
             <label
               htmlFor="cinemaHallId"
@@ -124,10 +135,10 @@ const AddNewShowing = ({ handleItemClick }) => {
             >
               Cinema Hall ID
             </label>
-            <textarea
-              id="cinemaHallId"
+            <input
+              type="number"
               name="cinemaHallId"
-              rows="4"
+              id="cinemaHallId"
               className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm text-black"
               value={newShowing.cinemaHallId}
               onChange={handleInputChange}
@@ -141,17 +152,16 @@ const AddNewShowing = ({ handleItemClick }) => {
             >
               Seat Price
             </label>
-            <textarea
-              id="seatPrice"
+            <input
+              type="number"
               name="seatPrice"
-              rows="4"
+              id="seatPrice"
               className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm text-black"
               value={newShowing.seatPrice}
               onChange={handleInputChange}
               required
             />
           </div>
-
           <button
             type="submit"
             className="w-full py-3 px-4 bg-accent-30 text-white font-medium rounded-md hover:bg-accent-40 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"

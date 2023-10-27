@@ -1,157 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddMovie = ({ handleItemClick }) => {
   const continueAddMovie = () => {
     handleItemClick("addmovie");
   };
+  const [movies, setMovies] = useState([]);
 
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      title: "Inception",
-      fsk: "FSK16",
-      description:
-        "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-      releaseYear: "2010",
-      genres: "Sci-Fi",
-      director: "Christopher Nolan",
-      runningWeek: 1,
-      runtime: "148 minutes",
-      releaseCountry: "USA",
-      imageSrc: "inception.jpg",
-      actors: "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
-    },
-    {
-      id: 2,
-      title: "The Dark Knight",
-      fsk: "FSK16",
-      description:
-        "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-      releaseYear: "2008",
-      genres: "Action",
-      director: "Christopher Nolan",
-      runningWeek: 1,
-      runtime: "152 minutes",
-      releaseCountry: "USA",
-      imageSrc: "dark-knight.jpg",
-      actors: "Christian Bale, Heath Ledger, Aaron Eckhart",
-    },
-    {
-      id: 3,
-      title: "Inception",
-      fsk: "FSK16",
-      description:
-        "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-      releaseYear: "2010",
-      genres: "Sci-Fi",
-      director: "Christopher Nolan",
-      runningWeek: 1,
-      runtime: "148 minutes",
-      releaseCountry: "USA",
-      imageSrc: "inception.jpg",
-      actors: "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
-    },
-    {
-      id: 4,
-      title: "Inception",
-      fsk: "FSK16",
-      description:
-        "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-      releaseYear: "2010",
-      genres: "Sci-Fi",
-      director: "Christopher Nolan",
-      runningWeek: 1,
-      runtime: "148 minutes",
-      releaseCountry: "USA",
-      imageSrc: "inception.jpg",
-      actors: "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
-    },
-    {
-      id: 5,
-      title: "Inception",
-      fsk: "FSK16",
-      description:
-        "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-      releaseYear: "2010",
-      genres: "Sci-Fi",
-      director: "Christopher Nolan",
-      runningWeek: 1,
-      runtime: "148 minutes",
-      releaseCountry: "USA",
-      imageSrc: "inception.jpg",
-      actors: "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
-    },
-    {
-      id: 6,
-      title: "Inception",
-      fsk: "FSK16",
-      description:
-        "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-      releaseYear: "2010",
-      genres: "Sci-Fi",
-      director: "Christopher Nolan",
-      runningWeek: 1,
-      runtime: "148 minutes",
-      releaseCountry: "USA",
-      imageSrc: "inception.jpg",
-      actors: "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
-    },
-  ]);
-
-  const [newMovie, setNewMovie] = useState({
-    title: "",
-    fsk: "",
-    description: "",
-    releaseYear: "",
-    genres: "",
-    director: "",
-    runningWeek: "",
-    runtime: "",
-    releaseCountry: "",
-    imageSrc: "",
-    actors: "",
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewMovie({ ...newMovie, [name]: value });
-  };
-
-  const handleAddMovie = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        process.env.API_URL + "/cinemas/{cinemaId}/movies",
-        newMovie
-      ); // check if newMovie attribute korrekte Datentyp hat
-      setNewMovie({
-        title: "",
-        fsk: "",
-        description: "",
-        releaseYear: "",
-        genres: "",
-        director: "",
-        runningWeek: "",
-        runtime: "",
-        releaseCountry: "",
-        imageSrc: "",
-        actors: "",
-      });
-    } catch (error) {
-      console.error("Error adding movie:", error);
+  useEffect(() => {
+    const accessToken = Cookies.get("access_token");
+    if (accessToken) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      axios
+        .get(process.env.API_URL + "/cinemas/1/movies", {
+          headers: { "Content-Type": "application/json" },
+          validateStatus: function (status) {
+            return status >= 200 && status < 305; // Accept status code in the range 200-304
+          },
+        })
+        .then((response) => {
+          setMovies(response.data);
+          console.log("Movies set:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching movie data:", error);
+        });
     }
-  };
+  }, []);
 
   const handleDeleteMovie = (movieId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this movie?"
     );
     if (confirmDelete) {
-      setMovies((prevMovies) =>
-        prevMovies.filter((movie) => movie.id !== movieId)
-      );
-      //API DELETEMOVIE
+      console.log("selected id" + movieId);
+      axios
+        .delete(`${process.env.API_URL}/cinemas/1/movies/${movieId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("access_token")}`,
+          },
+        })
+        .then((response) => {
+          // If the deletion was successful, update the local
+          setMovies((prevMovies) =>
+            prevMovies.filter((movie) => movie.id !== movieId)
+          );
+        })
+        .catch((error) => {
+          console.error("Error deleting movie:", error);
+          alert("Failed to delete the movie. Please try again.");
+        });
     }
   };
 
@@ -180,8 +80,6 @@ const AddMovie = ({ handleItemClick }) => {
                   </th>
                 </tr>
               </thead>
-
-              {/* Je nach dem was wir angezeigt haben wollen. Vllt Id auch?  */}
               <tbody>
                 {movies.map((movie) => (
                   <tr key={movie.id} className="h-24 border-gray-300 border-b">
