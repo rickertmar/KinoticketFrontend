@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const ConfirmationPage= () =>{
+export default function ConfirmationPage(){
   const router = useRouter();
   const { ticketTypes, totalPrice, showid, selectedSeatsId, seatData  } = router.query;
-  const parsedSeats = JSON.parse(seatData)
 
   const handlePaymentSubmit = () => {
     
@@ -27,19 +26,6 @@ const ConfirmationPage= () =>{
   const handleCancel = () => {
     router.back();
   };
-  const selectedSeats = parsedSeats.filter((seat) => selectedSeatsId.includes(seat.id));
-  selectedSeats.sort((a, b) => {
-    if (a.seatRow < b.seatRow) return -1;
-    if (a.seatRow > b.seatRow) return 1;
-    // If seatRow is the same, sort by seat number
-    if (a.number < b.number) return -1;
-    if (a.number > b.number) return 1;
-    return 0;
-  });
-  const seatDescriptions = selectedSeats.map((seat) => `${seat.seatRow}${seat.number}`);
-
-  // Join the seat descriptions with a separator (e.g., a comma and space)
-  const seatsText = seatDescriptions.join(', ');
   return (
     <>
       <Head>
@@ -59,7 +45,7 @@ const ConfirmationPage= () =>{
                 Selected Seats and Types
               </h3>
               <div>
-                Seats: {seatsText}
+                Seats: (displaying of seats currently not working)
               </div>
               <div>
                 Regular: {ticketTypes ? JSON.parse(ticketTypes).Regular : 0}, 
@@ -90,7 +76,3 @@ const ConfirmationPage= () =>{
     </>
   );
 }
-const exporter = dynamic(()=>Promise.resolve(ConfirmationPage), {
-  ssr: false,
-})
-export default exporter
