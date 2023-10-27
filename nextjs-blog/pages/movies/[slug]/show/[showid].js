@@ -34,7 +34,7 @@ function SeatGrid({isAuthenticated}) {
               id: seat.id,
               yloc: seat.yloc/10,
               xloc: seat.xloc/10,
-              blocked: seat.blocked,
+              blocked: seat.permanentBlocked,
               seatRow: seat.seatRow,
               number: seat.number
             }
