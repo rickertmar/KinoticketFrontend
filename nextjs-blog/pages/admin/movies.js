@@ -13,7 +13,7 @@ const AddMovie = ({ handleItemClick }) => {
     if (accessToken) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       axios
-        .get(process.env.API_URL + "/cinemas/1/movies", {
+        .get(process.env.API_URL + "/cinemas/movies", {
           headers: { "Content-Type": "application/json" },
           validateStatus: function (status) {
             return status >= 200 && status < 305; // Accept status code in the range 200-304
